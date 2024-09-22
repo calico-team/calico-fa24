@@ -1,15 +1,16 @@
 import java.io.*;
+import java.util.*;
 
 class Solution {
     /**
-     * Return the sum of A and B.
+     * Return a length 2 List containing the coordinates X and Y.
      * 
-     * A: a non-negative integer
-     * B: another non-negative integer
+     * N: a positive integer, the address of your house
      */
-    static int solve(int A, int B) {
+    static List<Integer> solve(int N) {
         // YOUR CODE HERE
-        return -1;
+        
+        return Arrays.asList(-1, -1);
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -19,8 +20,9 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] temp = in.readLine().split(" ");
-            int A = Integer.parseInt(temp[0]), B = Integer.parseInt(temp[1]);
-            out.println(solve(A, B));
+            int N = Integer.parseInt(temp[0]);
+            List<Integer> ans = solve(N);
+            out.println(ans.get(0) + " " + ans.get(1));
         }
         out.flush();
     }
