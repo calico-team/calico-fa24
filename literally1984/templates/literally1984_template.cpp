@@ -9,6 +9,7 @@ using namespace std;
  */
 vector<int> solve(int N) {
     // YOUR CODE HERE
+    
     return vector<int>({-1, -1});
 }
 
