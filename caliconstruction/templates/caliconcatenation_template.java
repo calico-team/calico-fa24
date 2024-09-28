@@ -2,12 +2,12 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the CALICOncatenation of S.
+     * Return the minimum number of sets of CALICO blocks needed to form S.
      *
      * S: a string
      */
-    static String solve(String S) {
-        return "";
+    static int solve(String S) {
+        return 1;
     }
 
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

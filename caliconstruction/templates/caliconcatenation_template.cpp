@@ -3,13 +3,13 @@
 using namespace std;
 
 /**
- * Return the CALICOncatenation of S.
+ * Return the minimum number of sets of CALICO blocks needed to form S.
  *
  * S: a string
  */
-string solve(string S) {
+int solve(string S) {
     // YOUR CODE HERE
-    return "";
+    return 1;
 }
 
 int main() {

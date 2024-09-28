@@ -1,10 +1,10 @@
-def solve(S: str) -> str:
+def solve(S: str) -> int:
     """
-    Return the CALICOncatenation of S.
+    Return the minimum number of sets of CALICO blocks needed to form S.
 
     S: a string
     """
-    return ''
+    return 1
 
 
 def main():
