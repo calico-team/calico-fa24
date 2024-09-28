@@ -25,6 +25,7 @@ SEED = 'caliconstructing this problem'
 
 # TODO
 MAX_T = 10
+MAX_S = 500
 
 class TestCase:
     """
@@ -52,10 +53,18 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase("lol"),
+            TestCase('lol'),
+            TestCase('coil'),
+            TestCase('a'),
+            TestCase('unccccc'),
+            TestCase('caliconstruction'),
+            TestCase('q'),
+            TestCase('nonalcoholic')
     ]
     make_sample_test(main_sample_cases, 'main')
 
+def random_string(size, chars):
+    return ''.join(random.choice(string.ascii_lowercase) for _ in range(size))
 
 def make_secret_tests():
     """
@@ -68,10 +77,15 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    for i in range(5):
-        main_random_cases = None
-        # main_random_cases = [TestCase(random.choice(flat)) for _ in range(max_T)]
-        make_secret_test(main_random_cases, 'main_random')
+    case = [TestCase(random_string(10, string.ascii_lowercase)) for _ in range(5)]
+    make_secret_test(case, 'main_random')
+    case2 = [TestCase('c'*200)]
+    make_secret_test(case2, 'main_edge')
+
+    # for i in range(5):
+    #     main_random_cases = None
+    #     # main_random_cases = [TestCase(random.choice(flat)) for _ in range(max_T)]
+    #     make_secret_test(main_random_cases, 'main_random')
 
 
 def make_test_in(cases, file):
@@ -98,9 +112,9 @@ def make_test_out(cases, file):
     
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.caliconstruction import solve
-    for case in cases:
-        print(solve(case.S), file=file)
+    # from submissions.accepted.caliconstruction import solve
+    # for case in cases:
+    #     print(solve(case.S), file=file)
 
 
 def main():

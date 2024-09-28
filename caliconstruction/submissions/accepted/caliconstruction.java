@@ -2,7 +2,6 @@ import java.io.*;
 
 class Solution {
     static int solve(String S) {
-        boolean is_impossible = false;
         int c_cnt = 0;
         int a_cnt = 0;
         int l_cnt = 0;
@@ -30,12 +29,8 @@ class Solution {
                     o_cnt++;
                     break;
                 default:
-                    is_impossible = true;
-                    break;
+                    return -1;
             }
-        }
-        if (is_impossible) {
-            return -1;
         }
         int ans = Math.max((c_cnt+1)/2, a_cnt);
         ans = Math.max(ans, l_cnt);
