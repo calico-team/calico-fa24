@@ -64,7 +64,7 @@ def make_sample_tests():
     make_sample_test(main_sample_cases, 'main')
 
 def random_string(size, chars):
-    return ''.join(random.choice(string.ascii_lowercase) for _ in range(size))
+    return ''.join(random.choice(chars) for _ in range(size))
 
 def make_secret_tests():
     """
@@ -77,10 +77,20 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    case = [TestCase(random_string(10, string.ascii_lowercase)) for _ in range(5)]
+    case = [TestCase(random_string(10, string.ascii_lowercase)) for _ in range(MAX_T)]
     make_secret_test(case, 'main_random')
-    case2 = [TestCase('c'*200)]
-    make_secret_test(case2, 'main_edge')
+    case2 = [TestCase(random_string(10, 'cunaliho')) for _ in range(MAX_T)]
+    make_secret_test(case2, 'main_random_letters')
+    case3 = [TestCase(random_string(random.randint(1, MAX_S), 'cun')) for _ in range(MAX_T)]
+    make_secret_test(case3, 'main_edge')
+    case4 = [TestCase(random_string(1, string.ascii_lowercase)) for _ in range(MAX_T)]
+    make_secret_test(case4, 'main_edge')
+    case5 = []
+    for c in range(MAX_T):
+        s = random_string(100, 'cunaliho')
+        s[random.randint(0, 100)] == 'x'
+        case5.append(TestCase(s))
+    make_secret_test(case5, 'main_one_impossible')
 
     # for i in range(5):
     #     main_random_cases = None
@@ -112,9 +122,9 @@ def make_test_out(cases, file):
     
     TODO Implement this for your problem by changing the import below.
     """
-    # from submissions.accepted.caliconstruction import solve
-    # for case in cases:
-    #     print(solve(case.S), file=file)
+    from submissions.accepted.caliconstruction import solve
+    for case in cases:
+        print(solve(case.S), file=file)
 
 
 def main():
