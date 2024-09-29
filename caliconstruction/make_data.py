@@ -24,8 +24,8 @@ generate the same thing every time. Seeds can be integers or strings.
 SEED = 'caliconstructing this problem'
 
 # TODO
-MAX_T = 10
-MAX_S = 500
+MAX_T = 100
+MAX_S = 100
 
 class TestCase:
     """
@@ -53,8 +53,8 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-            TestCase('lol'),
             TestCase('coil'),
+            TestCase('lol'),
             TestCase('a'),
             TestCase('unccccc'),
             TestCase('caliconstruction'),
@@ -77,26 +77,20 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    case = [TestCase(random_string(10, string.ascii_lowercase)) for _ in range(MAX_T)]
-    make_secret_test(case, 'main_random')
-    case2 = [TestCase(random_string(10, 'cunaliho')) for _ in range(MAX_T)]
-    make_secret_test(case2, 'main_random_letters')
-    case3 = [TestCase(random_string(random.randint(1, MAX_S), 'cun')) for _ in range(MAX_T)]
-    make_secret_test(case3, 'main_edge')
-    case4 = [TestCase(random_string(1, string.ascii_lowercase)) for _ in range(MAX_T)]
-    make_secret_test(case4, 'main_edge')
-    case5 = []
+    letter_pool = [string.ascii_uppercase, 'CUNALIHO', 'CUNAAAAALIHO', 'CUN', 'AAAAAAO', 'CALICO'*5+'X']
+    for pool in letter_pool:
+        case = [TestCase(random_string(random.randint(1, 10), pool)) for _ in range(MAX_T)]
+        make_secret_test(case, 'main_small')
+    for pool in letter_pool:
+        case = [TestCase(random_string(random.randint(MAX_S-10, MAX_S-1), pool)) for _ in range(MAX_T)]
+        make_secret_test(case, 'main_large')
+    case = []
     for c in range(MAX_T):
-        s = random_string(100, 'cunaliho')
-        s[random.randint(0, 100)] == 'x'
-        case5.append(TestCase(s))
-    make_secret_test(case5, 'main_one_impossible')
-
-    # for i in range(5):
-    #     main_random_cases = None
-    #     # main_random_cases = [TestCase(random.choice(flat)) for _ in range(max_T)]
-    #     make_secret_test(main_random_cases, 'main_random')
-
+        s = random_string(MAX_S, 'CUNALIHO')
+        i = random.randint(0, MAX_S-1) 
+        s = s[:i] + 'x' + s[i:]
+        case.append(TestCase(s))
+    make_secret_test(case, 'main_one_impossible')
 
 def make_test_in(cases, file):
     """
