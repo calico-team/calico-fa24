@@ -19,9 +19,9 @@ class Solution {
                     a_cnt++;
                     break;
                 case 'L':
+                case 'H':
                     l_cnt++;
                     break;
-                case 'H':
                 case 'I':
                     i_cnt++;
                     break;

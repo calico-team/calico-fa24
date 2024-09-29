@@ -7,21 +7,21 @@ def solve(S: str) -> int:
 
     for c in S:
         match c:
-            case 'c':
+            case 'C':
                 c_count += 1
-            case 'u':
+            case 'U':
                 c_count += 1
-            case 'n':
+            case 'N':
                 c_count += 1
-            case 'a':
+            case 'A':
                 a_count += 1
-            case 'l':
+            case 'L':
                 l_count += 1
-            case 'i':
+            case 'I':
                 i_count += 1
-            case 'h':
+            case 'H':
                 i_count += 1
-            case 'o':
+            case 'O':
                 o_count += 1
 
     if (c_count + a_count + l_count + i_count + o_count != len(S)):
