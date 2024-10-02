@@ -19,8 +19,11 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = "aodgoipjsdasdijofioajsdf"
 
+MAIN_MX_T, MAIN_MX_N = 100, 100
+BONUS_1_MX_T, BONUS_1_MX_N = 10**5, 10**5
+BONUS_2_MX_T, BONUS_2_MX_N = 10**5, 10**9
 
 class TestCase:
     """
@@ -30,10 +33,8 @@ class TestCase:
     TODO Change this to store the relevant information for your problem.
     """
 
-
-    def __init__(self, A, B):
-        self.A = A
-        self.B = B
+    def __init__(self, N: int):
+        self.N = N
 
 
 def make_sample_tests():
@@ -43,105 +44,116 @@ def make_sample_tests():
     To create a pair of sample test files, call make_sample_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_sample_test for more info.
-    
+
     TODO Write sample tests. Consider creating cases that help build
     understanding of the problem, help with debugging, or possibly help
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
+        TestCase(1),
+        TestCase(2),
+        TestCase(3),
+        TestCase(5),
+        TestCase(14),
+        TestCase(22),
+        TestCase(37),
+        TestCase(61),
     ]
-    make_sample_test(main_sample_cases, 'main')
-    
-    bonus_sample_cases = [
-        TestCase(123456789, 987654321),
-        TestCase(3141592653589793238462643, 3832795028841971693993751),
+    make_sample_test(main_sample_cases, "main")
+
+    bonus_2_sample_cases = [
+        TestCase(123456789),
+        TestCase(10**9),
     ]
-    make_sample_test(bonus_sample_cases, 'bonus')
+    make_sample_test(bonus_2_sample_cases, "bonus2")
 
 
 def make_secret_tests():
     """
     Make all secret test files.
-    
+
     To create a pair of sample test files, call make_secret_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_secret_test for more info.
-    
+
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
-    
-    main_edge_cases = [
-        TestCase(0, 0),
-        TestCase(1, 0),
-        TestCase(0, 1),
-        TestCase(10 ** 9, 0),
-        TestCase(0, 10 ** 9),
-        TestCase(10 ** 9, 10 ** 9),
-    ]
-    make_secret_test(main_edge_cases, 'main_edge')
-    
-    for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
-        make_secret_test(main_random_cases, 'main_random')
-    
-    bonus_edge_cases = [
-        TestCase(10 ** 100, 0),
-        TestCase(0, 10 ** 100),
-        TestCase(10 ** 100, 10 ** 100),
-    ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
-    
-    for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
-        make_secret_test(bonus_random_cases, 'bonus_random')
+    def make_random_cases(mn_N, mx_N, T):
+        return [TestCase(random.randint(mn_N, mx_N + 1)) for _ in range(T)]
+
+    # Main
+    make_secret_test(
+        make_random_cases(1, MAIN_MX_N, random.randint(2, MAIN_MX_T)),
+        "main_random"
+    )
+    assert MAIN_MX_N <= MAIN_MX_T, "Can't make a complete main test file"
+    make_secret_test(
+        [TestCase(i) for i in range(1, MAIN_MX_N + 1)],
+        "main_complete"
+    )
+
+    # Bonus 1
+    make_secret_test(
+        make_random_cases(1, BONUS_1_MX_N, random.randint(2, BONUS_1_MX_T)),
+        "bonus_1_random"
+    )
+    assert BONUS_1_MX_N <= BONUS_1_MX_T, "Can't make a complete bonus 1 test file"
+    make_secret_test(
+        [TestCase(i) for i in range(1, BONUS_1_MX_N + 1)],
+        "bonus_1_complete"
+    )
+
+    # Bonus 2
+    make_secret_test(
+        make_random_cases(1, BONUS_2_MX_N, random.randint(2, BONUS_2_MX_T)),
+        "bonus_2_random"
+    )
+    make_secret_test(
+        make_random_cases(1, BONUS_2_MX_N, BONUS_2_MX_T),
+        "bonus_2_max_random"
+    )
+    make_secret_test(
+        [TestCase(BONUS_2_MX_N - i) for i in range(BONUS_2_MX_T)],
+        "bonus_2_max_large"
+    )
 
 
 def make_test_in(cases, file):
     """
     Print the input of each test case into the file in the format specified by
     the input format.
-    
+
     TODO Implement this for your problem.
     """
     T = len(cases)
     print(T, file=file)
     for case in cases:
-        print(f'{case.A} {case.B}', file=file)
+        print(f"{case.N}", file=file)
 
 
 def make_test_out(cases, file):
     """
     Print the expected output of the test cases into the file in the format
     specified by the output format.
-    
+
     The easiest way to do this is to import a python reference solution to the
     problem and print the output of that.
-    
+
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.add_arbitrary import solve
+    from submissions.accepted.model import solve
+
     for case in cases:
-        print(solve(case.A, case.B), file=file)
+        print(solve(case.N), file=file)
 
 
 def main():
     """
     Let the library do the rest of the work!
     """
-    make_data(make_sample_tests, make_secret_tests, \
-              make_test_in, make_test_out, SEED)
+    make_data(make_sample_tests, make_secret_tests, make_test_in, make_test_out, SEED)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
