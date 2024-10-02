@@ -142,7 +142,7 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.model import solve
+    from submissions.accepted.float_no_preprocess import solve
 
     for case in cases:
         print(solve(case.N), file=file)
