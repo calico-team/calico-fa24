@@ -53,13 +53,13 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-            TestCase('coil'),
-            TestCase('lol'),
-            TestCase('a'),
-            TestCase('unccccc'),
-            TestCase('caliconstruction'),
-            TestCase('q'),
-            TestCase('nonalcoholic')
+            TestCase('COIL'),
+            TestCase('LOL'),
+            TestCase('A'),
+            TestCase('UNCCCCC'),
+            TestCase('CALICONSTRUCTION'),
+            TestCase('Q'),
+            TestCase('NONALCOHOLIC')
     ]
     make_sample_test(main_sample_cases, 'main')
 
@@ -88,7 +88,7 @@ def make_secret_tests():
     for c in range(MAX_T):
         s = random_string(MAX_S, 'CUNALIHO')
         i = random.randint(0, MAX_S-1) 
-        s = s[:i] + 'x' + s[i:]
+        s = s[:i] + 'X' + s[i:]
         case.append(TestCase(s))
     make_secret_test(case, 'main_one_impossible')
 
