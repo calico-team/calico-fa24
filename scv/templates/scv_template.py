@@ -1,10 +1,10 @@
 def solve(M: int, N: int, G: list) -> str:
     """
-    Return the shape of displayed by ASCII string S of dimensions R x C
+    Return the shape of displayed by ASCII string G of dimensions M x N
     
-    S: a string representing an ASCII picture
-    R: integer for number of rows
-    C: integer for number of columns
+    G: a string representing an ASCII picture
+    M: integer for number of rows
+    N: integer for number of columns
     """
     # YOUR CODE HERE
     return 0
@@ -18,7 +18,6 @@ def main():
         for _ in range(M):
             row = list(input().strip())
             G.append(row)
-        print(G)
         solve(M, N, G)
 
 if __name__ == '__main__':
