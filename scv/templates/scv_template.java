@@ -8,9 +8,9 @@ class Solution {
      * R: integer for number of rows
      * C: integer for number of columns
      */
-    static String solve(int R, int C, String S) {
+    static String solve(int M, int N, String[] G) {
         // YOUR CODE HERE
-        return -1;
+        return "";
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -19,11 +19,15 @@ class Solution {
     public static void main(String[] args) throws IOException {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
-            String[] temp = in.readLine().split(" ");
-            String S = in.readLine();
-            int A = Integer.parseInt(temp[0]), B = Integer.parseInt(temp[1]);
-            out.println(solve(A, B, S));
-        }
+            String[] dimensions = in.readLine().split(" ");
+            int M = Integer.parseInt(dimensions[0]), N = Integer.parseInt(dimensions[1]);
+            String[] G = new String[M];
+            for (int j = 0; j < M; j++) {
+                String row = in.readLine();
+                G[j] = row;
+                }
+            out.println(solve(M, N, G));
+            }
         out.flush();
+        }
     }
-}
