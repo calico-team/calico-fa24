@@ -5,9 +5,7 @@
 
 if ! [[ -v PY_CMD ]]; then PY_CMD=python; fi
 if ! [[ -v JAVA_CMD ]]; then JAVA_CMD=java; fi
-if ! [[ -v g++ ]]; then CPP_CC=g++; fi
-
-echo $PY_CMD
+if ! [[ -v CPP_CC ]]; then CPP_CC=g++; fi
 
 run() {
 	echo "Running case $1"
