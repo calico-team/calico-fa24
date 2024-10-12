@@ -9,7 +9,7 @@ using namespace std;
  * M: integer for number of rows
  * N: integer for number of columns
  */
-String solve(int M, int N, char G[100][100]) {
+String solve(int M, int N, char G[M][N]) {
     // YOUR CODE HERE
     return -1;
 }
@@ -19,7 +19,7 @@ int main() {
     cin >> T;
     for (int c = 0; c < T; c++) {
         int M, N;
-        char G[100][100]
+        char G[M][N]
         cin >> M >> N;
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < N; j++) {
