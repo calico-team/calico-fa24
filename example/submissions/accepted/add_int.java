@@ -8,7 +8,7 @@ class Solution {
     static int solve(int A, int B) {
         return A + B;
     }
-    
+
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     static PrintWriter out = new PrintWriter(System.out);
 
