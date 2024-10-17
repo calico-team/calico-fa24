@@ -1,17 +1,24 @@
-def solve(A: int, B: int) -> int:
-    '''
-    Implements addition with Python's arbitary precision arithmetic.
-    '''
-    return A + B
+def solve(M: int, N: int, G: list) -> str:
+    """
+    Return the shape of displayed by ASCII string G of dimensions M x N
+    
+    G: a string representing an ASCII picture
+    M: integer for number of rows
+    N: integer for number of columns
+    """
+    # YOUR CODE HERE
+    return 0
 
 
 def main():
     T = int(input())
     for _ in range(T):
-        temp = input().split()
-        A, B = int(temp[0]), int(temp[1])
-        print(solve(A, B))
-
+        M, N = map(int, input().split())
+        G = []
+        for _ in range(M):
+            row = list(input().strip())
+            G.append(row)
+        solve(M, N, G)
 
 if __name__ == '__main__':
     main()
