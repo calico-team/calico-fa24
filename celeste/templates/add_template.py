@@ -1,7 +1,7 @@
 def solve(A: int, B: int) -> int:
     """
     Return the sum of A and B.
-    
+
     A: a non-negative integer
     B: another non-negative integer
     """
