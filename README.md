@@ -3,6 +3,9 @@
 # contest-template TODO rename
 This repository contains all contest material for (TODO contest name).
 
+# Repository Structure
+Each problem is in the CALICO problem package format, a derivative of the [DOMjudge Problem Package Format](https://www.domjudge.org/docs/manual/7.3/problem-format.html) which is itself a derivative of the [ICPC Problem Package Format](https://icpc.io/problem-package-format/).
+
 ## Testing
 
 ### CALICOjudge
@@ -13,12 +16,8 @@ You can also run `./check [submission_path] [test_path_without_extension]` to te
 
 Note that you may need to modify the `check` file if your Python/Java/C++ installation is different.
 
-## Repository Structure
-Each problem is in the CALICO problem package format, a derivative of the [DOMjudge Problem Package Format](https://www.domjudge.org/docs/manual/7.3/problem-format.html) which is itself a derivative of the [ICPC Problem Package Format](https://icpc.io/problem-package-format/).
-
-### Making a New Problem
-To get started, make a copy of an example repo folder in your branch and rename it with your problem's short name. Then, implement data generation in `make_data.py`. Write your templates in the `template` directory. Write your solutions in the `submissions` directory. Finally, configure `make_zips.py` with your test set
-options.
+## Making a New Problem
+To get started, make a copy of an example repo folder in your branch and rename it with your problem's short name. Then, implement data generation in `make_data.py`. Write your templates in the `template` directory. Write your solutions in the `submissions` directory. Finally, configure `make_zips.py` with your test set options.
 
 ## Building
 
