@@ -22,10 +22,8 @@ generate the same thing every time. Seeds can be integers or strings.
 SEED = 'flying strawberry'
 
 max_T = 10
-max_N = 1000
-max_M = 1000
-max_total_N = 1000
-max_total_M = 1000
+max_N_M = 2e5 - 10
+max_N = 2e5 - 10
 
 class TestCase:
     """
@@ -46,7 +44,9 @@ class TestCase:
     def is_valid(self):
         if not (1 <= self.N <= max_N):
             return False
-        if not (1 <= self.M <= max_M):
+        if not (1 <= self.M <= max_N):
+            return False
+        if not (self.M * self.N <= max_N_M):
             return False
         if len(self.G) != self.N:
             return False
@@ -58,6 +58,13 @@ class TestCase:
                 if self.G[i][j] not in "#.*SE":
                     return False
         return True
+
+    def make_out(self):
+        print(self.N, self.M, self.K)
+        for row in self.G:
+            for c in row:
+                print(c, end='')
+            print()
 
 def make_sample_tests():
     """
@@ -79,6 +86,16 @@ def make_sample_tests():
     ]
     make_sample_test(bonus_sample_cases, 'bonus')
 
+randi = random.randint
+def pure_random(n: int, m: int, crystal_cnt: int, wall_cnt: int):
+    g = [['.']*m for _ in range(n)]
+    for _ in range(crystal_cnt):
+        g[randi(0, n-1)][randi(0, m-1)] = '*'
+    for _ in range(wall_cnt):
+        g[randi(0, n-1)][randi(0, m-1)] = '#'
+    g[randi(0, n-1)][randi(0, m-1)] = 'S'
+    g[randi(0, n-1)][randi(0, m-1)] = 'E'
+    return TestCase(n, m, randi(2, max(n, m)), g)
 
 def make_secret_tests():
     """
@@ -124,9 +141,9 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.add_arbitrary import solve
-    for case in cases:
-        print(solve(case.A, case.B), file=file)
+    # from submissions.accepted.add_arbitrary import solve
+    # for case in cases:
+    #     print(solve(case.A, case.B), file=file)
 
 
 def main():
