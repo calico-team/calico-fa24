@@ -8,7 +8,7 @@ class Solution {
     static String solve(String A, String B) {
         return new BigInteger(A).add(new BigInteger(B)).toString();
     }
-    
+
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     static PrintWriter out = new PrintWriter(System.out);
 

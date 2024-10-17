@@ -4,7 +4,7 @@ using namespace std;
 
 /**
  * Return the sum of A and B.
- * 
+ *
  * A: a non-negative integer
  * B: another non-negative integer
  */

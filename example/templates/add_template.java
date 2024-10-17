@@ -3,7 +3,7 @@ import java.io.*;
 class Solution {
     /**
      * Return the sum of A and B.
-     * 
+     *
      * A: a non-negative integer
      * B: another non-negative integer
      */
@@ -11,7 +11,7 @@ class Solution {
         // YOUR CODE HERE
         return -1;
     }
-    
+
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     static PrintWriter out = new PrintWriter(System.out);
 
