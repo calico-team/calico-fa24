@@ -19,22 +19,36 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = 'uhgynrbtsrenujffvbnljhdsghjgadfghmjkhgfdsacfghjkjhgfvdcrtyiou0o879m,o/po.iuyntrfgbhtyrtybtrybrt4e5eb4y'
 
+max_T_main = 10
+max_B_main = 10000
+max_N_main = 100
+max_Si_main = 100
+
+max_T_bonus = 10
+max_B_bonus = 10 ** 18
+max_N_bonus = 100_000
+max_Si_bonus = 10 ** 13
 
 class TestCase:
     """
     Represents all the information needed to create the input and output for a
     single test case.
-
-    TODO Change this to store the relevant information for your problem.
     """
 
-
-    def __init__(self, B, N, L):
+    def __init__(self, B, N, S):
+        """
+        :param B: budget for the bridge
+        :param N: number of columns
+        :param S: the list of heights
+        """
+        assert type(B) == int
+        assert type(N) == int
+        assert type(S) == list
         self.B = B
         self.N = N
-        self.L = L
+        self.S = S
 
 
 def make_sample_tests():
@@ -44,20 +58,13 @@ def make_sample_tests():
     To create a pair of sample test files, call make_sample_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_sample_test for more info.
-
-    TODO Write sample tests. Consider creating cases that help build
-    understanding of the problem, help with debugging, or possibly help
-    identify edge cases.
     """
     main_sample_cases = [
-        TestCase(8, 5, [2, 6, 10, 1, 2])
+        TestCase(8, 5, [2, 6, 10, 1, 2]),
+        TestCase(13, 10, [5, 8, 9, 8, 9, 8, 7, 4, 1, 7]),
+        TestCase(44, 12, [9, 21, 4, 31, 10, 20, 31, 28, 16, 29, 9, 11])
     ]
     make_sample_test(main_sample_cases, 'main')
-
-    bonus_sample_cases = [
-        TestCase(8, 5, [2, 6, 10, 1, 2])
-    ]
-    make_sample_test(bonus_sample_cases, 'bonus')
 
 
 def make_secret_tests():
@@ -71,49 +78,76 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        B_digits = random.randint(0, max_digits)
-        N_digits = random.randint(0, max_digits)
-        B, N = random_n_digit_number(B_digits), random_n_digit_number(N_digits)
-        return TestCase(B, N, [1] * 10)
+    def make_random_case(max_length, max_height):
+        length = random.randint(1, max_length)
+        S = []
+        for i in range(length):
+            S.append(random.randint(0, max_height))
+        B = random.randint(0, sum(S))
+        return TestCase(B, length, S)
 
-    main_edge_cases = [
-        TestCase(8, 5, [2, 6, 10, 1, 2]),
-        TestCase(13, 10, [5, 8, 9, 8, 9, 8, 7, 4, 1, 7]),
-        TestCase(44, 12, [9, 21, 4, 31, 10, 20, 31, 28, 16, 29, 9, 11])
-    ]
-    make_secret_test(main_edge_cases, 'main_edge')
+    # main_edge_cases = [
+    #     TestCase(8, 5, [2, 6, 10, 1, 2]),
+    #     TestCase(13, 10, [5, 8, 9, 8, 9, 8, 7, 4, 1, 7]),
+    #     TestCase(44, 12, [9, 21, 4, 31, 10, 20, 31, 28, 16, 29, 9, 11])
+    # ]
+    # make_secret_test(main_edge_cases, 'main_edge')
 
     for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
+        main_random_cases = [make_random_case(max_N_main, max_Si_main) for _ in range(max_T_main)]
         make_secret_test(main_random_cases, 'main_random')
 
-    bonus_edge_cases = [
-        TestCase(8, 5, [2, 6, 10, 1, 2])
-
-    ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
-
     for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
+        bonus_random_cases = [make_random_case(max_N_bonus, max_Si_bonus) for _ in range(max_T_bonus)]
         make_secret_test(bonus_random_cases, 'bonus_random')
+
+    # bonus_edge_cases = [
+    #     TestCase(8, 5, [2, 6, 10, 1, 2])
+
+    # ]
+    # make_secret_test(bonus_edge_cases, 'bonus_edge')
+
+    # for i in range(5):
+    #     bonus_random_cases = [make_random_case(100) for _ in range(100)]
+    #     make_secret_test(bonus_random_cases, 'bonus_random')
+    pass
 
 
 def make_test_in(cases, file):
     """
     Print the input of each test case into the file in the format specified by
     the input format.
-
-    TODO Implement this for your problem.
     """
     T = len(cases)
+
+    if 'main' in file.name:
+        assert T <= max_T_main
+    elif 'bonus' in file.name:
+        assert T <= max_T_bonus
+    else:
+        raise Exception('Invalid file type')
+    
     print(T, file=file)
     for case in cases:
+        if 'main' in file.name:
+            assert case.B <= max_B_main
+            assert case.N <= max_N_main
+        elif 'bonus' in file.name:
+            assert case.B <= max_B_bonus
+            assert case.N <= max_N_bonus
+        else:
+            raise Exception('Invalid file type')
+
         print(f'{case.B} {case.N}', file=file)
-        for x in case.L:
-            print(x, end = ' ', file=file)
+
+        if 'main' in file.name:
+            for Si in case.S:
+                assert Si <= max_Si_main
+        elif 'bonus' in file.name:
+            for Si in case.S:
+                assert Si <= max_Si_bonus
+        
+        print(*case.S, file=file)
 
 
 def make_test_out(cases, file):
@@ -126,9 +160,9 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.add_arbitrary import solve
+    # from submissions.accepted.add_arbitrary import solve
     for case in cases:
-        print(solve(case.B, case.N, case.L), file=file)
+        print(solve(case.B, case.N, case.S), file=file)
 
 
 def main():
