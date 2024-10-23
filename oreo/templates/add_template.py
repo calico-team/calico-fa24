@@ -1,4 +1,4 @@
-def solve(S: string) -> string:
+def solve(S: str) -> str:
     """
     Return the sum of A and B.
 
@@ -12,7 +12,7 @@ def main():
     T = int(input())
     for _ in range(T):
         S = input().split()
-        print(solve(S))
+        solve(S)
 
 if __name__ == '__main__':
     main()
