@@ -97,6 +97,14 @@ def pure_random(n: int, m: int, crystal_cnt: int, wall_cnt: int):
     g[randi(0, n-1)][randi(0, m-1)] = 'E'
     return TestCase(n, m, randi(2, max(n, m)), g)
 
+def line_random(n: int, m: int, crystal_cnt: int):
+    g = [['.']*m for _ in range(n)]
+    for _ in range(crystal_cnt):
+        g[randi(0, n-1)][randi(0, m-1)] = '*'
+    g[randi(0, n-1)][randi(0, m-1)] = 'S'
+    g[randi(0, n-1)][randi(0, m-1)] = 'E'
+    return TestCase(n, m, randi(2, max(n, m)), g)
+
 def make_secret_tests():
     """
     Make all secret test files.
@@ -141,9 +149,9 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
-    # from submissions.accepted.add_arbitrary import solve
-    # for case in cases:
-    #     print(solve(case.A, case.B), file=file)
+    from submissions.accepted.add_arbitrary import solve
+    for case in cases:
+        print(solve(case.A, case.B), file=file)
 
 
 def main():
