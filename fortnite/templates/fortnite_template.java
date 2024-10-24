@@ -11,7 +11,7 @@ class Solution {
      * P: storm damage per second
      * L: length of heal in seconds
      */
-    static int solve(int N, int H, int D, int S, int P, int L) {
+    static long solve(long N, long H, long D, long S, long P, long L) {
         // YOUR CODE HERE
         return -1;
     }
@@ -23,7 +23,7 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] temp = in.readLine().split(" ");
-            int N = Integer.parseInt(temp[0]),
+            long N = Integer.parseInt(temp[0]),
                 H = Integer.parseInt(temp[1]),
                 D = Integer.parseInt(temp[2]),
                 S = Integer.parseInt(temp[3]),

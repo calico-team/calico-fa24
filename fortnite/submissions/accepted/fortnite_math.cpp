@@ -13,15 +13,15 @@ using namespace std;
  * P: storm damage per second
  * L: length of heal in seconds
  */
-int solve(int N, int H, int D, int S, int P, int L) {
-    return max((((D / S) * P) - N) / (H - (P * L)) + 1, 0);
+long long solve(long long N, long long H, long long D, long long S, long long P, long long L) {
+    return max((((D / S) * P) - N) / (H - (P * L)) + 1, 0LL);
 }
 
 int main() {
     int T;
     cin >> T;
     for (int i = 0; i < T; i++) {
-        int N, H, D, S, P, L;
+        long long N, H, D, S, P, L;
         cin >> N >> H >> D >> S >> P >> L;
         cout << solve(N, H, D, S, P, L) << '\n';
     }
