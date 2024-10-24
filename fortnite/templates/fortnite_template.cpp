@@ -5,12 +5,12 @@ using namespace std;
 /**
  * Return the sum of A and B.
  *
- * N: A non-negative integer.
- * H: A non-negative integer.
- * D: A non-negative integer.
- * S: A non-negative integer.
- * P: A non-negative integer.
- * T: A non-negative integer.
+ * N: starting health
+ * H: amount of healing
+ * D: distance out of the storm in meters
+ * S: running speed in meters per second
+ * P: storm damage per second
+ * T: time to heal
  */
 int solve(int N, int H, int D, int S, int P, int T) {
     // YOUR CODE HERE
