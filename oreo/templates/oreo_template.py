@@ -3,6 +3,7 @@ def solve(S: str):
     Print out an Oreo
 
     S: a string
+    
     """
     # YOUR CODE HERE
 
