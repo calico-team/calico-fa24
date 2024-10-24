@@ -6,8 +6,19 @@ def solve(M: int, N: int, G: list) -> str:
     M: integer for number of rows
     N: integer for number of columns
     """
-    # YOUR CODE HERE
-    return 0
+
+    list_of_lengths = []
+
+    
+    for i in G:
+        hashtag = i.count("#")
+        list_of_lengths.append(hashtag)
+    unique_set = set(list_of_lengths)
+    if len(unique_set) > 2:
+        return "Built like Phineas head"
+    if len(unique_set) == 2:
+        return "wow, its a square"
+    
 
 
 def main():
