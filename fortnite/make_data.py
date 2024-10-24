@@ -19,7 +19,10 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'aoisjdfiojsadgsoidafjio'
+SEED = '039qgj0a9fa09wf9a2'
+
+MAIN_MX_T, MAIN_MX_VAL = 100, 100
+BONUS_1_MX_T, BONUS_1_MX_VAL = 10**5, 10**9
 
 
 class TestCase:
@@ -32,6 +35,11 @@ class TestCase:
 
 
     def __init__(self, N, H, D, S, P, L):
+        # Checks that the inputs are valid (allows the player to survive)
+        if not N > (D // S) * P:
+            assert H > P * L
+            assert N > P * L
+
         self.N = N
         self.H = H
         self.D = D
@@ -53,15 +61,15 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
+        TestCase(10, 3, 12, 4, 2, 0),
+        TestCase(5, 3, 12, 4, 2, 0),
+        TestCase(3, 3, 12, 4, 2, 0),
+        TestCase(4, 2, 1, 1, 3, 0)
     ]
     make_sample_test(main_sample_cases, 'main')
 
     bonus_sample_cases = [
-        TestCase(123456789, 987654321),
-        TestCase(3141592653589793238462643, 3832795028841971693993751),
+        TestCase(883459283, 694224901, 355732753, 426, 19123, 36292)
     ]
     make_sample_test(bonus_sample_cases, 'bonus')
 
@@ -77,37 +85,44 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
+    def make_random_case(max_val, is_instant_heal):
+        def ceildiv(a, b):
+            return -(a // -b)
+        
+        N = random.randint(1, max_val)
+        H = random.randint(1, max_val)
+        D = random.randint(1, max_val)
+        S = random.randint(1, max_val)
+        P = random.randint(1, min(N, H) - 1)
+        if is_instant_heal:
+            L = 0
+        else:
+            # In this case (numerator < 0), the player can run without heals
+            # So no further restrictions on P and L are needed
+            if N > (D // S) * P:
+                L = random.randint(0, max_val)
+            # Otherwise, we need to make sure H > PL and N > PL
+            else:
+                L = random.randint(0, ceildiv(min(N, H), P) - 1)
+        return TestCase(N, H, D, S, P, L)
 
     main_edge_cases = [
-        TestCase(0, 0),
-        TestCase(1, 0),
-        TestCase(0, 1),
-        TestCase(10 ** 9, 0),
-        TestCase(0, 10 ** 9),
-        TestCase(10 ** 9, 10 ** 9),
+        TestCase(100, 100, 99, 100, 100, 100)
     ]
     make_secret_test(main_edge_cases, 'main_edge')
 
-    for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
+    for _ in range(10):
+        main_random_cases = [make_random_case(MAIN_MX_VAL, True) for _ in range(MAIN_MX_T)]
         make_secret_test(main_random_cases, 'main_random')
 
     bonus_edge_cases = [
-        TestCase(10 ** 100, 0),
-        TestCase(0, 10 ** 100),
-        TestCase(10 ** 100, 10 ** 100),
+        TestCase(10 ** 9, 10 ** 9, 10 ** 9 - 1, 10 ** 9, 10 ** 9, 10 ** 9),
+        TestCase(1, 1, 10 ** 9, 1, 10 ** 9, 0)
     ]
     make_secret_test(bonus_edge_cases, 'bonus_edge')
 
-    for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
+    for _ in range(10):
+        bonus_random_cases = [make_random_case(BONUS_1_MX_VAL, False) for _ in range(BONUS_1_MX_T)]
         make_secret_test(bonus_random_cases, 'bonus_random')
 
 
@@ -121,7 +136,7 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
-        print(f'{case.A} {case.B}', file=file)
+        print(f'{case.N} {case.H} {case.D} {case.S} {case.P} {case.L}', file=file)
 
 
 def make_test_out(cases, file):
@@ -134,9 +149,9 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.fortnite_sim import solve
+    from submissions.accepted.fortnite_math import solve
     for case in cases:
-        print(solve(case.A, case.B), file=file)
+        print(solve(case.N, case.H, case.D, case.S, case.P, case.L), file=file)
 
 
 def main():
