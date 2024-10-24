@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -13,7 +14,7 @@ using namespace std;
  * L: length of heal in seconds
  */
 int solve(int N, int H, int D, int S, int P, int L) {
-    return (((D / S) * P) - N) / (H - (P * L)) + 1;
+    return max((((D / S) * P) - N) / (H - (P * L)) + 1, 0);
 }
 
 int main() {

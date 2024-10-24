@@ -12,10 +12,7 @@ class Solution {
      * L: length of heal in seconds
      */
     static int solve(int N, int H, int D, int S, int P, int L) {
-        return Math.max(
-            Math.floorDiv((Math.floorDiv(D, S) * P) - N, H - (P * L)) + 1,
-            0
-        );
+        return Math.max((((D / S) * P) - N) / (H - (P * L)) + 1, 0);
     }
 
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
