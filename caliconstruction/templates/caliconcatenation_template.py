@@ -1,6 +1,7 @@
 def solve(S: str) -> int:
     """
-    Return the minimum number of sets of CALICO blocks needed to form S.
+    Return the minimum number of sets of CALICO blocks needed to
+    form S, or -1 if it is impossible.
 
     S: a string
     """
