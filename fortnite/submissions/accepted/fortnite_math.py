@@ -1,21 +1,21 @@
-def solve(N: int, H: int, D: int, S: int, P: int, T: int) -> int:
+def solve(N: int, H: int, D: int, S: int, P: int, L: int) -> int:
     """
-    Return the shape of displayed by ASCII string G of dimensions M x N
+    Return the number of healing items the player needs to use.
     
     N: starting health
     H: amount of healing
     D: distance out of the storm in meters
     S: running speed in meters per second
     P: storm damage per second
-    T: time to heal
+    L: time to heal
     """
-    return (((D // S) * P) - N) // (H - (P * T)) + 1
+    return (((D // S) * P) - N) // (H - (P * L)) + 1
 
 def main():
     T = int(input())
     for _ in range(T):
-        N, H, D, S, P, T = map(int, input().split())
-        print(solve(N, H, D, S, P, T))
+        N, H, D, S, P, L = map(int, input().split())
+        print(solve(N, H, D, S, P, L))
 
 if __name__ == '__main__':
     main()

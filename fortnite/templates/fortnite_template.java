@@ -9,9 +9,9 @@ class Solution {
      * D: distance out of the storm in meters
      * S: running speed in meters per second
      * P: storm damage per second
-     * T: time to heal
+     * L: length of heal in seconds
      */
-    static int solve(int N, int H, int D, int S, int P, int T) {
+    static int solve(int N, int H, int D, int S, int P, int L) {
         // YOUR CODE HERE
         return -1;
     }
@@ -28,8 +28,8 @@ class Solution {
                 D = Integer.parseInt(temp[2]),
                 S = Integer.parseInt(temp[3]),
                 P = Integer.parseInt(temp[4]),
-                T = Integer.parseInt(temp[5]);
-            out.println(solve(N, H, D, S, P, T));
+                L = Integer.parseInt(temp[5]);
+            out.println(solve(N, H, D, S, P, L));
         }
         out.flush();
     }
