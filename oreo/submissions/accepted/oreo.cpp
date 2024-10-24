@@ -9,8 +9,7 @@ using namespace std;
  */
 void solve(string S) {
     // YOUR CODE HERE
-    int i = 0;
-    while (i < S.length()) {
+    for (int i = 0; i < S.length(); i++) {
         if (S[i] == 'O') {
             cout << "[---OREO---]" << endl;
         } 
@@ -20,7 +19,6 @@ void solve(string S) {
         else if (S[i] == '&') {
             cout << '\n';
         }
-        i++;
     }
     cout << '\n';
 
