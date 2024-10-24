@@ -2,10 +2,9 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the sum of A and B.
+     * Print out an Oreo
      *
-     * A: a non-negative integer
-     * B: another non-negative integer
+     * S: a string
      */
     static void solve(String S) {
         // YOUR CODE HERE
