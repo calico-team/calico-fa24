@@ -12,7 +12,7 @@ def solve(N: int, H: int, D: int, S: int, P: int, L: int) -> int:
     heal_count = 0
     while D > 0:
         if N - P * (L + 1) <= 0:
-            N += H - P * L
+            N += H - P * L # N = 100
             heal_count += 1
         D -= S
         N -= P 
