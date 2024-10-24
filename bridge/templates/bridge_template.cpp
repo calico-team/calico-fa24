@@ -8,7 +8,7 @@ using namespace std;
  * A: a non-negative integer
  * B: another non-negative integer
  */
-int solve(int A, int B) {
+int solve(int B, int N, int[] S) {
     // YOUR CODE HERE
     return -1;
 }
@@ -17,8 +17,12 @@ int main() {
     int T;
     cin >> T;
     for (int i = 0; i < T; i++) {
-        int A, B;
-        cin >> A >> B;
-        cout << solve(A, B) << '\n';
+        int B, N;
+        cin >> B >> N;
+        int[] S = new int[N];
+        for (int j = 0; j < N; j++) {
+            cin >> S[j];
+        }
+        cout << solve(B, N, S) << '\n';
     }
 }
