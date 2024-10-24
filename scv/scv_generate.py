@@ -27,6 +27,9 @@ def generate_square(length: int, width: int, side_min = 2, margin = 1) -> str:
     art += ("." * upper_left_x + "#" * side_length + "." * (width - upper_left_x - side_length) + "\n") * side_length
     art += ("." * width + "\n") * (length - upper_left_y - side_length)
 
+    art = art.split("\n")
+    art.pop()
+
     return art
 
 def generate_triangle(length: int, width: int, x_min = 2, y_min = 2, margin = 1) -> str:
@@ -73,6 +76,9 @@ def generate_triangle(length: int, width: int, x_min = 2, y_min = 2, margin = 1)
         art += "." * (width - upper_left_x - side_x) + "\n"
 
     art += ("." * width + "\n") * (length - upper_left_y - side_y)
+
+    art = art.split("\n")
+    art.pop()
 
     return art
     

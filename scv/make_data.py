@@ -13,6 +13,7 @@ You can also run this file with the -v argument to see debug prints.
 """
 
 import random
+import scv_generate
 from calico_lib import make_sample_test, make_secret_test, make_data
 
 """
@@ -20,7 +21,6 @@ Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
 SEED = 9833719837291
-
 
 class TestCase:
     """
@@ -62,17 +62,18 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
+    def make_random_case():
+        triangle_or_square = 1 # random.randint(0, 1)
+        N = random.randint(2, 100)
+        M = random.randint(2, 100)
+        if triangle_or_square == 0:
+            G = scv_generate.generate_triangle(N, M)
+        else:
+            G = scv_generate.generate_square(N, M)
+        return TestCase(N, M, G)
     
-    # for i in range(5):
-    #     main_random_cases = [make_random_case(9) for _ in range(100)]
-    #     make_secret_test(main_random_cases, 'main_random')
+    main_random_cases = [make_random_case() for _ in range(10)]
+    make_secret_test(main_random_cases, 'main_random')
 
 
 def make_test_in(cases, file):
