@@ -6,9 +6,17 @@ def solve(M: int, N: int, G: list) -> str:
     M: integer for number of rows
     N: integer for number of columns
     """
-    # YOUR CODE HERE
-    return 0
-
+    row_count = set()
+    for row in G:
+        count = 0
+        for letter in row:
+            if letter == '#':
+                count += 1
+        if count != 0:
+            row_count.add(count)
+    if len(row_count) <= 1:
+        return 'rectangle'
+    return 'triangle' 
 
 def main():
     T = int(input())
@@ -18,7 +26,7 @@ def main():
         for _ in range(M):
             row = list(input().strip())
             G.append(row)
-        solve(M, N, G)
+        print(solve(M, N, G))
 
 if __name__ == '__main__':
     main()
