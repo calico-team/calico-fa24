@@ -1,11 +1,10 @@
-def solve(S: str) -> str:
+def solve(S: str):
     """
-    Return the sum of A and B.
+    Print out an Oreo
 
     S: a string
     """
     # YOUR CODE HERE
-    return 0
 
 
 def main():
