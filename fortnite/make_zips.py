@@ -26,7 +26,7 @@ Names should be short if possible.
 
 TODO Change this for your problem.
 """
-PROBLEM_NAME = 'add'
+PROBLEM_NAME = 'fortnite'   
 
 """
 The time limit in seconds.
@@ -70,19 +70,17 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'add_arbitrary':    ['main', 'bonus'],
-        'add_int':          ['main'],
+        'fortnite_math':    ['main', 'bonus'],
+        'fortnite_sim':          ['main'],
 
-        # run_time_error
-        'add_div_re':       ['main', 'bonus'],
-        'add_parse_int_re': ['bonus'],
+        # int overflow
+        'fortnite_math_int': ['bonus'],
 
-        # time_limit_exceeded
-        'add_loop_tle':     ['main', 'bonus'],
+        # forgot max function
+        'fortnite_math_no_max_func':     ['bonus'],
 
-        # wrong_answer
-        'add_parse_int_wa': ['bonus'],
-        'add_sub_wa':       ['main', 'bonus'],
+        # truncation
+        'fortnite_math_truncate_div': ['bonus'],
     }
 
     # we only care about actual code files
