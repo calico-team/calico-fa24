@@ -85,7 +85,7 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_val, is_instant_heal):
+    def make_random_case(max_val, is_main):
         def ceildiv(a, b):
             return -(a // -b)
         
@@ -93,36 +93,50 @@ def make_secret_tests():
         H = random.randint(1, max_val)
         D = random.randint(1, max_val)
         S = random.randint(1, max_val)
-        P = random.randint(1, min(N, H) - 1)
-        if is_instant_heal:
+        # Upper bounds P so that a valid nonzero L is likely to exist
+        P = random.randint(1, min(N, H))
+        if is_main:
             L = 0
         else:
             # In this case (numerator < 0), the player can run without heals
             # So no further restrictions on P and L are needed
             if N > (D // S) * P:
-                L = random.randint(0, max_val)
+                if random.random() < 0.5:
+                    L = random.randint(0, max_val)
+                # Makes it likely to have some cases with premax answer < 0 (denominator > 0)
+                # Need H > PL still
+                else:
+                    L = random.randint(0, ceildiv(H, P) - 1)
             # Otherwise, we need to make sure H > PL and N > PL
             else:
                 L = random.randint(0, ceildiv(min(N, H), P) - 1)
+        # print(N, H, D, S, P, L, 'num =', ((D // S) * P) - N, 'den =', H - (P * L))
         return TestCase(N, H, D, S, P, L)
 
     main_edge_cases = [
-        TestCase(100, 100, 99, 100, 100, 100)
+        TestCase(100, 100, 99, 100, 100, 100), # ans = 1
+        TestCase(1, 1, 100, 1, 100, 0) # ans = 10^4
     ]
     make_secret_test(main_edge_cases, 'main_edge')
 
     for _ in range(10):
-        main_random_cases = [make_random_case(MAIN_MX_VAL, True) for _ in range(MAIN_MX_T)]
+        main_random_cases = [
+            make_random_case(MAIN_MX_VAL, True)
+            for _ in range(MAIN_MX_T)
+        ]
         make_secret_test(main_random_cases, 'main_random')
 
     bonus_edge_cases = [
-        TestCase(10 ** 9, 10 ** 9, 10 ** 9 - 1, 10 ** 9, 10 ** 9, 10 ** 9),
-        TestCase(1, 1, 10 ** 9, 1, 10 ** 9, 0)
+        TestCase(10 ** 9, 10 ** 9, 10 ** 9 - 1, 10 ** 9, 10 ** 9, 10 ** 9), # ans = 1
+        TestCase(1, 1, 10 ** 9, 1, 10 ** 9, 0) # ans = 10^18
     ]
     make_secret_test(bonus_edge_cases, 'bonus_edge')
 
     for _ in range(10):
-        bonus_random_cases = [make_random_case(BONUS_1_MX_VAL, False) for _ in range(BONUS_1_MX_T)]
+        bonus_random_cases = [
+            make_random_case(BONUS_1_MX_VAL, False)
+            for _ in range(BONUS_1_MX_T)
+        ]
         make_secret_test(bonus_random_cases, 'bonus_random')
 
 
