@@ -41,6 +41,12 @@ class TestCase:
         self.K = K
         self.G = G
 
+    def test_in(self, file):
+        print(f'{self.N} {self.M} {self.K}', file=file)
+        for row in self.G:
+            print(''.join(row))
+
+
     def is_valid(self):
         if not (1 <= self.N <= max_N):
             return False
@@ -101,6 +107,7 @@ def line_random(n: int, m: int, crystal_cnt: int):
     g = [['.']*m for _ in range(n)]
     for _ in range(crystal_cnt):
         g[randi(0, n-1)][randi(0, m-1)] = '*'
+    # for i in range(0, n, 2)
     g[randi(0, n-1)][randi(0, m-1)] = 'S'
     g[randi(0, n-1)][randi(0, m-1)] = 'E'
     return TestCase(n, m, randi(2, max(n, m)), g)
@@ -117,9 +124,8 @@ def make_secret_tests():
     tests.
     """
 
-    main_edge_cases = [
-    ]
-    make_secret_test(main_edge_cases, 'main_edge')
+    basic_rand = [pure_random(10, 10, 10, 10) for _ in range(10)]
+    make_secret_test(basic_rand, 'main_edge')
 
     bonus_edge_cases = [
     ]
@@ -136,7 +142,7 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
-        print(f'{case.A} {case.B}', file=file)
+        case.test_in()
 
 
 def make_test_out(cases, file):
@@ -149,9 +155,9 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.add_arbitrary import solve
-    for case in cases:
-        print(solve(case.A, case.B), file=file)
+    # from submissions.accepted.add_arbitrary import solve
+    # for case in cases:
+        # print(solve(case.A, case.B), file=file)
 
 
 def main():
