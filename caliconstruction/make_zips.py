@@ -26,7 +26,7 @@ Names should be short if possible.
 
 TODO Change this for your problem.
 """
-PROBLEM_NAME = 'caliconcatenation'
+PROBLEM_NAME = 'caliconstruction'
 
 """
 The time limit in seconds.
@@ -67,7 +67,8 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'caliconcatenation':    ['main'],
+        'caliconstruction':    ['main'],
+        'caliconstructionslow':    ['main'],
     }
     
     # we only care about actual code files
@@ -76,6 +77,9 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     
     # trim file extensions
     submission_file_name = submission_file_name.split('.')[0]
+    if submission_file_name not in file_to_sets:
+        print(f"WARNING: Not including file {submission_file_name}")
+        return False
     
     return test_set_name in file_to_sets[submission_file_name]
 
