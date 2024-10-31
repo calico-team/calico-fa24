@@ -2,9 +2,9 @@ import java.io.*;
 
 class Solution {
     /**
-     * Print out an Oreo
+     * Print one line for each token in S to draw the cookie.
      *
-     * S: a string
+     * S: cookie name
      */
     static void solve(String S) {
         // YOUR CODE HERE
@@ -16,8 +16,7 @@ class Solution {
     public static void main(String[] args) throws IOException {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
-            String[] temp = in.readLine().split(" ");
-            String S = temp[0];
+            String S = in.readLine();
             solve(S);
         }
         out.flush();

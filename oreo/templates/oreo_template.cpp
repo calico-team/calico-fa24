@@ -3,9 +3,9 @@
 using namespace std;
 
 /**
- * Print out an Oreo
+ * Print one line for each token in S to draw the cookie.
  *
- * S: a string
+ * S: cookie name
  */
 void solve(string S) {
     // YOUR CODE HERE

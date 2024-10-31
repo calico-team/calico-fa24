@@ -1,16 +1,11 @@
-def solve(O: str) -> str:
-  '''
-  Implements an OREO printer
-  O: a string
-  '''
-  for i in range(len(O)):
-    if O[i] == 'O':
-      print('[###OREO###]')
-    elif O[i] == 'R': # ignore E since its implied E always follows R
-      print(' [--------] ')
-    elif O[i] == '&':
-      print()
-  print()
+def solve(S: str):
+    for i in range(len(O)):
+        if S[i] == 'O':
+            print('[###OREO###]')
+        elif S[i] == 'R': # ignore E since its implied E always follows R
+            print(' [--------]')
+        elif S[i] == '&':
+            print()
 
 
 def main():

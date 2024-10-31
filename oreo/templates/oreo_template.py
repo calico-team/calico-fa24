@@ -1,8 +1,8 @@
 def solve(S: str):
     """
-    Print out an Oreo
+    Print one line for each token in S to draw the cookie.
 
-    S: a string
+    S: cookie name
     
     """
     # YOUR CODE HERE
@@ -11,7 +11,7 @@ def solve(S: str):
 def main():
     T = int(input())
     for _ in range(T):
-        S = input().split()
+        S = input()
         solve(S)
 
 if __name__ == '__main__':
