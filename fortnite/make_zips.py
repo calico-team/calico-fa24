@@ -77,10 +77,10 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         'fortnite_math_int': ['bonus'],
 
         # forgot max function
-        'fortnite_math_no_max_func':     ['bonus'],
+        'fortnite_math_no_max_func':     ['main', 'bonus'],
 
         # truncation
-        'fortnite_math_truncate_div': ['bonus'],
+        'fortnite_math_truncate_div': ['main', 'bonus'],
     }
 
     # we only care about actual code files
