@@ -14,6 +14,7 @@ You can also run this file with the -v argument to see debug prints.
 
 import random
 from calico_lib import make_sample_test, make_secret_test, make_data
+from submissions.accepted.oreo import solve
 
 """
 Seed for the random number generator. We need this so randomized tests will
@@ -110,7 +111,6 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
-    from oreo.submissions.accepted.oreo import solve
     for case in cases:
         print(solve(case.S), file=file)
 

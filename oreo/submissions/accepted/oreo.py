@@ -1,5 +1,5 @@
 def solve(S: str):
-    for i in range(len(O)):
+    for i in range(len(S)):
         if S[i] == 'O':
             print('[###OREO###]')
         elif S[i] == 'R': # ignore E since its implied E always follows R
