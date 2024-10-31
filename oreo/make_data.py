@@ -75,8 +75,8 @@ def make_secret_tests():
     def make_random_case(max_length):
         def random_token(n):
             t = ["O", "RE", "&"]
-            first = random.randInt(0, 1)
-            return t[first].join(random.sample(t, n-1))
+            first = random.randint(0, 1)
+            return t[first] + ''.join(random.choices(t, k=n-1))
         N = random.randint(0, max_length)
         return TestCase(random_token(N))
 
