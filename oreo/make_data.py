@@ -14,23 +14,29 @@ You can also run this file with the -v argument to see debug prints.
 
 import random
 from calico_lib import make_sample_test, make_secret_test, make_data
-from submissions.accepted.oreo import solve
 
 """
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = 'OREOHJIQWBNWJFHRJWERFJIWHFNJ'
 
+def solve(S: str):
+    cookie = ''
+    for i in range(len(S)):
+        if S[i] == 'O':
+            cookie += '[###OREO###]\n'
+        elif S[i] == 'R': # ignore E since its implied E always follows R
+            cookie += ' [--------]\n'
+        elif S[i] == '&':
+            cookie += '\n'
+    return cookie
 
 class TestCase:
     """
     Represents all the information needed to create the input and output for a
     single test case.
-
-    TODO Change this to store the relevant information for your problem.
     """
-
 
     def __init__(self, S):
         self.S = S
@@ -43,10 +49,6 @@ def make_sample_tests():
     To create a pair of sample test files, call make_sample_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_sample_test for more info.
-
-    TODO Write sample tests. Consider creating cases that help build
-    understanding of the problem, help with debugging, or possibly help
-    identify edge cases.
     """
     main_sample_cases = [
         TestCase("OREO"),
@@ -79,12 +81,9 @@ def make_secret_tests():
             return t[first] + ''.join(random.choices(t, k=n-1))
         N = random.randint(0, max_length)
         return TestCase(random_token(N))
-
-    main_edge_cases = []
-    make_secret_test(main_edge_cases, 'main_edge')
-
+    
     for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
+        main_random_cases = [make_random_case(100) for _ in range(100)]
         make_secret_test(main_random_cases, 'main_random')
 
 
@@ -92,8 +91,6 @@ def make_test_in(cases, file):
     """
     Print the input of each test case into the file in the format specified by
     the input format.
-
-    TODO Implement this for your problem.
     """
     T = len(cases)
     print(T, file=file)
@@ -108,8 +105,6 @@ def make_test_out(cases, file):
 
     The easiest way to do this is to import a python reference solution to the
     problem and print the output of that.
-
-    TODO Implement this for your problem by changing the import below.
     """
     for case in cases:
         print(solve(case.S), file=file)
