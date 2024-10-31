@@ -13,6 +13,7 @@ You can also run this file with the -v argument to see debug prints.
 """
 
 import random
+from sys import stdout
 from calico_lib import make_sample_test, make_secret_test, make_data
 
 """
@@ -44,7 +45,7 @@ class TestCase:
     def test_in(self, file):
         print(f'{self.N} {self.M} {self.K}', file=file)
         for row in self.G:
-            print(''.join(row))
+            print(''.join(row), file=file)
 
 
     def is_valid(self):
@@ -132,7 +133,7 @@ def make_secret_tests():
     make_secret_test(bonus_edge_cases, 'bonus_edge')
 
 
-def make_test_in(cases, file):
+def make_test_in(cases: list[TestCase], file):
     """
     Print the input of each test case into the file in the format specified by
     the input format.
@@ -142,10 +143,11 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
-        case.test_in()
+        case.test_in(file)
 
 
-def make_test_out(cases, file):
+import subprocess
+def make_test_out(cases, file, in_filename):
     """
     Print the expected output of the test cases into the file in the format
     specified by the output format.
@@ -155,6 +157,12 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
+
+    myinput = open(in_filename)
+    out = subprocess.check_output('./bin.out', stdin=myinput)
+    print(out.decode(), file=file)
+
+    # print(out)
     # from submissions.accepted.add_arbitrary import solve
     # for case in cases:
         # print(solve(case.A, case.B), file=file)
@@ -164,6 +172,7 @@ def main():
     """
     Let the library do the rest of the work!
     """
+    subprocess.run(['g++', '-O2', '-o', 'bin.out', 'submissions/accepted/celeste.cpp']);
     make_data(make_sample_tests, make_secret_tests, \
               make_test_in, make_test_out, SEED)
 
