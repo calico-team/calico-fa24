@@ -114,7 +114,7 @@ def make_secret_tests():
         return TestCase(N, H, D, S, P, L)
 
     main_edge_cases = [
-        TestCase(100, 100, 99, 100, 100, 100), # ans = 1
+        TestCase(100, 100, 99, 100, 100, 0), # ans = 1
         TestCase(1, 1, 100, 1, 100, 0) # ans = 10^4
     ]
     make_secret_test(main_edge_cases, 'main_edge')
