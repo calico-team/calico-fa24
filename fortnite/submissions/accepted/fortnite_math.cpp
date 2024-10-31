@@ -3,6 +3,10 @@
 
 using namespace std;
 
+long long floorDiv(long long a, long long b) {
+    return a < 0 == b < 0 ? a / b : -(-a / b);
+}
+
 /**
  * Return the number of healing items the player needs to use.
  *
@@ -14,7 +18,7 @@ using namespace std;
  * L: length of heal in seconds
  */
 long long solve(long long N, long long H, long long D, long long S, long long P, long long L) {
-    return max((((D / S) * P) - N) / (H - (P * L)) + 1, 0LL);
+    return max(floorDiv(floorDiv(D, S) * P - N, H - P * L) + 1, 0LL);
 }
 
 int main() {
