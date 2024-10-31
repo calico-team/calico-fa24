@@ -5,6 +5,7 @@
 #include <map>
 #include <algorithm>
 #include <cstring>
+#include <cassert>
 using namespace std;
 typedef pair <int, int> pii;
 typedef long long ll;
@@ -79,6 +80,7 @@ ll diff_query(int ql, int qr, int t = 1, int l = 1, int r = n) {
 }
 
 ll gcd_query(int l, int r) {
+    if (l > r) return 1;
     return gcd(sum_query(l, l), diff_query(l + 1, r));
 }
 
@@ -114,6 +116,8 @@ int main() {
                     if (gcd_query(1, mid) == val) l = mid;
                     else r = mid;
                 }
+                assert(gcd_query(1, l) != 0);
+                assert(gcd_query(l + 1, n) != 0);
                 ans = min(ans, sum_query(1, l) / gcd_query(1, l) + sum_query(l + 1, n) / gcd_query(l + 1, n));
                 pre = l + 1;
             }
@@ -126,6 +130,8 @@ int main() {
                     if (gcd_query(mid, n) == val) r = mid;
                     else l = mid;
                 }
+                assert(gcd_query(r, n) != 0);
+                assert(gcd_query(1, r - 1) != 0);
                 ans = min(ans, sum_query(r, n) / gcd_query(r, n) + sum_query(1, r - 1) / gcd_query(1, r - 1));
                 suf = r - 1;
             }

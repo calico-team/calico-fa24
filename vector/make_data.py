@@ -89,7 +89,7 @@ def make_secret_tests():
         return case
 
     for i in range(10):
-        main_random_cases = [make_random_case(100, 100)]
+        main_random_cases = [make_random_case(10000, 10000)]
         make_secret_test(main_random_cases, 'main_random')
 
 
@@ -120,7 +120,7 @@ def make_test_out(cases, file):
     TODO Implement this for your problem by changing the import below.
     """
     assert len(cases) == 1
-    from submissions.brute_force import solve
+    from submissions.time_limit_exceeded.brute_force import solve
     for case in cases:
         print(*solve(case.N, case.arr, case.Q, case.queries), file=file, sep='\n')
 
