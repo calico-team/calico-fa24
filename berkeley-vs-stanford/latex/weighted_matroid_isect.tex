@@ -1,0 +1,56 @@
+\documentclass[english,12pt]{article}
+\usepackage{xd}
+
+\begin{document}
+    Input: Two matroids $(E, \mathcal{F}_1), (E, \mathcal{F}_2)$ given by independence oracles.
+    Weights $c : E \to \mathbb{R}$.
+
+    Output: A set $X \in \mathcal{F}_1 \cap \mathcal{F}_2$ whose weight $c(X)$ is maximum.
+
+    \begin{enumerate}
+        \item {
+            Set $k := 0$ and $X_0 := \emptyset$.
+            Set $c_1(e) := c(e)$ and $c_2(e) := 0$ for all $e \in E$.
+        }
+        \item {
+            For each $y \in E \setminus X_k$ and $i \in \{1, 2\}$ compute
+            $$ C_i(X_k, y) := \{x \in X_k \cup \{y\} : X_k \cup \{y\} \not\in \mathcal{F}_i, (X_k \cup \{y\}) \setminus \{x\} \in \mathcal{F}_i\}$$
+        }
+        \item {
+            Compute
+            $$ A^{(1)} := \{(x, y) : y \in E \setminus X_k, x \in C_1(X_k, y) \setminus \{y\}\} $$
+            $$ A^{(2)} := \{(y, x) : y \in E \setminus X_k, x \in C_2(X_k, y) \setminus \{y\}\} $$
+            $$ S := \{y \in E \setminus X_k : X_k \cup \{y\} \in \mathcal{F}_1\} $$
+            $$ T := \{y \in E \setminus X_k : X_k \cup \{y\} \in \mathcal{F}_2\} $$
+        }
+        \item {
+            Compute
+            $$ m_1 := \max\{c_1(y) : y \in S\} $$
+            $$ m_2 := \max\{c_2(y) : y \in T\} $$
+            $$ \bar{S} := \{y \in S : c_1(y) = m_1 \} $$
+            $$ \bar{T} := \{y \in T : c_2(y) = m_2 \} $$
+            $$ \bar{A}^{(1)} := \{(x, y) \in A^{(1)} : c_1(x) = c_1(y) \} $$
+            $$ \bar{A}^{(2)} := \{(y, x) \in A^{(2)} : c_2(x) = c_2(y) \} $$
+            $$ \bar{G} := (E, \bar{A}^{(1)} \cup \bar{A}^{(2)}) $$
+        }
+        \item {
+            Apply BFS to compute the set $R$ of vertices reachable from $\bar{S}$ in $\bar{G}$.
+        }
+        \item {
+            If $R \cap \bar{T} \neq \emptyset$, then find an $\bar{S} - \bar{T}$ path $P$ in $\bar{G}$ with a minimum number of edges, set $X_{k + 1} := X_k \triangle V(P)$ and $k := k + 1$ and go to 2.
+        }
+        \item {
+            Compute
+            $$ \varepsilon_1 := \min \{c_1(x) - c_1(y) : (x, y) \in \delta_{A^{(1)}}^+(R)\} $$
+            $$ \varepsilon_2 := \min \{c_2(x) - c_2(y) : (y, x) \in \delta_{A^{(2)}}^+(R)\} $$
+            $$ \varepsilon_3 := \min \{m_1 - c_1(y) : y \in S \setminus R \} $$
+            $$ \varepsilon_4 := \min \{m_2 - c_2(y) : y \in T \cap R \} $$
+            $$ \varepsilon := \min \{ \varepsilon_1, \varepsilon_2, \varepsilon_3, \varepsilon_4 \} $$
+            where $\min \emptyset := \infty $.
+        }
+        \item {
+            If $\varepsilon < \infty$ then set $c_1(x) := c_1(x) - \varepsilon$ and $c_2(x) := c_2(x) + \varepsilon$ for all $x \in R$ and go to 4.
+            If $\varepsilon = \infty$, then among $X_0, X_1, \dots, X_k$, let $X$ be the one with maximum weight. Stop and output $X$.
+        }
+    \end{enumerate}
+\end{document}

@@ -1,0 +1,330 @@
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[verbose,margin=1.0in]{geometry}
+
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{mathtools}
+% \setstretch{1}
+\usepackage{xspace}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{complexity}
+\usepackage{cleveref}
+
+% Para las enumeraciones
+\usepackage{enumitem}
+
+% Para algoritmos y pseudocodigos
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{systeme}
+
+% Para todos
+\usepackage{lipsum}                     % Dummytext
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text et
+\setlength {\marginparwidth }{2cm}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+%
+% The following commands set up the lecnum (lecture number)
+% counter and make various numbering schemes work relative
+% to the lecture number.
+%
+% \newcounter{lecnum}
+% %\setcounter{lecnum}{10}
+% \renewcommand{\thepage}{\thelecnum-\arabic{page}}
+% \renewcommand{\thesection}{\thelecnum.\arabic{section}}
+% \renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+% \renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+% \renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+%
+% The following macro is used to generate the header.
+%
+% \newcommand{\lecture}[4]{
+%    \pagestyle{myheadings}
+%    \thispagestyle{plain}
+%    \newpage
+%    \setcounter{lecnum}{#1}
+%    \setcounter{page}{1}
+%    \noindent
+%    \begin{center}
+%    \framebox{
+%       \vbox{\vspace{2mm}
+%     \hbox to 6.5in { {CS278: Computational Complexity Theory
+% 	\hfill Spring 2024} }
+%        \vspace{4mm}
+%        \hbox to 6.5in { {\Large \hfill Lecture #1: #2  \hfill} }
+%        \vspace{4mm}
+%        \hbox to 6.5in { {Instructor: #3 \hfill Scribe: #4} }
+%       \vspace{2mm}}
+%    }
+%    \end{center}
+%    \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+% }
+
+
+% Theorem-like environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}%[lecnum]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem*{claimNoNum}{Claim}
+\newtheorem*{lemmaNoNum}{Lemma}
+\newtheorem*{theoremNoNum}{Theorem}
+\newtheorem*{questionNoNum}{Question}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{thm}{Theorem}
+\newtheorem{open}[theorem]{Open Problem}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem*{notation}{Notation}
+\newtheorem{joke}[theorem]{Joke}
+\theoremstyle{plain}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\theoremstyle{plain}
+
+\newcommand{\deff}{\triangleq}
+
+%% More complexity classes.
+\newclass{\DNF}{DNF}
+\newclass{\DNFs}{DNFs}
+\newclass{\ACzero}{AC^0}
+\newclass{\TCzero}{TC^0}
+
+% Famous groups
+\renewcommand{\R}{\mathbb{R}} % The Reals
+\newcommand{\F}{\mathbb{F}} % Generic Field, Finite Field
+\renewcommand{\C}{\mathbb{C}} % Complex Numbers
+\newcommand{\N}{\mathbb{N}} % Natural Numbers
+\newcommand{\Z}{\mathbb{Z}} % Integers
+\newcommand{\Q}{\mathbb{Q}} % Rational Numbers
+\newcommand{\Nn}{\N^n}
+\newcommand{\No}{\N_0}
+\newcommand{\Non}{\N_0^n}
+
+
+% Polynomial variables
+
+\newcommand{\vars}{\mathtt{s}}
+\newcommand{\vart}{\mathtt{t}}
+\newcommand{\varu}{\mathtt{u}}
+\newcommand{\varv}{\mathtt{v}}
+\newcommand{\varw}{\mathtt{w}}
+\newcommand{\varx}{\mathtt{x}}
+\newcommand{\vary}{\mathtt{y}}
+\newcommand{\varz}{\mathtt{z}}
+
+
+% Probabilistic notation
+\renewcommand{\Pr}{\mathop{\bf Pr\/}}
+\renewcommand{\E}{\mathop{\bf E\/}}
+\def\var{{\mathop{\bf Var\/}}}
+\def\cov{{\mathop{\bf Cov\/}}}
+\newcommand{\Es}[1]{\mathop{\bf E\/}_{{\substack{#1}}}}
+\newcommand{\Var}{\mathop{\bf Var\/}}
+\newcommand{\Cov}{\mathop{\bf Cov\/}}
+
+% Parentheses
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ket}[1]{{\left\vert #1 \right\rangle}}
+\newcommand{\inner}[1]{\langle{#1}\rangle}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+% Easy sum
+\newcommand{\suml}[3]{\sum\limits_{#1}^{#2}{#3}}
+\newcommand{\prodl}[3]{\prod\limits_{#1}^{#2}{#3}}
+\newcommand{\capl}[3]{\bigcap\limits_{#1}^{#2}{#3}}
+\newcommand{\cupl}[3]{\bigcup\limits_{#1}^{#2}{#3}}
+
+% Linear group
+\DeclareMathOperator\GLoperator{GL}
+\newcommand\GL[1]{\GLoperator(#1)}
+
+% Famous distributions
+\newcommand{\Ber}{{\mathrm{Ber}}} %Bernoulli
+\newcommand{\Bin}{{\mathrm{Bin}}} %Binomial
+\newcommand{\Gauss}{{\mathcal{N}}} %Gaussian
+
+
+\renewcommand{\star}{*} 
+\renewcommand{\l}{\ell} % nicer-looking than l
+\newcommand{\eps}{\varepsilon}
+\newcommand{\tildeO}{{\widetilde O}}
+\newcommand{\tildeOmega}{{\widetilde \Omega}}
+
+\renewcommand{\hat}{\widehat}
+\renewcommand{\tilde}{\widetilde}
+
+\newcommand{\Aut}{\mathrm{Aut}}
+
+\newcommand{\True}{\mathbf{TRUE}}
+\newcommand{\False}{\mathbf{FALSE}}
+\newcommand{\bits}{\{0,1\}}
+\newcommand{\bitsn}{\{0,1\}^n}
+\newcommand{\B}{\{0,1\}}
+\newcommand{\pmone}{\{-1,1\}}
+\newcommand{\pmonen}{\{-1,1\}^n}
+
+% The alphabet, in different fonts.
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calJ}{\mathcal{J}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\calZ}{\mathcal{Z}}
+
+\newcommand{\bfA}{\mathbf{A}}
+\newcommand{\bfB}{\mathbf{B}}
+\newcommand{\bfC}{\mathbf{C}}
+\newcommand{\bfD}{\mathbf{D}}
+\newcommand{\bfE}{\mathbf{E}}
+\newcommand{\bfF}{\mathbf{F}}
+\newcommand{\bfG}{\mathbf{G}}
+\newcommand{\bfH}{\mathbf{H}}
+\newcommand{\bfI}{\mathbf{I}}
+\newcommand{\bfJ}{\mathbf{J}}
+\newcommand{\bfK}{\mathbf{K}}
+\newcommand{\bfL}{\mathbf{L}}
+\newcommand{\bfM}{\mathbf{M}}
+\newcommand{\bfN}{\mathbf{N}}
+\newcommand{\bfO}{\mathbf{O}}
+\newcommand{\bfP}{\mathbf{P}}
+\newcommand{\bfQ}{\mathbf{Q}}
+\newcommand{\bfR}{\mathbf{R}}
+\newcommand{\bfS}{\mathbf{S}}
+\newcommand{\bfT}{\mathbf{T}}
+\newcommand{\bfU}{\mathbf{U}}
+\newcommand{\bfV}{\mathbf{V}}
+\newcommand{\bfW}{\mathbf{W}}
+\newcommand{\bfX}{\mathbf{X}}
+\newcommand{\bfY}{\mathbf{Y}}
+\newcommand{\bfZ}{\mathbf{Z}}
+
+\newcommand{\bfa}{\mathbf{a}}
+\newcommand{\bfb}{\mathbf{b}}
+\newcommand{\bfc}{\mathbf{c}}
+\newcommand{\bfd}{\mathbf{d}}
+\newcommand{\bfe}{\mathbf{e}}
+\newcommand{\bff}{\mathbf{f}}
+\newcommand{\bfg}{\mathbf{g}}
+\newcommand{\bfh}{\mathbf{h}}
+\newcommand{\bfi}{\mathbf{i}}
+\newcommand{\bfj}{\mathbf{j}}
+\newcommand{\bfk}{\mathbf{k}}
+\newcommand{\bfl}{\mathbf{l}}
+\newcommand{\bfm}{\mathbf{m}}
+\newcommand{\bfn}{\mathbf{n}}
+\newcommand{\bfo}{\mathbf{o}}
+\newcommand{\bfp}{\mathbf{p}}
+\newcommand{\bfq}{\mathbf{q}}
+\newcommand{\bfr}{\mathbf{r}}
+\newcommand{\bfs}{\mathbf{s}}
+\newcommand{\bft}{\mathbf{t}}
+\newcommand{\bfu}{\mathbf{u}}
+\newcommand{\bfv}{\mathbf{v}}
+\newcommand{\bfw}{\mathbf{w}}
+\newcommand{\bfx}{\mathbf{x}}
+\newcommand{\bfy}{\mathbf{y}}
+\newcommand{\bfz}{\mathbf{z}}
+
+
+% Boolean Functions
+\newfunc{\MAJ}{MAJ}
+\newfunc{\MUX}{MUX}
+\newfunc{\NAE}{NAE}
+\renewcommand{\IP}{\mathrm{IP}} % Inner-Product
+\newfunc{\OR}{OR} 
+\newfunc{\AND}{AND}
+\newfunc{\Tribes}{Tribes}
+\newfunc{\Parity}{PARITY}
+\newfunc{\address}{Address}
+
+
+\newcommand{\Rp}{\mathcal{R}_p} % p-random restriction
+\newfunc{\sgn}{sgn} % Sign
+\newcommand{\one}{{\mathbf{1}}}
+\newfunc{\spar}{sparsity}
+\newfunc{\rank}{rank}
+\newfunc{\spn}{span}
+\newfunc{\quasipoly}{quasipoly}
+\newfunc{\Bias}{Bias}
+
+\DeclareMathOperator\ev{ev}
+\DeclareMathOperator\im{im}
+\DeclareMathOperator\id{id}
+\DeclareMathOperator\qf{qf}
+\DeclareMathOperator\Biy{Biy}
+\DeclareMathOperator\cont{c}
+\DeclareMathOperator\mcd{mcd}
+\DeclareMathOperator\Res{Res}
+\DeclareMathOperator\card{Card}
+\DeclareMathOperator\Char{char}
+
+\newfunc{\DT}{DTdepth} % Decision Tree depth
+\newfunc{\DTs}{DTsize} % Decision Tree size
+\newfunc{\DNFw}{width} % DNF width
+\renewcommand{\W}{\mathbf{W}} % Fourier-Weight
+\newcommand\Inf{{\mathbf{Inf}}} % Influence
+\newcommand\Eff{{\mathbf{Eff}}} % Effect
+\newcommand\Stab{{\mathbf{Stab}}} % Noise Stability
+\newcommand\NS{{\mathbf{NS}}} % Noise Sensitivity
+\newfunc{\dist}{dist} % Distance between two Boolean functions.
+
+\newcommand{\Cc}{\calC} % certificate complexity
+\newcommand\Sens{{\mathbf{Sens}}} % Sensetivity
+\newcommand\BSens{{\mathbf{BlockSens}}} % Block sensetivity
+\newcommand\size{{\mathbf{size}}} % size of a certificate
+
+
+\newenvironment{sproof}{%
+  \renewcommand{\proofname}{Proof Sketch}\proof}{\endproof}
+
+%%% DON'T EDIT ANYTHING ABOVE (unless you know what you're doing) %%%%
