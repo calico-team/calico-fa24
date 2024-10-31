@@ -5,9 +5,9 @@ def solve(O: str) -> str:
   '''
   for i in range(len(O)):
     if O[i] == 'O':
-      print('[---OREO---]')
+      print('[###OREO###]')
     elif O[i] == 'R': # ignore E since its implied E always follows R
-      print(' [########] ')
+      print(' [--------] ')
     elif O[i] == '&':
       print()
   print()

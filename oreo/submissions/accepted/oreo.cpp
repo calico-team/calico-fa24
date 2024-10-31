@@ -11,10 +11,10 @@ void solve(string S) {
     // YOUR CODE HERE
     for (int i = 0; i < S.length(); i++) {
         if (S[i] == 'O') {
-            cout << "[---OREO---]" << endl;
+            cout << "[###OREO###]" << endl;
         } 
         else if (S[i] == 'R') {
-            cout << " [########] " << endl;
+            cout << " [--------] " << endl;
         }
         else if (S[i] == '&') {
             cout << '\n';

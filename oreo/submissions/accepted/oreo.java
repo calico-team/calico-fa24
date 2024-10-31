@@ -10,10 +10,10 @@ class Solution {
         // YOUR CODE HERE
         for (int i = 0; i < S.length(); i++) {
             if (S.charAt(i) == 'O') {
-                System.out.println("[---OREO---]");
+                System.out.println("[###OREO###]");
             } 
             else if (S.charAt(i) == 'R') {
-                System.out.println(" [########] ");
+                System.out.println(" [--------] ");
             }
             else if (S.charAt(i) == '&') {
                 System.out.println();
