@@ -6,6 +6,15 @@ def solve(B: int, N: int, S:list) -> int:
     
     return B
 
+def danger_and_cost(H: int, N: int, S: list) -> tuple:
+    danger = 0
+    cost = 0
+
+    for x in range(0, N-1):
+        danger += max(0, S[x] - H)
+        cost += max(0, H - S[x])
+    
+    return danger, cost
 
 def main():
     T = int(input())
