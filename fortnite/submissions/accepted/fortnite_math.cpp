@@ -3,8 +3,9 @@
 
 using namespace std;
 
+// Fast floor division function from https://stackoverflow.com/a/4110620
 long long floorDiv(long long a, long long b) {
-    return a < 0 == b < 0 ? a / b : -(-a / b);
+    return (a - (a<0 ? b-1 : 0)) / b;
 }
 
 /**
