@@ -31,9 +31,8 @@ class TestCase:
     """
 
 
-    def __init__(self, A, B):
-        self.A = A
-        self.B = B
+    def __init__(self, S):
+        self.S = S
 
 
 def make_sample_tests():
@@ -49,17 +48,16 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
+        TestCase("OREO"),
+        TestCase("O&REO"),
+        TestCase("O&O"),
+        TestCase("OREOREO"),
+        TestCase("RERERERE"),
+        TestCase("OOOO"),
+        TestCase("OREOO"),
+        TestCase("OREOREREREORE")
     ]
     make_sample_test(main_sample_cases, 'main')
-
-    bonus_sample_cases = [
-        TestCase(123456789, 987654321),
-        TestCase(3141592653589793238462643, 3832795028841971693993751),
-    ]
-    make_sample_test(bonus_sample_cases, 'bonus')
 
 
 def make_secret_tests():
@@ -73,38 +71,20 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
+    def make_random_case(max_length):
+        def random_token(n):
+            t = ["O", "RE", "&"]
+            first = random.randInt(0, 1)
+            return t[first].join(random.sample(t, n-1))
+        N = random.randint(0, max_length)
+        return TestCase(random_token(N))
 
-    main_edge_cases = [
-        TestCase(0, 0),
-        TestCase(1, 0),
-        TestCase(0, 1),
-        TestCase(10 ** 9, 0),
-        TestCase(0, 10 ** 9),
-        TestCase(10 ** 9, 10 ** 9),
-    ]
+    main_edge_cases = []
     make_secret_test(main_edge_cases, 'main_edge')
 
     for i in range(5):
         main_random_cases = [make_random_case(9) for _ in range(100)]
         make_secret_test(main_random_cases, 'main_random')
-
-    bonus_edge_cases = [
-        TestCase(10 ** 100, 0),
-        TestCase(0, 10 ** 100),
-        TestCase(10 ** 100, 10 ** 100),
-    ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
-
-    for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
-        make_secret_test(bonus_random_cases, 'bonus_random')
 
 
 def make_test_in(cases, file):
@@ -117,7 +97,7 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
-        print(f'{case.A} {case.B}', file=file)
+        print(f'{case.S}', file=file)
 
 
 def make_test_out(cases, file):
@@ -132,7 +112,7 @@ def make_test_out(cases, file):
     """
     from oreo.submissions.accepted.oreo import solve
     for case in cases:
-        print(solve(case.A, case.B), file=file)
+        print(solve(case.S), file=file)
 
 
 def main():
