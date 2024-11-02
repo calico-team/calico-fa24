@@ -1,25 +1,12 @@
 def solve(M: int, N: int, G: list) -> str:
     """
-    Return the shape of displayed by ASCII string G of dimensions M x N
+    Index out of bound RE
     
     G: a string representing an ASCII picture
     M: integer for number of rows
     N: integer for number of columns
     """
-
-    list_of_lengths = []
-
-    
-    for i in G:
-        hashtag = i.count("#")
-        list_of_lengths.append(hashtag)
-    unique_set = set(list_of_lengths)
-    if len(unique_set) > 2:
-        return "Built like Phineas head"
-    if len(unique_set) == 2:
-        return "wow, its a square"
-    
-
+    return G[len(G)]
 
 def main():
     T = int(input())
@@ -29,7 +16,7 @@ def main():
         for _ in range(M):
             row = list(input().strip())
             G.append(row)
-        solve(M, N, G)
+        print(solve(M, N, G))
 
 if __name__ == '__main__':
     main()

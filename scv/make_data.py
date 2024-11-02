@@ -63,17 +63,18 @@ def make_secret_tests():
     tests.
     """
     def make_random_case():
-        triangle_or_square = 1 # random.randint(0, 1)
-        N = random.randint(2, 100)
-        M = random.randint(2, 100)
+        triangle_or_square = random.randint(0, 1)
+        N = random.randint(4, 100)
+        M = random.randint(4, 100)
         if triangle_or_square == 0:
             G = scv_generate.generate_triangle(N, M)
         else:
             G = scv_generate.generate_square(N, M)
         return TestCase(N, M, G)
     
-    main_random_cases = [make_random_case() for _ in range(10)]
-    make_secret_test(main_random_cases, 'main_random')
+    for _ in range(10):
+        main_random_cases = [make_random_case() for _ in range(100)]
+        make_secret_test(main_random_cases, 'main_random')
 
 
 def make_test_in(cases, file):
@@ -100,7 +101,7 @@ def make_test_out(cases, file):
     """
     from submissions.accepted.scv import solve
     for case in cases:
-        print('Hello World!', file=file)
+        print(solve(case.N, case.M, case.G), file=file)
 
 
 def main():
