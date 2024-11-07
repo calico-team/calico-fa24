@@ -10,14 +10,14 @@ if ! [[ -v CPP_CC ]]; then CPP_CC=g++; fi
 run() {
 	echo "Running case $1"
 	if [[ "$TARGET" == *py ]] then
-		output=$($PY_CMD "$TARGET" < "$1.in" | diff -Z "$1.ans" -)
+		output=$($PY_CMD "$TARGET" < "$1.in" | diff "$1.ans" -)
 		found=true
 	elif [[ "$TARGET" == *java ]] then
-		output=$($JAVA_CMD $TARGET "$TARGET" < "$1.in" | diff -Z "$1.ans" -)
+		output=$($JAVA_CMD $TARGET "$TARGET" < "$1.in" | diff "$1.ans" -)
 		found=true
 	elif [[ "$TARGET" == *cpp ]] then
 		$CPP_CC -O2 "$TARGET" -o bin
-		output=$(./bin < "$1.in" | diff -Z "$1.ans" -)
+		output=$(./bin < "$1.in" | diff "$1.ans" -)
 		rm bin
 		found=true
 	else

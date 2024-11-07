@@ -15,7 +15,7 @@ typedef long long ll;
 const int maxn = 100010;
 
 int n;
-ll arr[maxn];
+ll arr[maxn], diff[maxn], pre[maxn], suf[maxn], ps[maxn], ss[maxn];
 
 ll gcd(ll a, ll b) {
     if (a < b) swap(a, b);
@@ -29,6 +29,7 @@ int main() {
     cin >> n;
     for (int i = 1; i <= n; i++) {
         cin >> arr[i];
+        diff[i] = arr[i] - arr[i - 1];
     }
     int q;
     cin >> q;
@@ -38,24 +39,22 @@ int main() {
         if (op == 1) {
             int l, r, x;
             cin >> l >> r >> x;
-            for (int i = l; i <= r; i++) arr[i] += x;
+            diff[l] += x;
+            diff[r + 1] -= x;
         }
         else {
+            for (int i = 1; i <= n; i++) {
+                arr[i] = arr[i - 1] + diff[i];
+                pre[i] = gcd(pre[i - 1], arr[i]);
+                ps[i] = ps[i - 1] + arr[i];
+            }
+            for (int i = n; i >= 1; i--) {
+                suf[i] = gcd(suf[i + 1], arr[i]);
+                ss[i] = ss[i + 1] + arr[i];
+            }
             ll ans = 1e12;
-            for (int k = 1; k < n; k++) {
-                int v1 = arr[1];
-                ll sum1 = arr[1];
-                for (int i = 2; i <= k; i++) {
-                    v1 = gcd(v1, arr[i]);
-                    sum1 += arr[i];
-                }
-                int v2 = arr[n];
-                ll sum2 = arr[n];
-                for (int i = n - 1; i > k; i--) {
-                    v2 = gcd(v2, arr[i]);
-                    sum2 += arr[i];
-                }
-                ans = min(ans, sum1 / v1 + sum2 / v2);
+            for (int i = 1; i < n; i++) {
+                ans = min(ans, ps[i] / pre[i] + ss[i + 1] / suf[i + 1]);
             }
             cout << ans << endl;
         }

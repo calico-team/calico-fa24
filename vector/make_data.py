@@ -19,7 +19,7 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 1
+SEED = 3
 
 
 class TestCase:
@@ -89,7 +89,7 @@ def make_secret_tests():
         return case
 
     for i in range(10):
-        main_random_cases = [make_random_case(10000, 10000)]
+        main_random_cases = [make_random_case(100000, 10000)]
         make_secret_test(main_random_cases, 'main_random')
 
 
@@ -108,8 +108,8 @@ def make_test_in(cases, file):
         for q in case.queries:
             print(*q, file = file)
 
-
-def make_test_out(cases, file):
+import subprocess
+def make_test_out(cases, file, in_filename):
     """
     Print the expected output of the test cases into the file in the format
     specified by the output format.
@@ -119,16 +119,20 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
-    assert len(cases) == 1
-    from submissions.time_limit_exceeded.brute_force import solve
-    for case in cases:
-        print(*solve(case.N, case.arr, case.Q, case.queries), file=file, sep='\n')
+    # assert len(cases) == 1
+    # from submissions.time_limit_exceeded.faster_brute_force import solve
+    # for case in cases:
+    #     print(*solve(case.N, case.arr, case.Q, case.queries), file=file, sep='\n')
+    myinput = open(in_filename)
+    out = subprocess.check_output('./submissions/accepted/a.out', stdin=myinput)
+    print(out.decode(), file=file)
 
 
 def main():
     """
     Let the library do the rest of the work!
     """
+    # subprocess.run(['g++', '-O2', '-o', 'bin.out', 'submissions/accepted/solution.cpp'])
     make_data(make_sample_tests, make_secret_tests, \
               make_test_in, make_test_out, SEED)
 

@@ -119,10 +119,12 @@ def make_test_file(cases, is_secret, id, file_name):
 
     in_path = get_path(is_secret, file_name, 'in')
     with open(in_path, 'w', newline='\n') as in_file:
+        assert _make_test_in is not None
         _make_test_in(cases, in_file)
     ans_path = get_path(is_secret, file_name, 'ans')
     with open(ans_path, 'w', newline='\n') as ans_file:
-        _make_test_out(cases, ans_file)
+        assert _make_test_out is not None
+        _make_test_out(cases, ans_file, in_path)
 
 
 def get_path(is_secret, file_name='', ext=None):

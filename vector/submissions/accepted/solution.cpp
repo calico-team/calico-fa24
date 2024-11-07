@@ -14,7 +14,7 @@ typedef long long ll;
 #define f first
 #define s second
 
-const int maxn = 10000;
+const int maxn = 100010;
 
 int n, q;
 ll sum[maxn * 4], add[maxn * 4], diff[maxn * 4];
@@ -116,8 +116,7 @@ int main() {
                     if (gcd_query(1, mid) == val) l = mid;
                     else r = mid;
                 }
-                assert(gcd_query(1, l) != 0);
-                assert(gcd_query(l + 1, n) != 0);
+                val = gcd_query(1, l + 1);
                 ans = min(ans, sum_query(1, l) / gcd_query(1, l) + sum_query(l + 1, n) / gcd_query(l + 1, n));
                 pre = l + 1;
             }
@@ -130,8 +129,7 @@ int main() {
                     if (gcd_query(mid, n) == val) r = mid;
                     else l = mid;
                 }
-                assert(gcd_query(r, n) != 0);
-                assert(gcd_query(1, r - 1) != 0);
+                val = gcd_query(r - 1, n);
                 ans = min(ans, sum_query(r, n) / gcd_query(r, n) + sum_query(1, r - 1) / gcd_query(1, r - 1));
                 suf = r - 1;
             }
