@@ -14,6 +14,7 @@ You can also run this file with the -v argument to see debug prints.
 
 import random, time
 from calico_lib import make_sample_test, make_secret_test, make_data
+from graph_randomizer import *
 
 """
 Seed for the random number generator. We need this so randomized tests will
@@ -60,6 +61,15 @@ class TestCase:
         for e in self.edges:
             G[e[0]].append(e[1])
             G[e[1]].append(e[0])
+        
+        edgeset = set()
+        for e in self.edges:
+            u, v = e[0:2]
+            if u > v:
+                u, v = v, u
+            if (u, v) in edgeset:
+                return False
+            edgeset.add((u, v))
 
         def dfs(u, t):
             ret = 1
@@ -77,18 +87,16 @@ class TestCase:
             return False
         return True
 
-    def create_edges(self):
-        """ TODO: make better test cases. This is just to try out the matroid algo """
-        edges = set()
-        while len(edges) != self.M:
-            u = random.randrange(self.N)
-            v = u
-            while v == u:
-                v = random.randrange(self.N)
-            w = random.randint(1, 10 if self.N < 20 else 10000) # This is so small exhaustive cases get a lot of edge cases
-            edges.add((u, v, w))
 
-        return list(edges)
+    def create_edges(self):
+        graph = GraphRandomizer(range(self.N), self.M)
+        edges = graph.edge_set
+        edgelist = []
+        for e in edges:
+            w = random.randint(1, 10 if self.N < 20  else 10000)
+            edgelist.append((e[0], e[1], w))
+        self.M = len(edgelist)
+        return edgelist
 
 
 def make_sample_tests():
@@ -105,8 +113,9 @@ def make_sample_tests():
     """
     main_sample_cases = [
         TestCase(N=3, M=3, S=0, T=2, edges=[(0,1,1), (1,2,1), (0,2,10)]),
-        TestCase(N=4, M=7, S=0, T=3, edges=[(0,1,2), (1,2,2), (2,3,2), (0,2,3), (1,3,3), (0,3,10), (1,2,1)]),
-        TestCase(N=5, M=6, S=0, T=4, edges=[(0,1,1), (1,2,1), (2,4,1), (0,3,2), (3,4,1), (1,3,2)])
+        TestCase(N=4, M=6, S=0, T=3, edges=[(0,1,2), (2,3,2), (0,2,3), (1,3,3), (0,3,10), (1,2,1)]),
+        TestCase(N=5, M=6, S=0, T=4, edges=[(0,1,1), (1,2,1), (2,4,1), (0,3,2), (3,4,1), (1,3,2)]),
+        TestCase(N=2, M=1, S=0, T=1, edges=[(0,1,20)])
     ]
     make_sample_test(main_sample_cases, 'main')
 
@@ -130,7 +139,7 @@ def make_secret_tests():
 
     """ Make bigger test cases """
     for _ in range(10):
-        main_bigger = [TestCase(random.randint(40, 60), random.randint(90, 300))]
+        main_bigger = [TestCase(random.randint(40, 60), random.randint(150, 200))]
         make_secret_test(main_bigger, 'main_bigger')
 
     main_edge_cases = [
@@ -163,14 +172,13 @@ def make_test_out(cases, file):
     The easiest way to do this is to import a python reference solution to the
     problem and print the output of that.
     """
-    from submissions.accepted.correct import solve as solve_correct
+    from submissions.time_limit_exceeded.correct import solve as solve_correct
     from submissions.accepted.weighted_matroid import solve as solve_matroid
     from submissions.wrong_answer.mst import solve as solve_wa1
     from submissions.wrong_answer.mst2 import solve as solve_wa2
     from submissions.wrong_answer.mst3 import solve as solve_wa3
     from submissions.wrong_answer.gpt1 import solve as solve_gpt1
     from submissions.wrong_answer.gpt2 import solve as solve_gpt2
-    from submissions.accepted.dynacon import solve as solve_dynacon
 
     for case in cases:
         # correct_ans = solve_correct(case.N, case.M, case.S, case.T, case.edges)
@@ -178,10 +186,6 @@ def make_test_out(cases, file):
         matroid_ans  = solve_matroid(case.N, case.M, case.S, case.T, case.edges)
         end = time.time()
         print(f'N = {case.N}, M = {case.M}, time = {end - start}, matroid answer = {matroid_ans}')
-        start = time.time()
-        dynacon_ans = solve_dynacon(case.N, case.M, case.S, case.T, case.edges)
-        end = time.time()
-        print(f'N = {case.N}, M = {case.M}, time = {end - start}, dynacon answer = {dynacon_ans}')
         # mst1_ans = solve_wa1(case.N, case.M, case.S, case.T, case.edges)
         # mst2_ans = solve_wa2(case.N, case.M, case.S, case.T, case.edges)
         # mst3_ans = solve_wa3(case.N, case.M, case.S, case.T, case.edges)

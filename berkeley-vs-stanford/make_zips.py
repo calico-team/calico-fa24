@@ -26,7 +26,7 @@ Names should be short if possible.
 
 TODO Change this for your problem.
 """
-PROBLEM_NAME = 'add'
+PROBLEM_NAME = '_berekeley_stanford_test'
 
 """
 The time limit in seconds.
@@ -35,7 +35,7 @@ Typically this is 1 but feel free to adjust as necessary for your problem.
 
 TODO Change for your problem if desired.
 """
-TIME_LIMIT = 1
+TIME_LIMIT = 2
 
 """
 A list with strings containing the names of every test set.
@@ -45,7 +45,7 @@ should only return names from this list.
 
 TODO Change for your problem if desired.
 """
-TEST_SET_NAMES = ['main', 'bonus']
+TEST_SET_NAMES = ['main']
 
 
 def is_data_in_test_set(data_file_name, test_set_name):
@@ -55,10 +55,7 @@ def is_data_in_test_set(data_file_name, test_set_name):
 
     TODO Change this to reflect your tests and test sets.
     """
-    if test_set_name == 'main':
-        return 'main' in data_file_name
-    elif test_set_name == 'bonus':
-        return 'main' in data_file_name or 'bonus' in data_file_name
+    return True
 
 
 def is_submission_in_test_set(submission_file_name, test_set_name):
@@ -70,19 +67,20 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'add_arbitrary':    ['main', 'bonus'],
-        'add_int':          ['main'],
+        'weighted_matroid'  : ['main'],
+        'dynacon'           : ['main'],
 
         # run_time_error
-        'add_div_re':       ['main', 'bonus'],
-        'add_parse_int_re': ['bonus'],
 
         # time_limit_exceeded
-        'add_loop_tle':     ['main', 'bonus'],
+        'correct'           : ['main'],
 
         # wrong_answer
-        'add_parse_int_wa': ['bonus'],
-        'add_sub_wa':       ['main', 'bonus'],
+        'gpt1'              : ['main'],
+        'gpt2'              : ['main'],
+        'mst'               : ['main'],
+        'mst2'              : ['main'],
+        'mst3'              : ['main'],
     }
 
     # we only care about actual code files

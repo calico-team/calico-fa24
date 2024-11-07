@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1730362066.92271 "/home/gotheru/calico/calico-fa24/berkeley-vs-stanford/latex/editorial.tex" "editorial.pdf" "editorial" 1730362068.36441 0
-  "/home/gotheru/calico/calico-fa24/berkeley-vs-stanford/latex/editorial.tex" 1730362066.66296 4521 de3aa80b983311541d3d618ef2d0b916 ""
+["pdflatex"] 1730988860.19595 "/home/gotheru/calico/calico-fa24/berkeley-vs-stanford/latex/editorial.tex" "editorial.pdf" "editorial" 1730988860.96774 0
+  "/home/gotheru/calico/calico-fa24/berkeley-vs-stanford/latex/editorial.tex" 1730988859.99764 5266 0fd2de5f242a901d5e1af5337ce39198 ""
   "/opt/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1728038824 2971 def0b6c1f0b107b3b936def894055589 ""
   "/opt/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1728038824 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/opt/texlive/2024/texmf-dist/fonts/tfm/jknappen/ec/ecbx0600.tfm" 1728038824 3584 ad9fcbc26a2a7bccd6d08b0a5792fbe0 ""
@@ -197,9 +197,9 @@
   "/opt/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1728038824 5474855 ebad70dcaba472627d1296b44d56acf7 ""
   "/opt/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1728038824 3325930 c163f4675c74a647bbd37490fc820656 ""
   "/opt/texlive/2024/texmf.cnf" 1728038824 585 d89e4959d6ce47100a8277b236c781f4 ""
-  "editorial.aux" 1730362068.19296 621 3b10edf6f0cdce2d23c2925edeae3410 "pdflatex"
-  "editorial.out" 1730362068.1963 542 8c3df67e7283a512e2b114f3249627a2 "pdflatex"
-  "editorial.tex" 1730362066.66296 4521 de3aa80b983311541d3d618ef2d0b916 ""
+  "editorial.aux" 1730988860.88759 621 3b10edf6f0cdce2d23c2925edeae3410 "pdflatex"
+  "editorial.out" 1730988860.88759 542 8c3df67e7283a512e2b114f3249627a2 "pdflatex"
+  "editorial.tex" 1730988859.99764 5266 0fd2de5f242a901d5e1af5337ce39198 ""
   "xd.sty" 1729766954.55107 9793 6ca8feda0631342be99b1958ab6d5a5e ""
   (generated)
   "editorial.aux"

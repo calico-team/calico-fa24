@@ -50,13 +50,22 @@
         
         The duals of graphic matroids are called \textbf{bond matroids}.
         If $(E, \calF)$ is a bond matroid and $G$ is connected, we can think of an independent set $X \in \calF$ as a subset of edges such that, after removing $X$ from $E$, there is still a spanning tree in the graph.
-        In other words, if $X$ is independent, then $G' = (V, E \setminus X)$ is still connected.
+        In other words, $X$ is independent if and only if $G' \coloneqq (V, E \setminus X)$ is still connected.
 
     \section{Solving the problem}
         
         It is well known in matroid theory that, given two matroids $(E, \calF_1), (E, \calF_2)$ over the same ground set, we can calculate the \textbf{(weighted) matroid intersection} in polynomial time with Edmonds' algorithm, that is, the subset $X \in \calF_1 \cap \calF_2$ of greatest (weight) cardinality.
         The algorithm for finding the weighted matroid intersection is given in \verb*|weighted_matroid_isect.pdf|.
 
-        We can describe this problem as the weighted matroid intersection of the matroid of $G_s$ and the bond matroid of $G_t$, since finding the subset of edges of least weight that keeps $G_s$ and $G_t$ connected is equivalent to finding the subset of edges of maximum weight that we can remove and keep $G_s$ and $G_t$ connected.
+        We can describe this problem as the weighted matroid intersection of the matroid of $G_s$ and the bond matroid of $G_t$, since finding the subset of edges of least weight that keeps $G_s$ and $G_t$ connected is equivalent to finding the subset of edges of maximum weight that we can remove and keep both $G_s$ and $G_t$ connected.
+
+        To implement such a solution, we usually need an \textbf{independence oracle} that can answer the question $X \in \calF_i$ for any $X$, as well as inserting and removing elements from $X$ in an efficient manner.
+
+        For this problem regarding bond matroids, the best approach is to use a dynamic connectivity data structure (we can use Top Cut Trees or Euler Tour Trees) that, given a graph $G$, can do the following operations in $\calO(\log^2 n)$:
+        \begin{enumerate}
+            \item Remove an edge $(u, v)$ from the graph (cut).
+            \item Add an edge $(u, v)$ to a graph (link).
+            \item Give the size of the connected component in which a vertex $u$ belongs.
+        \end{enumerate}
 
 \end{document}

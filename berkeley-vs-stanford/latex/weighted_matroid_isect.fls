@@ -1,8 +1,8 @@
-PWD /home/gotheru/calico/calico-fa24/berkeley-vs-stanford
+PWD /home/gotheru/calico/calico-fa24/berkeley-vs-stanford/latex
 INPUT /opt/texlive/2024/texmf.cnf
 INPUT /opt/texlive/2024/texmf-dist/web2c/texmf.cnf
 INPUT /opt/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /home/gotheru/calico/calico-fa24/berkeley-vs-stanford/weighted_matroid_isect.tex
+INPUT /home/gotheru/calico/calico-fa24/berkeley-vs-stanford/latex/weighted_matroid_isect.tex
 OUTPUT weighted_matroid_isect.log
 INPUT /opt/texlive/2024/texmf-dist/tex/latex/base/article.cls
 INPUT /opt/texlive/2024/texmf-dist/tex/latex/base/article.cls
