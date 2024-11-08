@@ -5,8 +5,9 @@ using namespace std;
 /**
  * Return the sum of A and B.
  *
- * A: a non-negative integer
- * B: another non-negative integer
+ * B: a non-negative integer
+ * N: a positive integer
+ * S: an array of N integers
  */
 int solve(int B, int N, int[] S) {
     // YOUR CODE HERE
