@@ -256,9 +256,9 @@ class SpecialBondMatroid(Matroid):
         return len(visited) == self._v - 1
 
 
-def solve(N: int, M: int, B: int, S: int, E: list[(int, int, int)]) -> int:
-    F1 = SpecialBondMatroid(N, E, B, S)
-    F2 = SpecialBondMatroid(N, E, S, B)
+def solve(N: int, M: int, F: int, S: int, E: list[(int, int, int)]) -> int:
+    F1 = SpecialBondMatroid(N, E, F, S)
+    F2 = SpecialBondMatroid(N, E, S, F)
     total_weight = sum(e[2] for e in E)
     weights = {i: e[2] for i, e in enumerate(E)}
     max_weight, answers = WeightedMatroidIntersection(M, F1, F2, weights)
@@ -266,11 +266,11 @@ def solve(N: int, M: int, B: int, S: int, E: list[(int, int, int)]) -> int:
 
 
 def main():
-    tc = int(input())
-    for _ in range(tc):
-        n, m, b, s = map(int, input().split())
-        edges = [tuple(map(int, input().split())) for _ in range(m)]
-        print(solve(n, m, b, s, edges))
+    T = int(input())
+    for _ in range(T):
+        N, M, F, S = map(int, input().split())
+        E = [tuple(map(int, input().split())) for _ in range(M)]
+        print(solve(N, M, F, S, E))
 
 
 if __name__ == "__main__":

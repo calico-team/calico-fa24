@@ -21,23 +21,22 @@ class UnionFind:
         return True
 
 def solve(N: int, M: int, B: int, S: int, E: list[(int, int, int)]) -> int:
-    """ Just return a min spanning tree of the graph without checking condition """
-    dsu = UnionFind(N)
+    """ Make 2 MSTs, one without B and another without S and then return the union """
+    dsu1, dsu2 = UnionFind(N), UnionFind(N)
     E.sort(key=lambda e: e[2])
     ans = 0
     for e in E:
-        if dsu.union(e[0], e[1]):
+        if (e[0] != B and e[1] != B and dsu1.union(e[0], e[1])) or (e[0] != S and e[1] != S and dsu2.union(e[0], e[1])):
             ans += e[2]
     return ans
-
 
 
 def main():
     T = int(input())
     for _ in range(T):
-        N, M, B, S = map(int, input().split())
+        N, M, F, S = map(int, input().split())
         E = [tuple(map(int, input().split())) for _ in range(M)]
-        print(solve(N, M, B, S, E))
+        print(solve(N, M, F, S, E))
 
 
 if __name__ == "__main__":

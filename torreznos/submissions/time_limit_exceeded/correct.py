@@ -1,4 +1,4 @@
-def solve(N: int, M: int, B: int, S: int, E: list[(int, int, int)]) -> int:
+def solve(N: int, M: int, F: int, S: int, E: list[(int, int, int)]) -> int:
     ans = int(2e9)
     for i in range(1 << M):
         G = [[] for _ in range(N)]
@@ -21,10 +21,10 @@ def solve(N: int, M: int, B: int, S: int, E: list[(int, int, int)]) -> int:
             return ret
 
         vis = set()
-        if dfs(S, B) != N - 1:
+        if dfs(S, F) != N - 1:
             continue
         vis = set()
-        if dfs(B, S) != N - 1:
+        if dfs(F, S) != N - 1:
             continue
         ans = min(ans, sum_weights)
 
@@ -34,9 +34,9 @@ def solve(N: int, M: int, B: int, S: int, E: list[(int, int, int)]) -> int:
 def main():
     T = int(input())
     for _ in range(T):
-        N, M, B, S = map(int, input().split())
+        N, M, F, S = map(int, input().split())
         E = [tuple(map(int, input().split())) for _ in range(M)]
-        print(solve(N, M, B, S, E))
+        print(solve(N, M, F, S, E))
 
 
 if __name__ == "__main__":

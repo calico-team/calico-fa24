@@ -620,20 +620,12 @@ struct SpecialBondMatroid : public Matroid {
 };
 
 
-/**
- * Return the minimum weight of a subset of E that fits the problem statement conditions.
- * N: Number of vertices
- * M: Number of edges
- * B: Berkeley
- * S: Stanford
- * E: Graph edges in the format [u, v, w].
- */
-int solve(int N, int M, int B, int S, vector<vector<int>> E) {
+int solve(int N, int M, int F, int S, vector<vector<int>> E) {
 	vector<pair<int, int>> edges(M);
 	for (int i = 0; i < M; ++i) {
 		edges[i] = make_pair(E[i][0], E[i][1]);
 	}
-	SpecialBondMatroid F1(N, edges, B, S), F2(N, edges, S, B);
+	SpecialBondMatroid F1(N, edges, F, S), F2(N, edges, S, F);
 	vector<int> weights(M);
 	for (int i = 0; i < M; ++i) {
 		weights[i] = E[i][2];
@@ -647,13 +639,13 @@ int main() {
 	int T;
 	cin >> T;
 	for (int tc = 0; tc < T; ++tc) {
-		int N, M, B, S;
-		cin >> N >> M >> B >> S;
+		int N, M, F, S;
+		cin >> N >> M >> F >> S;
 		vector<vector<int>> E(M, vector<int>(3));
 		for (int i = 0; i < M; ++i)
 			for (int j = 0; j < 3; ++j)
 				cin >> E[i][j];
-		cout << solve(N, M, B, S, E) << '\n';
+		cout << solve(N, M, F, S, E) << '\n';
 	}
 	return 0;
 }
