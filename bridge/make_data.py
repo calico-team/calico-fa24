@@ -19,7 +19,11 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'uhgynrbtsrenujffvbnljhdsghjgadfghmjkhgfdsacfghjkjhgfvdcrtyiou0o879m,o/po.iuyntrfgbhtyrtybtrybrt4e5eb4y'
+SEED = 'This ruler was deeply disturbed to hear of the arrival of this great demon, so accompanied \
+by his heroic warriors, he went out to the open space in the city; \
+and the host of his tributary kings ranged themselves in readiness to protect him,\
+together with the millions of their soldiers, elephants, horses and chariots \
+which overflowed into the market place'
 
 max_T_main = 10
 max_B_main = 10000
@@ -160,7 +164,7 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
-    # from submissions.accepted.add_arbitrary import solve
+    from submissions.accepted.bridge import solve
     for case in cases:
         print(solve(case.B, case.N, case.S), file=file)
 
