@@ -148,6 +148,11 @@ def make_secret_tests():
     ]
     make_secret_test(main_edge_cases, 'main_edge')
 
+    for i in range(10, 16):
+        main_idk = [TestCase(i, i + j) for j in range(2, 12)]
+        make_secret_test(main_idk, 'main_owo')
+            
+
 
 
 def make_test_in(cases, file):

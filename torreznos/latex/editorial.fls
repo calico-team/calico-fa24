@@ -1,8 +1,8 @@
-PWD /home/gotheru/calico/calico-fa24/berkeley-vs-stanford/latex
+PWD /home/gotheru/calico/calico-fa24/torreznos/latex
 INPUT /opt/texlive/2024/texmf.cnf
 INPUT /opt/texlive/2024/texmf-dist/web2c/texmf.cnf
 INPUT /opt/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /home/gotheru/calico/calico-fa24/berkeley-vs-stanford/latex/editorial.tex
+INPUT /home/gotheru/calico/calico-fa24/torreznos/latex/editorial.tex
 OUTPUT editorial.log
 INPUT /opt/texlive/2024/texmf-dist/tex/latex/base/article.cls
 INPUT /opt/texlive/2024/texmf-dist/tex/latex/base/article.cls
