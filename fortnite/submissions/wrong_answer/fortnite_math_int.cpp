@@ -3,11 +3,6 @@
 
 using namespace std;
 
-// Fast floor division function from https://stackoverflow.com/a/4110620
-int floorDiv(int a, int b) {
-    return (a - (a<0 ? b-1 : 0)) / b;
-}
-
 /**
  * Return the number of healing items the player needs to use.
  *
@@ -19,8 +14,8 @@ int floorDiv(int a, int b) {
  * L: length of heal in seconds
  */
 int solve(int N, int H, int D, int S, int P, int L) {
-    int numerator = floorDiv(D, S) * P - N;
-    return numerator < 0 ? 0 : floorDiv(numerator, H - P * L) + 1;
+    int numerator = D / S * P - N;
+    return numerator < 0 ? 0 : numerator / (H - P * L) + 1;
 }
 
 int main() {
