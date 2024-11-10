@@ -42,6 +42,16 @@ class TestCase:
         self.K = K
         self.G = G
 
+    def add_edge_wall(self):
+        for r in self.G:
+            r.append("#")
+            r.insert(0, "#")
+        self.N += 2
+        self.M += 2
+        self.G.insert(0, ["#"]*self.M)
+        self.G.append(["#"]*self.M)
+        return self
+
     def test_in(self, file):
         print(f'{self.N} {self.M} {self.K}', file=file)
         for row in self.G:
@@ -86,15 +96,50 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-    ]
+            TestCase(3, 9, 5, [
+                list('#########'),
+                list('#S...E..#'),
+                list('#########'),
+                ]),
+            TestCase(8, 13, 10, [
+                list('#############'),
+                list('#.####*....*#'),
+                list('#.####.####.#'),
+                list('#S....*.....#'),
+                list('#.####.######'),
+                list('#.####.######'),
+                list('#.#........E#'),
+                list('#############'),
+                ]),
+            TestCase(4, 5, 2, [
+                list('#####'),
+                list('#S.##'),
+                list('#.#E#'),
+                list('#####'),
+                ]),
+            TestCase(5, 9, 6, [
+                list('#########'),
+                list('#*......#'),
+                list('#S#####.#'),
+                list('##E.....#'),
+                list('#########'),
+                ]),
+            TestCase(5, 9, 6, [
+                list('#########'),
+                list('#.*.....#'),
+                list('##S####.#'),
+                list('###E....#'),
+                list('#########'),
+                ]),
+            ]
     make_sample_test(main_sample_cases, 'main')
 
-    bonus_sample_cases = [
-    ]
-    make_sample_test(bonus_sample_cases, 'bonus')
+    # bonus_sample_cases = [
+    # ]
+    # make_sample_test(bonus_sample_cases, 'bonus')
 
 randi = random.randint
-def pure_random(n: int, m: int, crystal_cnt: int, wall_cnt: int):
+def pure_random(n: int, m: int, crystal_cnt: int, wall_cnt: int, max_k = None):
     g = [['.']*m for _ in range(n)]
     for _ in range(crystal_cnt):
         g[randi(0, n-1)][randi(0, m-1)] = '*'
@@ -102,16 +147,36 @@ def pure_random(n: int, m: int, crystal_cnt: int, wall_cnt: int):
         g[randi(0, n-1)][randi(0, m-1)] = '#'
     g[randi(0, n-1)][randi(0, m-1)] = 'S'
     g[randi(0, n-1)][randi(0, m-1)] = 'E'
-    return TestCase(n, m, randi(2, max(n, m)), g)
+    if max_k == None:
+        max_k = max(n, m)
+    return TestCase(n, m, randi(2, max(n, m)), g).add_edge_wall()
 
-def line_random(n: int, m: int, crystal_cnt: int):
+def line_random(n: int, m: int, crystal_cnt: int, max_k = None):
     g = [['.']*m for _ in range(n)]
+    for i in range(0, n, 2):
+        g[i] = ['#'] * m
+        g[i][randi(0, m-1)] = '.'
     for _ in range(crystal_cnt):
         g[randi(0, n-1)][randi(0, m-1)] = '*'
-    # for i in range(0, n, 2)
-    g[randi(0, n-1)][randi(0, m-1)] = 'S'
-    g[randi(0, n-1)][randi(0, m-1)] = 'E'
-    return TestCase(n, m, randi(2, max(n, m)), g)
+    g[0][randi(0, m-1)] = 'S'
+    g[n-1][randi(0, m-1)] = 'E'
+    if max_k == None:
+        max_k = max(n, m)
+    return TestCase(n, m, randi(2, max(n, m)), g).add_edge_wall()
+
+def gen(max_k, subproblem):
+    basic_rand = [pure_random(10, 10, 10, 10, max_k) for _ in range(10)]
+    make_secret_test(basic_rand, subproblem + '_basic')
+    basic_rand = [line_random(10, 10, 10, max_k) for _ in range(10)]
+    make_secret_test(basic_rand, subproblem + '_basic')
+
+    c = int(5e4)
+    basic_rand = [pure_random(100, 1800, c, c, max_k) for _ in range(1)]
+    make_secret_test(basic_rand, subproblem + '_edge')
+    basic_rand = [line_random(100, 1800, c, max_k) for _ in range(1)]
+    make_secret_test(basic_rand, subproblem + '_edge')
+    basic_rand = [line_random(1800, 100, c, max_k) for _ in range(1)]
+    make_secret_test(basic_rand, subproblem + '_edge')
 
 def make_secret_tests():
     """
@@ -125,12 +190,10 @@ def make_secret_tests():
     tests.
     """
 
-    basic_rand = [pure_random(10, 10, 10, 10) for _ in range(10)]
-    make_secret_test(basic_rand, 'main_edge')
+    # TODO: impossible case
 
-    bonus_edge_cases = [
-    ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
+    gen(5, 'main')
+    gen(None, 'bonus')
 
 
 def make_test_in(cases: list[TestCase], file):
@@ -143,10 +206,12 @@ def make_test_in(cases: list[TestCase], file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
+        assert case.is_valid()
         case.test_in(file)
 
 
 import subprocess
+import resource
 def make_test_out(cases, file, in_filename):
     """
     Print the expected output of the test cases into the file in the format
@@ -172,7 +237,8 @@ def main():
     """
     Let the library do the rest of the work!
     """
-    subprocess.run(['g++', '-O2', '-o', 'bin.out', 'submissions/accepted/celeste.cpp']);
+    subprocess.run(['g++', '-O2', '-Wl,-z,stack-size=268435456', '-o', 'bin.out', 'submissions/accepted/celeste.cpp'])
+    resource.setrlimit(resource.RLIMIT_STACK, (268435456, 268435456))
     make_data(make_sample_tests, make_secret_tests, \
               make_test_in, make_test_out, SEED)
 
