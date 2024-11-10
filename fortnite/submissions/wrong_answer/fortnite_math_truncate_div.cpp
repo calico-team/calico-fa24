@@ -14,7 +14,8 @@ using namespace std;
  * L: length of heal in seconds
  */
 long long solve(long long N, long long H, long long D, long long S, long long P, long long L) {
-    return max((D / S * P - N) / (H - P * L) + 1, 0LL);
+    long long numerator = D / S * P - N;
+    return numerator < 0 ? 0 : numerator / (H - P * L) + 1;
 }
 
 int main() {

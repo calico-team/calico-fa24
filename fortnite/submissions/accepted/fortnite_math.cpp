@@ -19,7 +19,8 @@ long long floorDiv(long long a, long long b) {
  * L: length of heal in seconds
  */
 long long solve(long long N, long long H, long long D, long long S, long long P, long long L) {
-    return max(floorDiv(floorDiv(D, S) * P - N, H - P * L) + 1, 0LL);
+    long long numerator = floorDiv(D, S) * P - N;
+    return numerator < 0 ? 0 : floorDiv(numerator, H - P * L) + 1;
 }
 
 int main() {

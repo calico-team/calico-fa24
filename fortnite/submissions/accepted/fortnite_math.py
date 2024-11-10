@@ -9,7 +9,8 @@ def solve(N: int, H: int, D: int, S: int, P: int, L: int) -> int:
     P: storm damage per second
     L: time to heal
     """
-    return max((((D // S) * P) - N) // (H - (P * L)) + 1, 0)
+    numerator = (D // S) * P - N
+    return 0 if numerator < 0 else numerator // (H - (P * L)) + 1
 
 def main():
     T = int(input())

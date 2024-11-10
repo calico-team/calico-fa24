@@ -69,18 +69,12 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     TODO Change this to reflect your submissions and test sets.
     """
     file_to_sets = {
-        # accepted
-        'fortnite_math':    ['main', 'bonus'],
-        'fortnite_sim':          ['main'],
-
-        # int overflow
-        'fortnite_math_int': ['bonus'],
-
-        # forgot max function
-        'fortnite_math_no_max_func':     ['main', 'bonus'],
-
-        # truncation
-        'fortnite_math_truncate_div': ['main', 'bonus'],
+        'fortnite_math': ['main', 'bonus'], # AC for all
+        'fortnite_sim': ['main'], # AC for main
+        'fortnite_math_int': ['bonus'], # AC for main, WA for bonus
+        'fortnite_math_max_func': ['main', 'bonus'], # WA for all
+        'fortnite_math_no_case_1': ['main', 'bonus'], # WA for all
+        'fortnite_math_truncate_div': ['main', 'bonus'] # WA for all
     }
 
     # we only care about actual code files
