@@ -69,7 +69,7 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     TODO Change this to reflect your submissions and test sets.
     """
     file_to_sets = {
-        'reservoir_floodfill': ['main', 'bonus'], # AC on main, TLE on bonus
+        'reservoir_floodfill': ['main', 'bonus'], # AC on main, RE (MLE) on bonus
         'reservoir_dsu': ['main', 'bonus'], # AC on all
     }
 
