@@ -69,7 +69,8 @@ def make_sample_tests():
     make_sample_test(main_sample_cases, 'main')
 
     bonus_sample_cases = [
-        TestCase(883459283, 694224901, 355732753, 426, 19123, 36292)
+        TestCase(883459283, 694224901, 355732753, 426, 19123, 36292),
+        TestCase(30, 15, 100, 5, 2, 4)
     ]
     make_sample_test(bonus_sample_cases, 'bonus')
 
