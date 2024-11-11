@@ -17,23 +17,22 @@ def solve(N: int, M: int, G: list[list[int]]) -> int:
             if not vis[i + di][j + dj]:
                 dfs(i + di, j + dj)
     
-    mx_islands, mx_h = 0, 0
+    mx_islands = 0
     for H in range(mx_g + 1):
         islands = 0
-        # Marking un-submerged cells and borders as "visited" for convenience
+        # Marking submerged cells and borders as "visited" for convenience
         vis = [[True] * (M + 2) for _ in range(N + 2)]
         for i in range(N):
             for j in range(M):
-                vis[i + 1][j + 1] = G[i][j] >= H
+                vis[i + 1][j + 1] = G[i][j] < H
         for i in range(N):
             for j in range(M):
                 if not vis[i + 1][j + 1]:
                     islands += 1
                     dfs(i + 1, j + 1)
-        if islands > mx_islands:
-            mx_islands, mx_h = islands, H
+        mx_islands = max(mx_islands, islands)
 
-    return mx_h
+    return mx_islands
 
 def main():
     T = int(input())
