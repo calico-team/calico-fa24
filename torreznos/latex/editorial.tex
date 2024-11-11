@@ -60,8 +60,8 @@
         We can describe this problem as the weighted matroid intersection of the bond matroid of $G_s$ and the bond matroid of $G_t$, since finding the subset of edges of least weight that keeps $G_s$ and $G_t$ connected is equivalent to finding the subset of edges of maximum weight that we can remove and keep both $G_s$ and $G_t$ connected.
 
         To implement such a solution, we usually need an \textbf{independence oracle} that can answer the question $X \in \calF_i$ for any $X$, as well as inserting and removing elements from $X$ in an efficient manner.
-        If the time complexity of this oracle is $\theta$, then Edomnds' algorithm runs in $\calO(R|E|^3 + R|E|^2\theta)$, where $R$ is the maximum size of an independent set for both matroids.
-        For this problem in particular, $R = \calO(M - N), |E| = M$
+        If the time complexity of this oracle is $\theta$, then Edmonds' algorithm runs in $\calO(R|E|^3 + R|E|^2\theta)$, where $R$ is the maximum size of an independent set for both matroids.
+        For this problem in particular, $R = \calO(M - N), |E| = M$.
 
         For this problem regarding bond matroids, the best approach is to use a dynamic connectivity data structure (we can use \href{https://codeforces.com/blog/entry/128556}{Top Trees} or \href{https://courses.csail.mit.edu/6.851/spring12/scribe/L20.pdf}{Euler Tour Trees}) that, given a graph $G$, can do the following operations in $\theta = \calO(\log^2 N)$:
         \begin{enumerate}
