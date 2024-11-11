@@ -18,9 +18,9 @@ int main() {
     int T;
     cin >> T;
     for (int c = 0; c < T; c++) {
-        int M, N
+        int M, N;
         cin >> M >> N;
-        char G[M][N]
+        char G[M][N];
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < N; j++) {
                 cin >> G[i][j];
