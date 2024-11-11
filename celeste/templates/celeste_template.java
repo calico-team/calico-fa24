@@ -31,8 +31,8 @@ class Solution {
             int M = Integer.parseInt(temp[1]);
             int K = Integer.parseInt(temp[2]);
             String[] C = new String[N];
-            for (int i = 0; i < N; i++) {
-                C[i] = in.readline().strip()
+            for (int i = 0; i < N; ++i) {
+                C[i] = in.readline().strip();
             }
             out.println(solve(N, M, K, C));
         }

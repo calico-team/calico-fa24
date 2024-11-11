@@ -1,14 +1,24 @@
 #include <iostream>
+#include <vector>
+#include <string>
 
 using namespace std;
 
 /**
- * Return the sum of A and B.
- *
- * A: a non-negative integer
- * B: another non-negative integer
- */
-int solve(int A, int B) {
+ * Return the minimum number of moves to get to E, or print 
+ * -1 if it is impossible.
+ * 
+ * N: number of rows
+ * M: number of columns
+ * K: the length of Madeline’s dash
+ * C: a list of N strings with M characters each, describing 
+ * the maze Madeline is in.
+ *    In each string:
+ *     . denotes a space
+ *     # denotes a wall.
+ *     * denotes a dash crystal.
+*/
+int solve(int N, int M, int K, vector<string> C) {
     // YOUR CODE HERE
     return -1;
 }
@@ -16,9 +26,13 @@ int solve(int A, int B) {
 int main() {
     int T;
     cin >> T;
-    for (int i = 0; i < T; i++) {
-        int A, B;
-        cin >> A >> B;
-        cout << solve(A, B) << '\n';
+    while (T--) {
+        int N, M, K;
+        cin >> N >> M >> K;
+        vector<string> C(N);
+        for (int i = 0; i < N; ++i) {
+            cin >> C[i];
+        }
+        cout << solve(N, M, K, C) << '\n';
     }
 }
