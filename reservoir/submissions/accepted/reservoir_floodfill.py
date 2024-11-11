@@ -1,6 +1,6 @@
 def solve(N: int, M: int, G: list[list[int]]) -> int:
     """
-    Return the height H Evbo should choose.
+    Return the maximum number of islands.
 
     N: number of rows
     M: number of columns

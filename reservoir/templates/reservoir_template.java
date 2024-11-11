@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     /**
-     * Return the height H Evbo should choose.
+     * Return the maximum number of islands.
      *
      * N: number of rows
      * M: number of columns

@@ -2,6 +2,7 @@
 #include <set>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 using namespace std;
 typedef vector<int> vi;
@@ -25,7 +26,7 @@ struct DSU {
 	void uni(int a, int b) {
 		a = get(a), b = get(b);
 		if (a == b) return;
-		if (r[b] < r[a]) std::swap(a, b);
+		if (r[b] < r[a]) swap(a, b);
 		if (r[b] == r[a]) r[b]++;
 		p[a] = b;
 		islands--;
@@ -35,7 +36,7 @@ struct DSU {
 const int DIRS[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
 /**
- * Return the height H Evbo should choose.
+ * Return the maximum number of islands.
  *
  * N: number of rows
  * M: number of columns
@@ -49,15 +50,10 @@ int solve(int N, int M, vector<vector<int>> &G) {
             Gp[i + 1][j + 1] = G[i][j];
 
     map<int, vp> m; // Maps each height to the set of cells at that height
-    for (int i = 1; i <= N; i++) {
-        for (int j = 1; j <= M; j++) {
-            int g = Gp[i][j];
-            // TODO test if this works
-            // if (!m.count(g)) m[g] =
+    for (int i = 1; i <= N; i++)
+        for (int j = 1; j <= M; j++)
             // Using negative height to help us iterate in reverse later 
-            m[-g].emplace_back(i, j);
-        }
-    }
+            m[-Gp[i][j]].emplace_back(i, j);
     
     // DSU in reverse
     DSU dsu((N + 2) * (M + 2));
