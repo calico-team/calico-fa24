@@ -19,8 +19,12 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = '190cmty237csajpdixf,wd'
 
+MX_T = 100
+# Assuming max n = max m and max ∑nm = MX_DIM^2
+MAIN_MX_DIM, BONUS_MX_DIM = 30, 500
+MAIN_MX_G, BONUS_MX_G = 100, 10**9
 
 class TestCase:
     """
@@ -30,10 +34,13 @@ class TestCase:
     TODO Change this to store the relevant information for your problem.
     """
 
+    def __init__(self, N, M, G):
+        assert len(G) == N
+        assert all([len(row) == M for row in G])
 
-    def __init__(self, A, B):
-        self.A = A
-        self.B = B
+        self.N = N
+        self.M = M
+        self.G = G
 
 
 def make_sample_tests():
@@ -49,17 +56,16 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
+        TestCase(6, 5, [
+            [18, 2, 19, 2, 10],
+            [2, 19, 13, 8, 1],
+            [11, 6, 8, 11, 10],
+            [8, 14, 6, 12, 9],
+            [5, 6, 15, 9, 4],
+            [2, 9, 6, 15, 1]
+        ])
     ]
     make_sample_test(main_sample_cases, 'main')
-
-    bonus_sample_cases = [
-        TestCase(123456789, 987654321),
-        TestCase(3141592653589793238462643, 3832795028841971693993751),
-    ]
-    make_sample_test(bonus_sample_cases, 'bonus')
 
 
 def make_secret_tests():
@@ -73,38 +79,59 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
+    def make_random_case(n, m, mx_g):
+        return TestCase(n, m,
+            [[random.randint(0, mx_g) for _ in range(m)] for _ in range(n)]
+        )
+    
+    def make_random_test(mx_dim, mx_g):
+        sum_nm = 0
+        cases = []
+        while True:
+            # Generate each case to roughly evenly distribute the total NM
+            approx_nm = mx_dim ** 2 // MX_T
+            n = random.randint(1, int(approx_nm**0.5))
+            m = approx_nm // n
+            if random.random() < 0.5:
+                n, m = m, n
+            
+            sum_nm += n * m
+            if len(cases) < MX_T and sum_nm <= mx_dim ** 2:
+                cases.append(make_random_case(n, m, mx_g))
+            else:
+                return cases
+    
+    # Make test where all grid heights are equal
+    def make_uniform_test(n, g):
+        return [TestCase(n, n, [[g] * n] * n)]
 
-    main_edge_cases = [
-        TestCase(0, 0),
-        TestCase(1, 0),
-        TestCase(0, 1),
-        TestCase(10 ** 9, 0),
-        TestCase(0, 10 ** 9),
-        TestCase(10 ** 9, 10 ** 9),
+    main_edge_tests = [
+        [TestCase(1, 1, [[42]])], # 1x1
+        make_uniform_test(MAIN_MX_DIM, MAIN_MX_G), # max uniform max g
+        make_uniform_test(MAIN_MX_DIM, 0), # max uniform 0
+        [make_random_case(MAIN_MX_DIM, MAIN_MX_DIM, MAIN_MX_G)] # T = 1 max random
     ]
-    make_secret_test(main_edge_cases, 'main_edge')
+    for test in main_edge_tests:
+        make_secret_test(test, 'main_edge')
 
-    for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
-        make_secret_test(main_random_cases, 'main_random')
+    for _ in range(10):
+        make_secret_test(
+            make_random_test(MAIN_MX_DIM, MAIN_MX_G),
+            'main_random'
+        )
 
-    bonus_edge_cases = [
-        TestCase(10 ** 100, 0),
-        TestCase(0, 10 ** 100),
-        TestCase(10 ** 100, 10 ** 100),
+    bonus_edge_tests = [
+        make_uniform_test(BONUS_MX_DIM, BONUS_MX_G), # max uniform max g
+        make_uniform_test(BONUS_MX_DIM, 0), # max uniform 0
+        [make_random_case(BONUS_MX_DIM, BONUS_MX_DIM, BONUS_MX_G)] # T = 1 max random
     ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
+    for test in bonus_edge_tests:
+        make_secret_test(test, 'bonus_edge')
 
-    for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
-        make_secret_test(bonus_random_cases, 'bonus_random')
+    make_secret_test(
+        make_random_test(BONUS_MX_DIM, BONUS_MX_G),
+        'bonus_random'
+    )
 
 
 def make_test_in(cases, file):
@@ -117,7 +144,9 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
-        print(f'{case.A} {case.B}', file=file)
+        print(f'{case.N} {case.M}', file=file)
+        for row in case.G:
+            print(' '.join(list(map(str, row))), file=file)
 
 
 def make_test_out(cases, file):
@@ -130,9 +159,9 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.add_arbitrary import solve
+    from submissions.accepted.reservoir_dsu import solve
     for case in cases:
-        print(solve(case.A, case.B), file=file)
+        print(solve(case.N, case.M, case.G), file=file)
 
 
 def main():

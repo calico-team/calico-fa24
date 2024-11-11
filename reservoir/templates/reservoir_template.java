@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+class Solution {
     /**
      * Return the maximum number of islands.
      *

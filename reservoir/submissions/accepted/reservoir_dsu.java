@@ -1,6 +1,36 @@
 import java.util.*;
 
-public class Main {
+class DSU {
+    private int[] p, r;
+    public static int islands;
+
+    public DSU(int n) {
+        p = new int[n];
+        r = new int[n];
+        for (int i = 0; i < n; i++) p[i] = i;
+    }
+
+    public int get(int a) {
+        if (a != p[a]) p[a] = get(p[a]);
+        return p[a];
+    }
+
+    public void uni(int a, int b) {
+        a = get(a);
+		b = get(b);
+        if (a == b) return;
+        if (r[b] < r[a]) {
+            int temp = a;
+            a = b;
+            b = temp;
+        }
+        if (r[b] == r[a]) r[b]++;
+        p[a] = b;
+        islands--;
+    }
+}
+
+class Solution {
     private static final int[][] DIRS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
 	/**
@@ -64,35 +94,5 @@ public class Main {
         }
         
         sc.close();
-    }
-}
-
-class DSU {
-    private int[] p, r;
-    public static int islands;
-
-    public DSU(int n) {
-        p = new int[n];
-        r = new int[n];
-        for (int i = 0; i < n; i++) p[i] = i;
-    }
-
-    public int get(int a) {
-        if (a != p[a]) p[a] = get(p[a]);
-        return p[a];
-    }
-
-    public void uni(int a, int b) {
-        a = get(a);
-		b = get(b);
-        if (a == b) return;
-        if (r[b] < r[a]) {
-            int temp = a;
-            a = b;
-            b = temp;
-        }
-        if (r[b] == r[a]) r[b]++;
-        p[a] = b;
-        islands--;
     }
 }

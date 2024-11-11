@@ -26,7 +26,7 @@ Names should be short if possible.
 
 TODO Change this for your problem.
 """
-PROBLEM_NAME = 'add'
+PROBLEM_NAME = 'reservoir'
 
 """
 The time limit in seconds.
@@ -69,20 +69,8 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     TODO Change this to reflect your submissions and test sets.
     """
     file_to_sets = {
-        # accepted
-        'add_arbitrary':    ['main', 'bonus'],
-        'add_int':          ['main'],
-
-        # run_time_error
-        'add_div_re':       ['main', 'bonus'],
-        'add_parse_int_re': ['bonus'],
-
-        # time_limit_exceeded
-        'add_loop_tle':     ['main', 'bonus'],
-
-        # wrong_answer
-        'add_parse_int_wa': ['bonus'],
-        'add_sub_wa':       ['main', 'bonus'],
+        'reservoir_floodfill': ['main', 'bonus'], # AC on main, TLE on bonus
+        'reservoir_dsu': ['main', 'bonus'], # AC on all
     }
 
     # we only care about actual code files
