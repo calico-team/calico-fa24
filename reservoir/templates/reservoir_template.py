@@ -12,11 +12,8 @@ def solve(N: int, M: int, G: list[list[int]]) -> int:
 def main():
     T = int(input())
     for _ in range(T):
-        temp = input().split()
-        N, M = int(temp[0]), int(temp[1])
-        G = []
-        for _ in range(N):
-            G.append([int(x) for x in input().split()])
+        N, M = map(int, input().split())
+        G = [list(map(int, input().split())) for _ in range(N)]
         print(solve(N, M, G))
 
 if __name__ == '__main__':
