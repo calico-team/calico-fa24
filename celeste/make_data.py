@@ -170,13 +170,17 @@ def gen(max_k, subproblem):
     basic_rand = [line_random(10, 10, 10, max_k) for _ in range(10)]
     make_secret_test(basic_rand, subproblem + '_basic')
 
-    c = int(5e4)
-    basic_rand = [pure_random(100, 1800, c, c, max_k) for _ in range(1)]
-    make_secret_test(basic_rand, subproblem + '_edge')
-    basic_rand = [line_random(100, 1800, c, max_k) for _ in range(1)]
-    make_secret_test(basic_rand, subproblem + '_edge')
-    basic_rand = [line_random(1800, 100, c, max_k) for _ in range(1)]
-    make_secret_test(basic_rand, subproblem + '_edge')
+    c1 = int(2e3)
+    c2 = int(5e4)
+    for _ in range(10):
+        x1 = randi(c1, c2)
+        x2 = randi(c1, c2)
+        basic_rand = [pure_random(100, 1800, x1, x2, max_k) for _ in range(1)]
+        make_secret_test(basic_rand, subproblem + '_edge')
+        basic_rand = [line_random(100, 1800, x1, max_k) for _ in range(1)]
+        make_secret_test(basic_rand, subproblem + '_edge')
+        basic_rand = [line_random(1800, 100, x1, max_k) for _ in range(1)]
+        make_secret_test(basic_rand, subproblem + '_edge')
 
 def make_secret_tests():
     """
