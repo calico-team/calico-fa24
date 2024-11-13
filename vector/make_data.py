@@ -67,13 +67,13 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(n, q):
+    def make_random_case(n, q, p):
         case = TestCase(n, q, [], [])
         case.N = n 
         case.Q = q
         for i in range(n):
-            num = random.randint(0, 10)
-            case.arr.append(2 ** num)
+            num = random.randint(2, 15)
+            case.arr.append(p ** num)
 
         case.queries.append([2])
         for i in range(q - 1):
@@ -81,15 +81,15 @@ def make_secret_tests():
             if case.queries[i][0] == 2 or op == 0:
                 l = random.randint(1, n)
                 r = random.randint(l, n)
-                num = random.randint(0, 10)
-                case.queries.append([1, l, r, 2 ** num])
+                num = random.randint(2, 15)
+                case.queries.append([1, l, r, p ** num])
             else:
                 case.queries.append([2])
         
         return case
 
     for i in range(10):
-        main_random_cases = [make_random_case(100000, 10000)]
+        main_random_cases = [make_random_case(100000, 10000, (i % 2) + 2)]
         make_secret_test(main_random_cases, 'main_random')
 
 
