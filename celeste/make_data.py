@@ -229,7 +229,7 @@ def make_test_out(cases, file, in_filename):
 
     myinput = open(in_filename)
     out = subprocess.check_output('./bin.out', stdin=myinput)
-    print(out.decode(), file=file)
+    print(out.decode(), file=file, end='')
 
     # print(out)
     # from submissions.accepted.add_arbitrary import solve

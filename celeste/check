@@ -7,6 +7,16 @@ if ! [[ -v PY_CMD ]]; then PY_CMD=python; fi
 if ! [[ -v JAVA_CMD ]]; then JAVA_CMD=java; fi
 if ! [[ -v CPP_CC ]]; then CPP_CC=g++; fi
 
+compile() {
+	if [[ "$TARGET" == *cpp ]] then
+		$CPP_CC -O2 "$TARGET" -o bin
+	fi
+}
+cleanup() {
+	if [[ "$TARGET" == *cpp ]] then
+		rm bin
+	fi
+}
 run() {
 	echo "Running case $1"
 	if [[ "$TARGET" == *py ]] then
@@ -16,9 +26,7 @@ run() {
 		output=$($JAVA_CMD $TARGET "$TARGET" < "$1.in" | diff -Z "$1.ans" -)
 		found=true
 	elif [[ "$TARGET" == *cpp ]] then
-		$CPP_CC -O2 "$TARGET" -o bin
 		output=$(./bin < "$1.in" | diff -Z "$1.ans" -)
-		rm bin
 		found=true
 	else
 		echo "Unrecognized solution format: $TARGET";
@@ -42,8 +50,10 @@ run() {
 run_multi() {
 	echo $#
 	for tname in "$@"; do
-		run "${tname%.*}"
+		run "${tname%.*}" &
+		# run "${tname%.*}"
 	done
+	wait
 }
 
 usage() {
@@ -103,6 +113,7 @@ if ! [[ -v TARGET ]]; then
 	echo "No target give!"
 	exit 1
 fi
+compile
 if [[ -v test_name ]]; then
 	run $test_name;
 elif [[ -v TEST_CASE ]]; then
@@ -110,3 +121,4 @@ elif [[ -v TEST_CASE ]]; then
 else
 	run_multi data/**/*.in
 fi
+cleanup
