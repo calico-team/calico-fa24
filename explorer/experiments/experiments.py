@@ -1,12 +1,19 @@
+"""
+experimenting with different implementations/optimizations to see what
+thresholds are viable
+"""
+
+
 import collections
 import heapq
+import random
 
 import numpy as np
 import networkx as nx
 import pyperclip as pc
 
-D = 5
-N = 10000
+D = 3
+N = 1000
 
 class DungeonGraph:
     def __init__(self, n=N, d=D):
@@ -21,13 +28,16 @@ class DungeonGraph:
     
     def query(self, node):
         self.queries += 1
-        return [adj + 1 for adj in self._graph.neighbors(node - 1)]
+        return sorted(adj + 1 for adj in self._graph.neighbors(node - 1))
     
     def print(self):
         for u, v in self._graph.edges:
             print(u + 1, v + 1)
 
 def test_solve_func(solve_func, t, n=N, d=D):
+    random.seed(1337)
+    np.random.seed(69420)
+    
     queries_list = []
     for _ in range(t):
         dg = DungeonGraph(n, d)
@@ -36,12 +46,27 @@ def test_solve_func(solve_func, t, n=N, d=D):
     return queries_list
 
 def get_stats(queries_list):
+    print('benchmarking', solver.__name__)
+    
     print('mean', np.mean(queries_list))
     print('std', np.std(queries_list))
     print('median', np.median(queries_list))
     
     pc.copy(f'histogram({queries_list}, {N // 10})')
     print('desmos histogram copied to clipboard')
+    
+    print()
+
+def verify_solve_funcs(solve_funcs, t, n=N, d=D):
+    random.seed(1337)
+    np.random.seed(69420)
+    
+    for _ in range(t):
+        dg = DungeonGraph(n, d)
+        answers = [solve_func(dg) for solve_func in solve_funcs]
+        assert len(set(answers)) == 1
+    
+    print('all solvers concur!')
 
 ################################################################################
 
@@ -85,134 +110,125 @@ def solve_early_return_bfs(dg):
                 dists[adj] = dists[curr_node] + 1
                 q.append(adj)
 
-def solve_double_bfs(dg):
+def solve_bidirectional_bfs(dg):    
     q_from_1 = collections.deque([1])
     q_from_n = collections.deque([dg.n])
-    dists_from_1 = {1: 0}
-    dists_from_n = {dg.n: 0}
+    
+    visited_from_1 = {1}
+    visited_from_n = {dg.n}
+    
+    dist_estimate = 0
+    
     while True:
-        curr_node = q_from_1.popleft()
-        for adj in dg.query(curr_node):
-            if adj in dists_from_n:
-                return dists_from_1[curr_node] + 1 + dists_from_n[adj]
-            if adj not in dists_from_1:
-                dists_from_1[adj] = dists_from_1[curr_node] + 1
-                q_from_1.append(adj)
+        dist_estimate += 1
+        for _ in range(len(q_from_1)):
+            curr_node = q_from_1.popleft()
+            for adj in dg.query(curr_node):
+                if adj not in visited_from_1:
+                    visited_from_1.add(adj)
+                    q_from_1.append(adj)
+                    
+                    if adj in visited_from_n:
+                        return dist_estimate
         
-        curr_node = q_from_n.popleft()
-        for adj in dg.query(curr_node):
-            if adj in dists_from_1:
-                return dists_from_n[curr_node] + 1 + dists_from_1[adj]
-            if adj not in dists_from_n:
-                dists_from_n[adj] = dists_from_n[curr_node] + 1
-                q_from_n.append(adj)
+        dist_estimate += 1
+        for _ in range(len(q_from_n)):
+            curr_node = q_from_n.popleft()
+            for adj in dg.query(curr_node):
+                if adj not in visited_from_n:
+                    visited_from_n.add(adj)
+                    q_from_n.append(adj)
+                    
+                    if adj in visited_from_1:
+                        return dist_estimate
 
-def solve_cached_double_bfs(dg):
+def solve_picky_bidirectional_bfs(dg):
+    q_from_1 = collections.deque([1])
+    q_from_n = collections.deque([dg.n])
+    
+    visited_from_1 = {1}
+    visited_from_n = {dg.n}
+    
+    dist_estimate = 0
+    
+    while True:
+        if len(q_from_1) <= len(q_from_n):
+            dist_estimate += 1
+            for _ in range(len(q_from_1)):
+                curr_node = q_from_1.popleft()
+                for adj in dg.query(curr_node):
+                    if adj not in visited_from_1:
+                        visited_from_1.add(adj)
+                        q_from_1.append(adj)
+                        
+                        if adj in visited_from_n:
+                            return dist_estimate
+        else:
+            dist_estimate += 1
+            for _ in range(len(q_from_n)):
+                curr_node = q_from_n.popleft()
+                for adj in dg.query(curr_node):
+                    if adj not in visited_from_n:
+                        visited_from_n.add(adj)
+                        q_from_n.append(adj)
+                        
+                        if adj in visited_from_1:
+                            return dist_estimate
+
+def solve_cached_bidirectional_bfs(dg):
     cache = [set() for _ in range(dg.n + 1)]
     def query(node):
-        if len(cache[node]) != 3:
+        if len(cache[node]) < dg.d:
             cache[node].update(dg.query(node))
+            assert len(cache[node]) == dg.d
             for adj in cache[node]:
                 cache[adj].add(node)
-        return cache[node]
+        else:
+            print('cache hit!')
+        
+        return sorted(cache[node])
     
     q_from_1 = collections.deque([1])
     q_from_n = collections.deque([dg.n])
-    dists_from_1 = {1: 0}
-    dists_from_n = {dg.n: 0}
-    while True:
-        curr_node = q_from_1.popleft()
-        for adj in query(curr_node):
-            if adj in dists_from_n:
-                return dists_from_1[curr_node] + 1 + dists_from_n[adj]
-            if adj not in dists_from_1:
-                dists_from_1[adj] = dists_from_1[curr_node] + 1
-                q_from_1.append(adj)
-        
-        curr_node = q_from_n.popleft()
-        for adj in query(curr_node):
-            if adj in dists_from_1:
-                return dists_from_n[curr_node] + 1 + dists_from_1[adj]
-            if adj not in dists_from_n:
-                dists_from_n[adj] = dists_from_n[curr_node] + 1
-                q_from_n.append(adj)
-
-def solve_cached_priority_double_bfs(dg):
-    cache = [set() for _ in range(dg.n + 1)]
-    def query(node):
-        if len(cache[node]) != 3:
-            cache[node].update(dg.query(node))
-            for adj in cache[node]:
-                cache[adj].add(node)
-        return cache[node]
     
-    q_from_1 = [(0, 0, 1)]
-    q_from_n = [(0, 0, dg.n)]
-    dists_from_1 = {1: 0}
-    dists_from_n = {dg.n: 0}
+    visited_from_1 = {1}
+    visited_from_n = {dg.n}
+    
+    dist_estimate = 0
+    
     while True:
-        curr_dist, curr_known_edges, curr_node = heapq.heappop(q_from_1)
-        while curr_known_edges != len(cache[curr_node]):
-            heapq.heappush(q_from_1, (curr_dist, len(cache[curr_node]), curr_node))
-            curr_dist, curr_known_edges, curr_node = heapq.heappop(q_from_1)
-        for adj in query(curr_node):
-            if adj in dists_from_n:
-                return dists_from_1[curr_node] + 1 + dists_from_n[adj]
-            if adj not in dists_from_1:
-                dists_from_1[adj] = dists_from_1[curr_node] + 1
-                heapq.heappush(q_from_1, (dists_from_1[adj], len(cache[adj]), adj))
+        dist_estimate += 1
+        for _ in range(len(q_from_1)):
+            curr_node = q_from_1.popleft()
+            for adj in query(curr_node):
+                if adj not in visited_from_1:
+                    visited_from_1.add(adj)
+                    q_from_1.append(adj)
+                    
+                    if adj in visited_from_n:
+                        return dist_estimate
         
-        curr_dist, curr_known_edges, curr_node = heapq.heappop(q_from_n)
-        while curr_known_edges != len(cache[curr_node]):
-            heapq.heappush(q_from_n, (curr_dist, len(cache[curr_node]), curr_node))
-            curr_dist, curr_known_edges, curr_node = heapq.heappop(q_from_n)
-        for adj in query(curr_node):
-            if adj in dists_from_1:
-                return dists_from_n[curr_node] + 1 + dists_from_1[adj]
-            if adj not in dists_from_n:
-                dists_from_n[adj] = dists_from_n[curr_node] + 1
-                heapq.heappush(q_from_n, (dists_from_n[adj], len(cache[adj]), adj))
+        dist_estimate += 1
+        for _ in range(len(q_from_n)):
+            curr_node = q_from_n.popleft()
+            for adj in query(curr_node):
+                if adj not in visited_from_n:
+                    visited_from_n.add(adj)
+                    q_from_n.append(adj)
+                    
+                    if adj in visited_from_1:
+                        return dist_estimate
 
-# 
-# def solve_gigachad_bfs(dg):
-#     adj_list = [[] for _ in range(dg.n + 1)]
-# 
-#     # (distance from start, number of known neighbors, node)
-#     q = [(0, 0, 1)]
-#     dists = {0: 0}
-# 
-#     while True:
-#         curr_dist, curr_neighbors, curr_node = heapq.heappop(q)
-#         if curr_neighbors != len(adj_list[curr_node]):
-#             heapq.heappush((dist, len(adj_list[curr_node]), curr_node))
-# 
-#         if curr_node == dg.n:
-#             return dist
-# 
-# 
-#         for adj in dg.query(node):
-#             if adj not in dists:
-#                 dists[adj] = dist
-# 
-#         else if :
-#             dist1[] = dist
-# 
-# 
-#             if node1 not in seen1:
-#                 seen1[node1] = dist1
-#                 for adj1 in dg.query(node1):
-#                     if adj1 in seen2:
-#                         return dist1 + 1 + seen2[adj1]
-#                     q1.append((adj1, dist1 + 1))
-# 
-#         node2, dist2 = q2.popleft()
-#         if node2 not in seen2:
-#             seen2[node2] = dist2
-#             for adj2 in dg.query(node2):
-#                 if adj2 in seen1:
-#                     return dist2 + 1 + seen1[adj2]
-#                 q2.append((adj2, dist2 + 1))
+solvers = [
+    solve_stupid_bfs,
+    solve_wikipedia_bfs,
+    solve_early_return_bfs,
+    solve_bidirectional_bfs,
+    solve_picky_bidirectional_bfs,
+    solve_cached_bidirectional_bfs,
+]
 
+verify_solve_funcs(solvers, 100)
 
-get_stats(test_solve_func(solve_double_bfs, 100))
-get_stats(test_solve_func(solve_cached_priority_double_bfs, 100))
+for solver in solvers:
+    get_stats(test_solve_func(solver, 1000))
