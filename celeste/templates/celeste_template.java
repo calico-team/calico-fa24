@@ -2,7 +2,7 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the minimum number of moves to get to E, or print 
+     * Return the minimum number of moves to get to E, or return 
      * -1 if it is impossible.
      * 
      * N: number of rows
@@ -15,7 +15,7 @@ class Solution {
      *     # denotes a wall.
      *     * denotes a dash crystal.
      */
-    static int solve(int N, int N, int K, String[] C) {
+    static int solve(int N, int M, int K, String[] C) {
         // YOUR CODE HERE
         return -1;
     }

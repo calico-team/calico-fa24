@@ -1,6 +1,6 @@
 def solve(N: int, M: int, K: int, C: list[str]) -> int:
     """
-    Return the minimum number of moves to get to E, or print 
+    Return the minimum number of moves to get to E, or return 
     -1 if it is impossible.
 
     N: number of rows
