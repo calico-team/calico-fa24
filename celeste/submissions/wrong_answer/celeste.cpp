@@ -205,31 +205,30 @@ void solve() {
                 bool crystal_in_dash;
                 ii next_dash;
                 
-                if (i == 6 && j == 9) {
-                    // cout << l << " " << lw << " " << lc << endl;
-                }
-                
                 if (l == 0) {
                     next_dash = {i, max(j - k, lw + 1)};
-                    crystal_in_dash = (lc >= next_dash.second);
+                    crystal_in_dash = (lc > lw);
                 }
                 else if (l == 1) {
                     next_dash = {i, min(j + k, lw - 1)};
-                    crystal_in_dash = (lc <= next_dash.second);
+                    crystal_in_dash = (lc < lw);
                 }
                 else if (l == 2) {
                     next_dash = {max(i - k, lw + 1), j};
-                    crystal_in_dash = (lc >= next_dash.first);
+                    crystal_in_dash = (lc > lw);
                 }
                 else {
                     next_dash = {min(i + k, lw - 1), j};
-                    crystal_in_dash = (lc <= next_dash.first);
+                    crystal_in_dash = (lc < lw);
                 }
                 
                 if (lc == -1) {
                     crystal_in_dash = false;
                 }
                 
+                if (i == 3 && j == 16 && l == 2) {
+               //     cout << "c: " << crystal_in_dash << " " << lc << " " << lw << " " << next_dash.first << " " << next_dash.second << endl;
+                }
                 //dash
                 if (crystal_in_dash) {
                     adj[i][j][1].pb({next_dash, 1});
@@ -292,29 +291,29 @@ void solve() {
         
         for (pair<ii, int> a : adj[i][j][dash]) {
             if (!vis[a.first.first][a.first.second][a.second]) {
-                if (a.first.first == 6 && a.first.second == 6 && a.second == 1) {
-                //    cout << i << " " << j << " " << dash <<  " " << ds << endl;
+                if (a.first.first == 6 && a.first.second == 16) {
+           //         cout << i << " " << j << " " << dash <<  " " << ds << endl;
                 }
                 q.push({{ds + 1, a.second}, a.first});
             }
         }
     }
     
-    // rep(i, n) {
-    //     rep(j, m) {
-    //         cout << dist[i][j][0] << " ";
-    //     }
-    //     cout << endl;
-    // }
-    // 
-    // cout << endl;
-    // rep(i, n) {
-    //     rep(j, m) {
-    //         cout << dist[i][j][1] << " ";
-    //     }
-    //     cout << endl;
-    // }
+    /*rep(i, n) {
+        rep(j, m) {
+            cout << dist[i][j][0] << " ";
+        }
+        cout << endl;
+    }
     
+    cout << endl;
+    rep(i, n) {
+        rep(j, m) {
+            cout << dist[i][j][1] << " ";
+        }
+        cout << endl;
+    }
+    */
     
     cout << min(dist[end.first][end.second][0], dist[end.first][end.second][1]) << '\n';
 }
