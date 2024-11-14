@@ -49,7 +49,7 @@ def is_data_in_test_set(data_file_name, test_set_name):
     if test_set_name == 'main':
         return 'main' in data_file_name
     elif test_set_name == 'bonus':
-        return 'main' in data_file_name or 'bonus' in data_file_name
+        return 'bonus' in data_file_name
 
 
 def is_submission_in_test_set(submission_file_name, test_set_name):
