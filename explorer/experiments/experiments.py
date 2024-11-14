@@ -12,8 +12,8 @@ import numpy as np
 import networkx as nx
 import pyperclip as pc
 
-D = 3
-N = 1000
+D = 5
+N = 500
 
 class DungeonGraph:
     def __init__(self, n=N, d=D):
@@ -175,7 +175,7 @@ def solve_picky_bidirectional_bfs(dg):
                         if adj in visited_from_1:
                             return dist_estimate
 
-def solve_cached_bidirectional_bfs(dg):
+def solve_optimized_bidirectional_bfs(dg):
     cache = [set() for _ in range(dg.n + 1)]
     def query(node):
         if len(cache[node]) < dg.d:
@@ -197,35 +197,36 @@ def solve_cached_bidirectional_bfs(dg):
     dist_estimate = 0
     
     while True:
-        dist_estimate += 1
-        for _ in range(len(q_from_1)):
-            curr_node = q_from_1.popleft()
-            for adj in query(curr_node):
-                if adj not in visited_from_1:
-                    visited_from_1.add(adj)
-                    q_from_1.append(adj)
-                    
-                    if adj in visited_from_n:
-                        return dist_estimate
-        
-        dist_estimate += 1
-        for _ in range(len(q_from_n)):
-            curr_node = q_from_n.popleft()
-            for adj in query(curr_node):
-                if adj not in visited_from_n:
-                    visited_from_n.add(adj)
-                    q_from_n.append(adj)
-                    
-                    if adj in visited_from_1:
-                        return dist_estimate
+        if len(q_from_1) <= len(q_from_n):
+            dist_estimate += 1
+            for _ in range(len(q_from_1)):
+                curr_node = q_from_1.popleft()
+                for adj in query(curr_node):
+                    if adj not in visited_from_1:
+                        visited_from_1.add(adj)
+                        q_from_1.append(adj)
+                        
+                        if adj in visited_from_n:
+                            return dist_estimate
+        else:
+            dist_estimate += 1
+            for _ in range(len(q_from_n)):
+                curr_node = q_from_n.popleft()
+                for adj in query(curr_node):
+                    if adj not in visited_from_n:
+                        visited_from_n.add(adj)
+                        q_from_n.append(adj)
+                        
+                        if adj in visited_from_1:
+                            return dist_estimate
 
 solvers = [
     solve_stupid_bfs,
     solve_wikipedia_bfs,
     solve_early_return_bfs,
     solve_bidirectional_bfs,
-    solve_picky_bidirectional_bfs,
-    solve_cached_bidirectional_bfs,
+    # solve_picky_bidirectional_bfs,
+    # solve_optimized_bidirectional_bfs,
 ]
 
 verify_solve_funcs(solvers, 100)
