@@ -32,7 +32,7 @@ class Solution {
             int K = Integer.parseInt(temp[2]);
             String[] C = new String[N];
             for (int i = 0; i < N; ++i) {
-                C[i] = in.readline().strip();
+                C[i] = in.readLine();
             }
             out.println(solve(N, M, K, C));
         }
