@@ -2,11 +2,15 @@ import java.io.*;
 
 class Solution {
     /**
-     * Implements addition with Java's fixed precision int. This passes the main
-     * test set only.
+     * Return the sum of A and B.
+     *
+     * B: a non-negative integer
+     * N: a positive integer
+     * S: an array of N integers
      */
-    static int solve(int A, int B) {
-        return A + B;
+    static int solve(int B, int N, int[] S) {
+        // YOUR CODE HERE
+        return -1;
     }
 
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -16,8 +20,12 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] temp = in.readLine().split(" ");
-            int A = Integer.parseInt(temp[0]), B = Integer.parseInt(temp[1]);
-            out.println(solve(A, B));
+            int B = Integer.parseInt(temp[0]), N = Integer.parseInt(temp[1]);
+            int[] S = new int[N];
+            for (int j = 0; j < N; j++) {
+                S[j] = Integer.parseInt(in.readLine());
+            }
+            out.println(solve(B, N, S));
         }
         out.flush();
     }
