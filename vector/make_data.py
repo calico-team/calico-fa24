@@ -19,7 +19,7 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 3
+SEED = 4
 
 
 class TestCase:
@@ -67,13 +67,13 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(n, q, p):
+    def make_power_case(n, q, p, fact):
         case = TestCase(n, q, [], [])
         case.N = n 
         case.Q = q
         for i in range(n):
-            num = random.randint(2, 15)
-            case.arr.append(p ** num)
+            num = random.randint(4, 15)
+            case.arr.append(p ** num * fact)
 
         case.queries.append([2])
         for i in range(q - 1):
@@ -82,15 +82,65 @@ def make_secret_tests():
                 l = random.randint(1, n)
                 r = random.randint(l, n)
                 num = random.randint(2, 15)
-                case.queries.append([1, l, r, p ** num])
+                case.queries.append([1, l, r, p ** num * fact])
             else:
                 case.queries.append([2])
         
         return case
+    
+    def make_random_case(n, q):
+        case = TestCase(n, q, [], [])
+        case.N = n 
+        case.Q = q
+        for i in range(n):
+            num = random.randint(1, 10**9)
+            case.arr.append(num)
+        case.queries.append([2])
+        for i in range(q - 1):
+            op = random.randint(0, 1)
+            if case.queries[i][0] == 2 or op == 0:
+                l = random.randint(1, n)
+                r = random.randint(l, n)
+                num = random.randint(1, 10**9)
+                case.queries.append([1, l, r, num])
+            else:
+                case.queries.append([2])
+        
+        return case
+        
+    def make_worst_case(n, q):
+        case = TestCase(n, q, [], [])
+        case.N = n 
+        case.Q = q
+        for i in range(12):
+            case.arr.append(2**29)
+        for i in range(29, 0, -1):
+            case.arr.append(2**i)
+        for i in range(0, 100000 - 42):
+            case.arr.append(2)
+        case.arr.append(1)
+        for i in range(1, 4096, 1):
+            for j in range(13):
+                if 2**j > i:
+                    case.queries.append([1, 1, 12 - j + 1, 2**29])
+                    break
+        for i in range(10000 - 4095 - 5000):
+            case.queries.append([1, 1, 100000, 0])
+        for i in range(2500):
+            case.queries.append([1, 1, 100000, 0])
+            case.queries.append([2])
+        return case
+
 
     for i in range(10):
-        main_random_cases = [make_random_case(100000, 10000, (i % 2) + 2)]
+        main_power_cases = [make_power_case(100000, 10000, (i % 2) + 2, 17 if i == 2 else 1)]
+        make_secret_test(main_power_cases, 'main_power')
+    for i in range(4):
+        main_random_cases = [make_random_case(100000, 10000)]
         make_secret_test(main_random_cases, 'main_random')
+    for i in range(1):
+        main_worst_cases = [make_worst_case(100000, 10000)]
+        make_secret_test(main_worst_cases, 'main_worst')
 
 
 def make_test_in(cases, file):
@@ -102,10 +152,25 @@ def make_test_in(cases, file):
     """
     assert len(cases) == 1
     for case in cases:
+        assert 1 <= case.N <= 10**5
         print(case.N, file=file)
+        assert len(case.arr) == case.N 
+        assert all(0 <= s <= 10**9 for s in case.arr)
         print(*case.arr, file = file)
+        assert 1 <= case.Q <= 10**4
         print(case.Q, file = file)
+        if len(case.queries) != case.Q:
+            print(len(case.queries), case.Q)
+        assert len(case.queries) == case.Q
         for q in case.queries:
+            if q[0] == 2:
+                assert len(q) == 1
+            else:
+                assert q[0] == 1 
+                assert 1 <= q[1] <= case.N 
+                assert q[1] <= q[2] <= case.N
+                assert 0 <= q[3] <= 10**9 
+                assert len(q) == 4
             print(*q, file = file)
 
 import subprocess

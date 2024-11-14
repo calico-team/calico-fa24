@@ -84,11 +84,11 @@ ll gcd_query(int l, int r) {
     return gcd(sum_query(l, l), diff_query(l + 1, r));
 }
 
-int main() {
+signed main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cin >> n;
-    int arr[n + 1];
+    ll arr[n + 1];
     arr[0] = 0;
     for (int i = 1; i <= n; i++) {
         cin >> arr[i];
@@ -107,8 +107,8 @@ int main() {
             diff_update(r + 1, -x);
         }
         else {
-            ll ans = 1e12;
-            int pre = 1, val = sum_query(1, 1);
+            ll ans = 1e18;
+            ll pre = 1, val = sum_query(1, 1);
             while (pre <= n) {
                 int l = pre, r = n + 1;
                 while (l + 1 < r) {
