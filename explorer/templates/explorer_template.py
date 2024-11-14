@@ -5,6 +5,12 @@ def scan(v: int) -> int:
     print(f'SCAN {v}')
     return int(input())
 
+def submit(d: int) -> None:
+    """
+    TODO
+    """
+    return
+
 def solve() -> int:
     """
     TODO return answer
