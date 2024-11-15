@@ -15,7 +15,7 @@ import networkx as nx
 import pyperclip as pc
 
 D = 3
-N = 1000
+N = 500
 
 class DungeonGraph:
     def __init__(self, n=N, d=D):
@@ -466,7 +466,7 @@ def solve_optimized_bidirectional_bfs(dg):
 solvers = [
     # solve_prebuilt_bfs,
     # solve_smart_prebuilt_bfs,
-    # solve_wikipedia_bfs,
+    solve_wikipedia_bfs,
     solve_early_return_bfs,
     solve_unoptimized_bidirectional_bfs,
     # solve_single_bidirectional_bfs,
@@ -477,5 +477,5 @@ solvers = [
 
 # verify_solve_funcs(solvers, 100)
 
-for solver in solvers:
-    get_stats(test_solve_func(solver, 10000))
+# for solver in solvers:
+#     get_stats(test_solve_func(solver, 3000))
