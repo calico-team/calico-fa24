@@ -83,13 +83,18 @@ def make_secret_tests():
     tests.
     """
     def make_random_case(max_length, max_height):
-        length = random.randint(1, max_length)
+        length = random.randint(9 * max_length // 10, max_length)
         S = []
         for i in range(length):
             S.append(random.randint(0, max_height))
         B = random.randint(0, sum(S))
         return TestCase(B, length, S)
 
+    main_edge_cases = [
+        TestCase(1, 5, [2, 6, 10, 1, 10]),
+        TestCase(max_B_main, 10, [1,2,3,4,5,6,7,8,9,10])
+    ]
+    make_secret_test(main_edge_cases, 'main_edge')
     # main_edge_cases = [
     #     TestCase(8, 5, [2, 6, 10, 1, 2]),
     #     TestCase(13, 10, [5, 8, 9, 8, 9, 8, 7, 4, 1, 7]),
@@ -98,12 +103,16 @@ def make_secret_tests():
     # make_secret_test(main_edge_cases, 'main_edge')
 
     for i in range(5):
-        main_random_cases = [make_random_case(max_N_main, max_Si_main) for _ in range(max_T_main)]
+        main_random_cases = [make_random_case(max_N_main // max_T_main, max_Si_main) for _ in range(max_T_main)]
         make_secret_test(main_random_cases, 'main_random')
+        main_random_big = [make_random_case(max_N_main, max_Si_main)]
+        make_secret_test(main_random_big, 'main_big')
 
     for i in range(5):
-        bonus_random_cases = [make_random_case(max_N_bonus, max_Si_bonus) for _ in range(max_T_bonus)]
+        bonus_random_cases = [make_random_case(max_N_bonus // max_T_main, max_Si_bonus) for _ in range(max_T_bonus)]
         make_secret_test(bonus_random_cases, 'bonus_random')
+        bonus_random_big = [make_random_case(max_N_bonus, max_Si_bonus)]
+        make_secret_test(bonus_random_big, 'bonus_big')
 
     # bonus_edge_cases = [
     #     TestCase(8, 5, [2, 6, 10, 1, 2])
@@ -164,7 +173,7 @@ def make_test_out(cases, file):
 
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.bridge import solve
+    from submissions.accepted.binarysearch import solve
     for case in cases:
         print(solve(case.B, case.N, case.S), file=file)
 

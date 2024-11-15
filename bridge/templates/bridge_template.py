@@ -1,10 +1,9 @@
 def solve(B: int, N: int, S:list) -> int:
     '''
-    Implements addition with Python's arbitary precision arithmetic.
+    Return the height H in which the danger is minimized and satisfies the budget constraints.
     '''
-
-    
-    return B
+    # YOUR CODE HERE
+    return -1
 
 
 def main():
