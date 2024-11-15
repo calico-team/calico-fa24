@@ -1,20 +1,18 @@
-def solve(B: int, N: int, S:list) -> int:
-    low = 0
-    high = 1e9
-    while low<high:
-        mid = low + (high-low)//2
+def solve(B: int, N: int, S: list) -> int:
+    low = min(S)
+    high = max(S)
+    while low < high:
+        mid = (high + low) // 2
         cost = 0
         danger = 0
         for h in S:
-            if (h<mid):
-                danger+=mid-h
-            elif (h>mid):
-                cost += h - mid
-        if cost>B:
-            low = mid+1
+            danger += max(mid - h, 0)
+            cost += max(h - mid, 0)
+        if cost > B:
+            low = mid + 1
         else:
             high = mid
-    return int(low)
+    return low
 
 
 def main():
@@ -26,5 +24,5 @@ def main():
         print(solve(B, N, S))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

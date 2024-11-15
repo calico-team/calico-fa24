@@ -10,12 +10,16 @@ using namespace std;
  * S: an array of N integers
  */
 int solve(int B, int N, int S[]) {
-    int low = 0;
-    int high = 1000000000;
+    int low = 1000000000;
+    int high = 0;
+    for (int i = 0; i < N; ++i) {
+        low = min(low, S[i]);
+        high = max(high, S[i]);
+    }
     while (low < high) {
         int mid = (low + high) / 2;
-        int cost = 0;
-        int danger = 0;
+        long long cost = 0;
+        long long danger = 0;
         for (int i = 0; i < N; i++) {
             if (S[i] < mid) {
                 danger += mid - S[i];
@@ -29,7 +33,7 @@ int solve(int B, int N, int S[]) {
         } else {
             high = mid;
         }
-}
+    }
     return high;
 }
 
