@@ -21,7 +21,7 @@ def scan(v: int) -> int:
 def submit(d: int) -> str:
     """
     Submit your guess for the length of the shortest path. Returns CORRECT if
-    your guess is correct and WRONG_ANSWER if your guess is wrong.
+    your guess is correct and exits if your guess is wrong.
     """
     print(f'SUBMIT {d}', flush=True)
     response = input()

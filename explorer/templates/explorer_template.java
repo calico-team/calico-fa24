@@ -26,7 +26,7 @@ class Solution {
     
     /**
      * Submit your guess for the length of the shortest path. Returns CORRECT if
-     * your guess is correct and WRONG_ANSWER if your guess is wrong.
+     * your guess is correct and exits if your guess is wrong.
      */
     static String submit(int d) throws IOException {
         out.println("SUBMIT " + d);
