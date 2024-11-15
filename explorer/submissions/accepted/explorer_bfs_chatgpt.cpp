@@ -37,8 +37,7 @@ void solve() {
 
         for (int adj : cache_scan(curr_vertex)) {
             if (adj == N) {
-                submit(dist[curr_vertex] + 1);
-                return;
+                return dist[curr_vertex] + 1;
             }
             if (dist.find(adj) == dist.end()) {
                 dist[adj] = dist[curr_vertex] + 1;
@@ -58,21 +57,16 @@ int scan(int v) {
     return stoi(response);
 }
 
-string submit(int d) {
-    cout << "SUBMIT " << d << endl;
-    string response;
-    cin >> response;
-    if (response == "WRONG_ANSWER") {
-        exit(0);
-    }
-    return response;
-}
-
 int main() {
     int T;
     cin >> T;
     for (int i = 0; i < T; ++i) {
-        solve();
+        cout << "SUBMIT " << solve() << endl;
+        string response;
+        cin >> response;
+        if (response == "WRONG_ANSWER") {
+            exit(0);
+        }
     }
     return 0;
 }

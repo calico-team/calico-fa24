@@ -18,8 +18,7 @@ def solve() -> None:
         curr_vertex = queue.popleft()
         for adj in cache_scan(curr_vertex):
             if adj == N:
-                submit(dist[curr_vertex] + 1)
-                return
+                return dist[curr_vertex] + 1
             if adj not in dist:
                 dist[adj] = dist[curr_vertex] + 1
                 queue.append(adj)
@@ -33,18 +32,13 @@ def scan(v: int) -> int:
     return int(response)
 
 
-def submit(d: int) -> str:
-    print(f'SUBMIT {d}', flush=True)
-    response = input()
-    if response == 'WRONG_ANSWER':
-        exit()
-    return response
-
-
 def main():
     T = int(input())
     for _ in range(T):
-        solve()
+        print(f'SUBMIT {solve()}', flush=True)
+        response = input()
+        if response == 'WRONG_ANSWER':
+            exit()
 
 
 if __name__ == '__main__':

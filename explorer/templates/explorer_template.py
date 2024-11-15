@@ -1,7 +1,8 @@
-def solve() -> None:
+def solve() -> int:
     """
-    Perform scan queries and a submit query to find the length of the shortest
-    path from the vertex labeled 1 to the vertex labeled 1000 in the graph.
+    Perform scan queries to find the length of the shortest path from the vertex
+    labeled 1 to the vertex labeled 500 in the graph. Return the length to
+    perform the submit query to submit your answer.
     """
     # YOUR CODE HERE
 
@@ -18,23 +19,13 @@ def scan(v: int) -> int:
     return int(response)
 
 
-def submit(d: int) -> str:
-    """
-    Submit your guess for the length of the shortest path. Returns CORRECT if
-    your guess is correct and exits if your guess is wrong.
-    """
-    print(f'SUBMIT {d}', flush=True)
-    response = input()
-    if response == 'WRONG_ANSWER':
-        exit()
-    return response
-
-
 def main():
     T = int(input())
     for _ in range(T):
-        solve()
-    verdict = input()
+        print(f'SUBMIT {solve()}', flush=True)
+        response = input()
+        if response == 'WRONG_ANSWER':
+            exit()
 
 
 if __name__ == '__main__':

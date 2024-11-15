@@ -22,8 +22,7 @@ class Solution {
             int currVertex = queue.poll();
             for (int adj : cacheScan(currVertex, adjCache)) {
                 if (adj == N) {
-                    submit(dist.get(currVertex) + 1);
-                    return;
+                    return dist.get(currVertex) + 1;
                 }
                 if (!dist.containsKey(adj)) {
                     dist.put(adj, dist.get(currVertex) + 1);
@@ -52,16 +51,6 @@ class Solution {
         }
         return Integer.parseInt(response);
     }
-    
-    static String submit(int d) throws IOException {
-        out.println("SUBMIT " + d);
-        out.flush();
-        String response = in.readLine();
-        if (response.equals("WRONG_ANSWER")) {
-            System.exit(0);
-        }
-        return response;
-    }
 
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     static PrintWriter out = new PrintWriter(System.out);
@@ -69,7 +58,12 @@ class Solution {
     public static void main(String[] args) throws IOException {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
-            solve();
+            out.println("SUBMIT " + solve());
+            out.flush();
+            String response = in.readLine();
+            if (response.equals("WRONG_ANSWER")) {
+                System.exit(0);
+            }
         }
     }
 }
