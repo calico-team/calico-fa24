@@ -150,6 +150,46 @@ def solve_early_return_bfs(dg):
                 dists[adj] = dists[curr_node] + 1
                 q.append(adj)
 
+def solve_unoptimized_bidirectional_bfs(dg):
+    def query(i):
+        s = set()
+        while len(s) < dg.d:
+            v = dg.query(i)
+            s.add(v)
+        return s
+    
+    q_from_1 = collections.deque([1])
+    q_from_n = collections.deque([dg.n])
+
+    visited_from_1 = {1}
+    visited_from_n = {dg.n}
+
+    dist_estimate = 0
+
+    while True:
+        if len(q_from_1) <= len(q_from_n):
+            dist_estimate += 1
+            for _ in range(len(q_from_1)):
+                curr_node = q_from_1.popleft()
+                for adj in query(curr_node):
+                    if adj not in visited_from_1:
+                        visited_from_1.add(adj)
+                        q_from_1.append(adj)
+
+                        if adj in visited_from_n:
+                            return dist_estimate
+        else:
+            dist_estimate += 1
+            for _ in range(len(q_from_n)):
+                curr_node = q_from_n.popleft()
+                for adj in query(curr_node):
+                    if adj not in visited_from_n:
+                        visited_from_n.add(adj)
+                        q_from_n.append(adj)
+
+                        if adj in visited_from_1:
+                            return dist_estimate
+
 def solve_bidirectional_bfs(dg):
     adj_list = [set() for _ in range(dg.n + 1)]
     def query(i):
@@ -427,9 +467,10 @@ solvers = [
     # solve_prebuilt_bfs,
     # solve_smart_prebuilt_bfs,
     # solve_wikipedia_bfs,
-    # solve_early_return_bfs,
+    solve_early_return_bfs,
+    solve_unoptimized_bidirectional_bfs,
     # solve_single_bidirectional_bfs,
-    solve_bidirectional_bfs,
+    # solve_bidirectional_bfs,
     solve_picky_bidirectional_bfs,
     # solve_optimized_bidirectional_bfs,
 ]
