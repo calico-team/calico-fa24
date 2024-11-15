@@ -16,10 +16,11 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 
 import networkx as nx
 
-N = 1000
+T = 500
+N = 500
 D = 3
-EASY_GOAL = 1400
-HARD_GOAL = 250
+EASY_GOAL = 750
+HARD_GOAL = 150
 
 """
 Seed for the random number generator. We need this so randomized tests will
@@ -53,7 +54,7 @@ def make_sample_tests():
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_sample_test for more info.
     """
-    sample_cases = [TestCase(make_dungeon_graph()) for _ in range(1000)]
+    sample_cases = [TestCase(make_dungeon_graph()) for _ in range(T)]
     
     # main and sample are intended to be the same
     make_sample_test(sample_cases, 'main')
@@ -68,8 +69,8 @@ def make_secret_tests():
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_secret_test for more info.
     """
-    for i in range(9):
-        secret_cases = [TestCase(make_dungeon_graph()) for _ in range(1000)]
+    for i in range(4):
+        secret_cases = [TestCase(make_dungeon_graph()) for _ in range(T)]
         
         # main and sample are intended to be the same
         make_secret_test(secret_cases, 'main')
@@ -87,23 +88,22 @@ def make_test_in(cases, file):
     else:
         print(HARD_GOAL, file=file)
     
-    T = len(cases)
-    assert T == 1000
-    print(T, file=file)
+    assert len(cases) == T
+    print(len(cases), file=file)
     
     for case in cases:
-        assert len(case.graph.nodes) == 1000
-        assert set(case.graph.nodes) == set(range(1000))
+        assert len(case.graph.nodes) == N
+        assert set(case.graph.nodes) == set(range(N))
         print(len(case.graph.nodes), file=file)
         
         assert nx.is_connected(case.graph)
-        answer = nx.shortest_path_length(case.graph, 0, 999)
+        answer = nx.shortest_path_length(case.graph, 0, N - 1)
         print(answer, file=file)
         
-        for i in range(1000):
+        for i in range(N):
             neighbors = [n + 1 for n in case.graph.neighbors(i)]
             assert len(neighbors) == 3
-            assert all(1 <= n <= 1000 for n in neighbors)
+            assert all(1 <= n <= N for n in neighbors)
             
             print(*neighbors, file=file)
 

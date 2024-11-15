@@ -23,14 +23,14 @@ The short name of the problem.
 Names must only use lowercase letters and digits and should be contest-unique.
 Names should be short if possible.
 """
-PROBLEM_NAME = 'explorer'
+PROBLEM_NAME = 'explorer5'
 
 """
 The time limit in seconds.
 
 Typically this is 1 but feel free to adjust as necessary for your problem.
 """
-TIME_LIMIT = 1
+TIME_LIMIT = 5
 
 """
 A list with strings containing the names of every test set.
@@ -61,8 +61,8 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'add_arbitrary':    ['main', 'bonus'],
-        'add_int':          ['main'],
+        'explorer_bfs':                  ['main'],
+        'explorer_bfs_chatgpt':          ['main'],
 
         # run_time_error
         'add_div_re':       ['main', 'bonus'],

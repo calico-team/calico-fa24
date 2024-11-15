@@ -3,10 +3,10 @@ import random
 def run():
     log(f'Begin interaction')
     
+    GOAL = int(input_test_in())
+    
     T = int(input_test_in())
     print_prog(T)
-    
-    GOAL = int(input_test_in())
     
     total_scan_queries = 0
     
@@ -16,7 +16,7 @@ def run():
         N = int(input_test_in())
         ANSWER = int(input_test_in())
         
-        adj_list = [None, *map(int, input_test_in().split()) for _ in range(N)]
+        adj_list = [None, *(list(map(int, input_test_in().split())) for _ in range(N))]
         
         while True:
             query_str = input_prog()
@@ -36,7 +36,7 @@ def run():
                 scan(arg, adj_list)
                 total_scan_queries += 1
                 
-            else if type == 'SUBMIT':
+            elif type == 'SUBMIT':
                 if not arg.isdigit():
                     give_WA(f'Invalid argument for SUBMIT: "{arg}"')
                 
@@ -50,13 +50,13 @@ def run():
                 break
     
     if total_scan_queries > GOAL * N:
-        give_WA(f'Too many queries. Average should be no more than {GOAL} but was {total_queries / N}.')
+        give_WA(f'Too many queries. Average should be no more than {GOAL} but was {total_scan_queries / N}.')
     
     log('End interaction')
     give_AC()
 
 def scan(arg, adj_list):
-    return random.choice(adj_list[arg])
+    print_prog(random.choice(adj_list[arg]))
 
 def submit(arg, ANSWER):
     if arg == ANSWER:
