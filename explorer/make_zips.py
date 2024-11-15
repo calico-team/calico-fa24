@@ -23,7 +23,7 @@ The short name of the problem.
 Names must only use lowercase letters and digits and should be contest-unique.
 Names should be short if possible.
 """
-PROBLEM_NAME = 'explorer5'
+PROBLEM_NAME = 'explorer6'
 
 """
 The time limit in seconds.
@@ -63,17 +63,8 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         # accepted
         'explorer_bfs':                  ['main'],
         'explorer_bfs_chatgpt':          ['main'],
-
-        # run_time_error
-        'add_div_re':       ['main', 'bonus'],
-        'add_parse_int_re': ['bonus'],
-
-        # time_limit_exceeded
-        'add_loop_tle':     ['main', 'bonus'],
-
-        # wrong_answer
-        'add_parse_int_wa': ['bonus'],
-        'add_sub_wa':       ['main', 'bonus'],
+        
+        'explorer_optimized_bfs':        ['main', 'bonus'],
     }
 
     # we only care about actual code files
