@@ -3,7 +3,7 @@ import collections
 N = 500
 D = 3
 
-def solve() -> None:
+def solve() -> int:
     adj_cache = [set() for _ in range(N + 1)]
     def cache_scan(v):
         while len(adj_cache[v]) < D:
@@ -30,7 +30,7 @@ def solve() -> None:
                         visited_from_1.add(adj)
                         queue_from_1.append(adj)
                         if adj in visited_from_n:
-                            return dist_estimate
+                            return dist_guess
         else:
             for _ in range(len(queue_from_n)):
                 curr_vertex = queue_from_n.popleft()
@@ -39,7 +39,7 @@ def solve() -> None:
                         visited_from_n.add(adj)
                         queue_from_n.append(adj)
                         if adj in visited_from_1:
-                            return dist_estimate
+                            return dist_guess
 
 
 def scan(v: int) -> int:

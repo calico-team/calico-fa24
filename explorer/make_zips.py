@@ -23,7 +23,7 @@ The short name of the problem.
 Names must only use lowercase letters and digits and should be contest-unique.
 Names should be short if possible.
 """
-PROBLEM_NAME = 'explorer6'
+PROBLEM_NAME = 'explorer7'
 
 """
 The time limit in seconds.

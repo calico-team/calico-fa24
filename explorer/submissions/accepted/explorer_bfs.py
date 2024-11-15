@@ -3,7 +3,7 @@ import collections
 N = 500
 D = 3
 
-def solve() -> None:
+def solve() -> int:
     adj_cache = [set() for _ in range(N + 1)]
     def cache_scan(v):
         while len(adj_cache[v]) < D:
