@@ -2,13 +2,13 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the shape of displayed by ASCII string S of dimensions R x C
+     * Return the shape of displayed by ASCII string G of dimensions N x M
      *
-     * S: a string representing an ASCII picture
-     * R: integer for number of rows
-     * C: integer for number of columns
+     * G: a string representing an ASCII picture
+     * N: integer for number of rows
+     * M: integer for number of columns
      */
-    static String solve(int M, int N, String[] G) {
+    static String solve(int N, int M, String[] G) {
         // YOUR CODE HERE
         return "";
     }
@@ -20,13 +20,13 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] dimensions = in.readLine().split(" ");
-            int M = Integer.parseInt(dimensions[0]), N = Integer.parseInt(dimensions[1]);
-            String[] G = new String[M];
-            for (int j = 0; j < M; j++) {
+            int N = Integer.parseInt(dimensions[0]), M = Integer.parseInt(dimensions[1]);
+            String[] G = new String[N];
+            for (int j = 0; j < N; j++) {
                 String row = in.readLine();
                 G[j] = row;
                 }
-            out.println(solve(M, N, G));
+            out.println(solve(N, M, G));
             }
         out.flush();
         }
