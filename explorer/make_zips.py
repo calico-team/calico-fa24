@@ -23,7 +23,7 @@ The short name of the problem.
 Names must only use lowercase letters and digits and should be contest-unique.
 Names should be short if possible.
 """
-PROBLEM_NAME = 'explorer7'
+PROBLEM_NAME = 'explorer8'
 
 """
 The time limit in seconds.
@@ -56,8 +56,6 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     Return True if the submission file named submission_file_name should be
     added to the test set named test_set_name.
-
-    TODO Change this to reflect your submissions and test sets.
     """
     file_to_sets = {
         # accepted
@@ -65,6 +63,9 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         'explorer_bfs_chatgpt':          ['main'],
         
         'explorer_optimized_bfs':        ['main', 'bonus'],
+        
+        'explorer_nacho':                ['main', 'bonus'],
+        'explorer_nacho_chatpgt':        ['main', 'bonus'],
     }
 
     # we only care about actual code files

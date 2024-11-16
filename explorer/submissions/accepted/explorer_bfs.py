@@ -4,6 +4,10 @@ N = 500
 D = 3
 
 def solve() -> int:
+    """
+    Performs BFS while storing edges in a cache to reduce queries. Terminates as
+    soon as the search reaches the final nodes.
+    """
     adj_cache = [set() for _ in range(N + 1)]
     def cache_scan(v):
         while len(adj_cache[v]) < D:
