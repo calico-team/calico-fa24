@@ -28,7 +28,7 @@ class TestCase:
     single test case.
     """
 
-    def __init__(self, N, M, G):
+    def __init__(self, N, M, G: list[str]):
         self.M = M
         self.N = N
         self.G = G
@@ -75,7 +75,7 @@ def make_secret_tests():
         if triangle_or_square == 0:
             G = scv_generate.generate_triangle(N, M)
         else:
-            G = scv_generate.generate_square(N, M)
+            G = scv_generate.generate_rect(N, M)
         return TestCase(N, M, G)
     
     for _ in range(10):

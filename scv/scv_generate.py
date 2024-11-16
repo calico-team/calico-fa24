@@ -1,7 +1,7 @@
 import random
 from calico_lib import make_sample_test, make_secret_test, make_data
 
-def generate_square(length: int, width: int, side_min = 2, margin = 1) -> str:
+def generate_square(length: int, width: int, side_min = 2, margin = 0) -> list[str]:
     """
     Generate an ascii art of . and #, where the # form a square
     The output is a string with rows separated by /n
@@ -30,55 +30,77 @@ def generate_square(length: int, width: int, side_min = 2, margin = 1) -> str:
     art = art.split("\n")
     art.pop()
 
-    return art
+    return list(art)
 
-def generate_triangle(length: int, width: int, x_min = 2, y_min = 2, margin = 1) -> str:
+def generate_triangle(length: int, width: int) -> list[str]:
     """
     Generate an ascii art of . and #, where the # form a right triangle.
     Its two sides are parallel to the x and y axis.
     The output is a string with rows separated by /n
-    
+
     length: number of rows in the ascii art
     width: the number of symbols in each row
-    x_min: minimum base length of the triangle 
-    y_min: minimum height of the triangle
-    margin: minimum number of . that line the border of the ascii
     """
-    assert length >= margin * 2 + y_min
-    assert width >= margin * 2 + x_min
+    art = ['.'*width]*length
 
-    buffer = margin * 2
+    # side length of triangle
+    r = random.randint(2, min(length, width))
 
-    side_x = random.randint(x_min, width - buffer)
-    side_y = random.randint(y_min, length - buffer)
+    px_max = length - r
+    py_max = width - r
 
-    buffer_x = side_x + margin
-    buffer_y = side_y + margin
+    px = random.randint(0, px_max)
+    py = random.randint(0, py_max)
 
-    upper_left_y = random.randint(margin, length - buffer_y)
-    upper_left_x = random.randint(margin, width - buffer_x)
-
-    skip_x = random.randint(0, 1)
-    skip_y = random.randint(0, 1)
-
-    art = ("." * width + "\n") * upper_left_y
-    for index in range(side_y):
-        art += "." * upper_left_x 
-
-        top_down = int((side_y - index - 1) / (side_y - 1) * (side_x - 1)) + 1
-        bottom_up = int(index / (side_y - 1) * (side_x - 1)) + 1
-
-        art += ("." * (side_x - bottom_up) + "#" * (bottom_up)) * ((1 - skip_x) * (1 - skip_y))
-        art += ("." * (side_x - top_down) + "#" * (top_down)) * ((1 - skip_x) * skip_y)
-        art += ("#" * (bottom_up) + "." * (side_x - bottom_up)) * (skip_x * (1 - skip_y))
-        art += ("#" * (top_down) + "." * (side_x - top_down)) * (skip_x * skip_y)
-
-        art += "." * (width - upper_left_x - side_x) + "\n"
-
-    art += ("." * width + "\n") * (length - upper_left_y - side_y)
-
-    art = art.split("\n")
-    art.pop()
+    o = random.randint(0, 3) # orientation
+    for c1 in range(0, r):
+        i = px + c1
+        c2 = c1+1
+        if o == 0:
+            art[i] = '#'*c2 + '.'*(r-c2)
+        if o == 1:
+            art[i] = '.'*(r-c2) + '#'*c2
+        if o == 2:
+            art[i] = '#'*(r-c1) + '.'*c1
+        if o == 3:
+            art[i] = '.'*c1 + '#'*(r-c1)
+        art[i] = '.'*py + art[i] + (width-py-r)*'.'
 
     return art
-    
+
+def generate_rect(length: int, width: int) -> list[str]:
+    """
+    Generate an ascii art of . and #, where the # form a right triangle.
+    Its two sides are parallel to the x and y axis.
+
+    length: number of rows in the ascii art
+    width: the number of symbols in each row
+    """
+    art = ['.'*width]*length
+
+    # side length of triangle
+    r1 = random.randint(2, min(length, width))
+    r2 = random.randint(2, min(length, width))
+
+    px_max = length - r1
+    py_max = width - r2
+
+    px = random.randint(0, px_max)
+    py = random.randint(0, py_max)
+
+    for c1 in range(0, r1):
+        i = px + c1
+        art[i] = '.'*py + '#'*r2 + (width-py-r2)*'.'
+
+    return art
+
+if __name__ == '__main__':
+    for i in range(100):
+        for x in generate_triangle(10, 10):
+            print(x)
+        print()
+
+    for i in range(100):
+        for x in generate_rect(10, 10):
+            print(x)
+        print()
