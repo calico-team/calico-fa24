@@ -26,7 +26,7 @@ Names should be short if possible.
 
 TODO Change this for your problem.
 """
-PROBLEM_NAME = 'oreo'
+PROBLEM_NAME = 'oreo_final'
 
 """
 The time limit in seconds.
