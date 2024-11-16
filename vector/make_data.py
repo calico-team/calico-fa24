@@ -37,6 +37,19 @@ class TestCase:
         self.arr = arr
         self.queries = queries
 
+    def validate(self):
+        assert 2 <= self.N <= 1e5
+        for x in self.arr:
+            assert 0 <= x <= 1e9
+        assert 1 <= self.Q <= 1e4
+        for q in self.queries:
+            qt = q[0]
+            if qt == 'UPDATE':
+                assert 1 <= q[1] <= q[2] <= self.N
+                assert 0 <= q[3] <= 1e9
+            else:
+                assert qt == 'FIND'
+
 
 def make_sample_tests():
     """
@@ -169,6 +182,7 @@ def make_test_in(cases, file):
     """
     assert len(cases) == 1
     for case in cases:
+        case.validate()
         assert 1 <= case.N <= 10**5
         print(case.N, file=file)
         assert len(case.arr) == case.N 
