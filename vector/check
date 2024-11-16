@@ -1,0 +1,112 @@
+#!/usr/bin/bash
+
+# Exit on error
+# set -e
+
+if ! [[ -v PY_CMD ]]; then PY_CMD=python; fi
+if ! [[ -v JAVA_CMD ]]; then JAVA_CMD=java; fi
+if ! [[ -v CPP_CC ]]; then CPP_CC=g++; fi
+
+run() {
+	echo "Running case $1"
+	if [[ "$TARGET" == *py ]] then
+		output=$($PY_CMD "$TARGET" < "$1.in" | diff "$1.ans" -)
+		found=true
+	elif [[ "$TARGET" == *java ]] then
+		output=$($JAVA_CMD $TARGET "$TARGET" < "$1.in" | diff "$1.ans" -)
+		found=true
+	elif [[ "$TARGET" == *cpp ]] then
+		$CPP_CC -O2 "$TARGET" -o bin
+		output=$(./bin < "$1.in" | diff "$1.ans" -)
+		rm bin
+		found=true
+	else
+		echo "Unrecognized solution format: $TARGET";
+	fi
+	outfile="$1.out"
+
+	# If the diff output is empty, then it matches perfectly, so it passes.
+	# Otherwise, it fails.
+	if [[ $found == "true" ]]; then
+		if [[ $output == "" ]]
+		then
+			echo "Passed!"
+		else
+			echo "$output"
+			echo "Failed!"
+			exit 1
+		fi
+	fi
+}
+
+run_multi() {
+	echo $#
+	for tname in "$@"; do
+		run "${tname%.*}"
+	done
+}
+
+usage() {
+	cat <<EOF
+Solution checking utility.
+
+Usage: ./check [options] <target> [--] [<test-case-in>...]
+
+Example:
+  # Run all tests with add.java
+    ./check submissions/accepted/add.java
+  # Run the secret_00_main_small test
+    ./check submissions/accepted/add.cpp data/secret/secret_00_main_small.in
+  # Run all secret main tests
+    ./check submissions/accepted/add.py data/secret/secret_*_main*
+  # Run with specific python command (use this if python command not found)
+    PY_CMD=python3 ./check submissions/accepted/add.py
+  # Run with specific java command
+    JAVA_CMD=/usr/lib/jvm/java-21-openjdk/bin/java ./check submissions/accepted/caliconstruction.java
+
+Options:
+  -q, --quiet      minimize output
+  -v, --verbose    increase verbosity
+  -h, --help       display this help message and exit
+EOF
+}
+
+# getopts is another way to parse argument
+while [[ $# -gt 0 ]]; do
+	case $1 in
+		-v|--verbose)
+			(( ++verbose )) ;;
+		-q|--quiet)
+			QUIET=1 ;;
+		-h|--help)
+			usage
+			exit 0 ;;
+		--)
+			shift
+			break 2 ;;
+		-*|--*)
+			echo "Unknown option $1"
+			exit 1
+			;;
+		*)
+			if [[ -v TARGET ]]; then
+				TEST_CASE+=("$1")
+			else
+				TARGET="$1"
+			fi
+			;;
+	esac
+	shift
+done
+
+if ! [[ -v TARGET ]]; then
+	echo "No target give!"
+	exit 1
+fi
+if [[ -v test_name ]]; then
+	run $test_name;
+elif [[ -v TEST_CASE ]]; then
+	run_multi ${TEST_CASE[@]}
+else
+	run_multi data/**/*.in
+fi
