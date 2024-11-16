@@ -15,9 +15,9 @@ def solve(M: int, N: int, G: list) -> str:
         list_of_lengths.append(hashtag)
     unique_set = set(list_of_lengths)
     if len(unique_set) > 2:
-        return "Built like Phineas head"
+        return "triangle"
     if len(unique_set) == 2:
-        return "wow, its a square"
+        return "rectangle"
     
 
 
@@ -29,7 +29,7 @@ def main():
         for _ in range(M):
             row = list(input().strip())
             G.append(row)
-        solve(M, N, G)
+        print(solve(M, N, G))
 
 if __name__ == '__main__':
     main()

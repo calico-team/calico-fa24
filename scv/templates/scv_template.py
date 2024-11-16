@@ -18,7 +18,7 @@ def main():
         for _ in range(M):
             row = list(input().strip())
             G.append(row)
-        solve(M, N, G)
+        print(solve(M, N, G))
 
 if __name__ == '__main__':
     main()
