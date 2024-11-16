@@ -147,10 +147,11 @@ def make_secret_tests():
     for test in bonus_edge_tests:
         make_secret_test(test, 'bonus_edge')
 
-    make_secret_test(
-        make_random_test(BONUS_MX_DIM, BONUS_MX_G),
-        'bonus_random'
-    )
+    for _ in range(10):
+        make_secret_test(
+            make_random_test(BONUS_MX_DIM, BONUS_MX_G),
+            'bonus_random'
+        )
 
 
 def make_test_in(cases, file):
