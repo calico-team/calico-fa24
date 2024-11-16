@@ -3,15 +3,15 @@
 using namespace std;
 
 /**
- * Return the shape displayed by the picture represented by G of dimensions M x N
+ * Return the shape displayed by the picture represented by G of dimensions N x M
  *
  * S: a string representing an ASCII picture
  * N: integer for number of rows
  * M: integer for number of columns
  */
-String solve(int N, int M, char G[M][N]) {
+string solve(int N, int M, char G[][100]) {
     // YOUR CODE HERE
-    return -1;
+    return "";
 }
 
 int main() {
