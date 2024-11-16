@@ -25,7 +25,7 @@ Names must only use lowercase letters and digits and should be contest-unique.
 Names should be short if possible.
 
 """
-PROBLEM_NAME = 'celeste'
+PROBLEM_NAME = 'celeste_final'
 
 """
 The time limit in seconds.
@@ -34,7 +34,7 @@ Typically this is 1 but feel free to adjust as necessary for your problem.
 
 TODO Change for your problem if desired.
 """
-TIME_LIMIT = 1
+TIME_LIMIT = 4
 
 """
 A list with strings containing the names of every test set.
@@ -70,6 +70,10 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     file_to_sets = {
         # accepted
         'celeste':    ['main', 'bonus'],
+        'step_on_star':    ['main', 'bonus'],
+        'celeste_slow':    ['main', 'bonus'],
+        'nacho':    ['main', 'bonus'],
+        'wa':    ['main', 'bonus'],
 
         # run_time_error
 

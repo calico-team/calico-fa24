@@ -12,6 +12,7 @@ Everything else will be handled by the make_data function in calico_lib.py.
 You can also run this file with the -v argument to see debug prints.
 """
 
+from math import sqrt
 import random
 from sys import stdout
 from calico_lib import make_sample_test, make_secret_test, make_data
@@ -22,9 +23,9 @@ generate the same thing every time. Seeds can be integers or strings.
 """
 SEED = 'flying strawberry'
 
-max_T = 10
-max_N_M = 2e5 - 10
-max_N = 2e5 - 10
+max_T = 100
+max_N_M = int(2e6 - 5)
+max_N = int(2e6 - 5)
 
 class TestCase:
     """
@@ -58,22 +59,23 @@ class TestCase:
             print(''.join(row), file=file)
 
 
-    def is_valid(self):
-        if not (1 <= self.N <= max_N):
-            return False
-        if not (1 <= self.M <= max_N):
-            return False
-        if not (self.M * self.N <= max_N_M):
-            return False
-        if len(self.G) != self.N:
-            return False
+    def is_valid(self, is_basic = False):
+        assert (3 <= self.N <= max_N)
+        assert (3 <= self.M <= max_N)
+        assert (self.M * self.N <= max_N_M)
+        assert len(self.G) == self.N
         for i in range(self.N):
-            if len(self.G[i]) != self.M:
-                return False
+            assert len(self.G[i]) == self.M
+        s_cnt = e_cnt = 0
         for i in range(self.N):
             for j in range(self.M):
-                if self.G[i][j] not in "#.*SE":
-                    return False
+                if self.G[i][j] == 'S':
+                    s_cnt += 1
+                if self.G[i][j] == 'E':
+                    e_cnt += 1
+                assert self.G[i][j] in "#.*SE"
+        assert s_cnt == 1 and e_cnt == 1
+        assert 2<=self.K<=max_N
         return True
 
     def make_out(self):
@@ -139,48 +141,70 @@ def make_sample_tests():
     # make_sample_test(bonus_sample_cases, 'bonus')
 
 randi = random.randint
-def pure_random(n: int, m: int, crystal_cnt: int, wall_cnt: int, max_k = None):
+def pure_random(n: int, m: int, crystal_cnt: int, wall_cnt: int, k: int = 2):
     g = [['.']*m for _ in range(n)]
     for _ in range(crystal_cnt):
         g[randi(0, n-1)][randi(0, m-1)] = '*'
     for _ in range(wall_cnt):
         g[randi(0, n-1)][randi(0, m-1)] = '#'
-    g[randi(0, n-1)][randi(0, m-1)] = 'S'
-    g[randi(0, n-1)][randi(0, m-1)] = 'E'
-    if max_k == None:
-        max_k = max(n, m)
-    return TestCase(n, m, randi(2, max(n, m)), g).add_edge_wall()
+    g[randi(0, 1)][randi(0, min(m-1, 50))] = 'S'
+    g[randi(2, n-1)][randi(max(m-30, 0), m-1)] = 'E'
+    return TestCase(n, m, k, g).add_edge_wall()
 
-def line_random(n: int, m: int, crystal_cnt: int, max_k = None):
+def line_random(n: int, m: int, crystal_cnt: int, k: int = 2):
     g = [['.']*m for _ in range(n)]
-    for i in range(0, n, 2):
+    for i in range(1, n, 2):
         g[i] = ['#'] * m
         g[i][randi(0, m-1)] = '.'
     for _ in range(crystal_cnt):
         g[randi(0, n-1)][randi(0, m-1)] = '*'
-    g[0][randi(0, m-1)] = 'S'
-    g[n-1][randi(0, m-1)] = 'E'
-    if max_k == None:
-        max_k = max(n, m)
-    return TestCase(n, m, randi(2, max(n, m)), g).add_edge_wall()
+    g[0][randi(0, min(m-1, 50))] = 'S'
+    g[n-1][randi(max(m-30, 0), m-1)] = 'E'
+    return TestCase(n, m, k, g).add_edge_wall()
 
-def gen(max_k, subproblem):
-    basic_rand = [pure_random(10, 10, 10, 10, max_k) for _ in range(10)]
-    make_secret_test(basic_rand, subproblem + '_basic')
-    basic_rand = [line_random(10, 10, 10, max_k) for _ in range(10)]
-    make_secret_test(basic_rand, subproblem + '_basic')
+def gen(max_k: int, subproblem):
+    # 12 * 12 * 100
+    basic_rand = [line_random(8, 8, randi(2, 100), randi(2, max_k)) for _ in range(max_T)]
+    make_secret_test(basic_rand, subproblem + '_basic_line')
+    for _ in range(6):
+        basic_rand = [pure_random(8, 8, randi(2, 200), randi(2, 200), randi(2, max_k)) for _ in range(max_T)]
+        make_secret_test(basic_rand, subproblem + '_basic')
+        # basic_rand = [pure_random(4, 4, randi(2, 20), randi(2, 20), randi(2, max_k)) for _ in range(max_T)]
+        # make_secret_test(basic_rand, subproblem + '_tiny_rand')
 
-    c1 = int(2e3)
-    c2 = int(5e4)
-    for _ in range(10):
+    c1 = int(5e2)
+    c2 = int(1e4)
+    for _ in range(2):
         x1 = randi(c1, c2)
         x2 = randi(c1, c2)
-        basic_rand = [pure_random(100, 1800, x1, x2, max_k) for _ in range(1)]
+        x3 = lambda: randi(min(max_k-2, int(1e3)), max_k)
+        n = int(sqrt(max_N)) - 10
+        basic_rand = [pure_random(n, n, x1, x2, x3()) for _ in range(1)]
         make_secret_test(basic_rand, subproblem + '_edge')
-        basic_rand = [line_random(100, 1800, x1, max_k) for _ in range(1)]
+        basic_rand = [line_random(n, n, x1, x3()) for _ in range(1)]
         make_secret_test(basic_rand, subproblem + '_edge')
-        basic_rand = [line_random(1800, 100, x1, max_k) for _ in range(1)]
-        make_secret_test(basic_rand, subproblem + '_edge')
+        basic_rand = [pure_random(3, max_N // 5 - 10, x1, x2, x3()) for _ in range(1)]
+        make_secret_test(basic_rand, subproblem + '_thin')
+        basic_rand = [line_random(3, max_N // 5 - 10, x1, x3()) for _ in range(1)]
+        make_secret_test(basic_rand, subproblem + '_thin_line')
+
+    x1 = 10
+    x2 = 10
+    x3 = min(max_k-2, int(1e3))
+    basic_rand = [pure_random(100, max_N // 102 - 10, x1, x2, x3) for _ in range(1)]
+    make_secret_test(basic_rand, subproblem + '_sparse')
+    basic_rand = [line_random(100, max_N // 102 - 10, x1, x3) for _ in range(1)]
+    make_secret_test(basic_rand, subproblem + '_sparse')
+    # 6 * 3e4 = 18e5
+    basic_rand = [pure_random(3, max_N // 5 - 10, x1, x2, min(max_k, int(1e5))) for _ in range(1)]
+    make_secret_test(basic_rand, subproblem + '_thin_sparse')
+    # basic_rand = [line_random(3, int(1e6-100), x1, min(max_k, int(1e5))) for _ in range(1)]
+    # make_secret_test(basic_rand, subproblem + '_thin_line_sparse')
+    basic_rand = [pure_random(3, max_N // 5 - 10, 2, 2, min(max_k, int(1e5))) for _ in range(1)]
+    make_secret_test(basic_rand, subproblem + '_thin_sparse')
+    # basic_rand = [line_random(3, int(1e6-100), 0, min(max_k, int(1e5))) for _ in range(1)]
+    # make_secret_test(basic_rand, subproblem + '_thin_line_sparse')
+
 
 def make_secret_tests():
     """
@@ -197,7 +221,7 @@ def make_secret_tests():
     # TODO: impossible case
 
     gen(5, 'main')
-    gen(None, 'bonus')
+    gen(max_N, 'bonus')
 
 
 def make_test_in(cases: list[TestCase], file):
@@ -241,7 +265,7 @@ def main():
     """
     Let the library do the rest of the work!
     """
-    subprocess.run(['g++', '-O2', '-Wl,-z,stack-size=268435456', '-o', 'bin.out', 'submissions/accepted/celeste.cpp'])
+    subprocess.run(['g++', '-O2', '-Wl,-z,stack-size=268435456', '-o', 'bin.out', 'submissions/accepted/nacho.cpp'])
     resource.setrlimit(resource.RLIMIT_STACK, (268435456, 268435456))
     make_data(make_sample_tests, make_secret_tests, \
               make_test_in, make_test_out, SEED)
