@@ -23,7 +23,7 @@ The short name of the problem.
 Names must only use lowercase letters and digits and should be contest-unique.
 Names should be short if possible.
 """
-PROBLEM_NAME = 'explorer8'
+PROBLEM_NAME = 'explorer_final'
 
 """
 The time limit in seconds.
@@ -65,7 +65,7 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         'explorer_optimized_bfs':        ['main', 'bonus'],
         
         'explorer_nacho':                ['main', 'bonus'],
-        'explorer_nacho_chatpgt':        ['main', 'bonus'],
+        'explorer_nacho_chatgpt':        ['main', 'bonus'],
     }
 
     # we only care about actual code files
