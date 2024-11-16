@@ -1,0 +1,73 @@
+\documentclass[english,12pt]{article}
+\usepackage{xd}
+
+\begin{document}
+    \section{Problem statement}
+        Given a weighted undirected graph $G = (V, E)$ and two special vertices $s, t \in V, s \neq t$, find a subset $E' \subseteq E$ of minimum weight such that for all $v \in V \setminus \{s, t\}$ there exists a path from $v$ to $s$ in $(V \setminus \{t\}, E')$ and another path from $v$ to $t$ in $(V \setminus \{s\}, E')$ and return its weight.
+        It is guaranteed that the solution exists.
+
+    \section{Wrong approaches}
+        This problem looks like a textbook MST with just a few modifications, since we could think of $E'$ as an MST for both $G_s \coloneqq (V \setminus \{t\}, E)$ and $G_t \coloneqq (V \setminus \{s\}, E)$.
+        One could think of $E'$ as the union of an MST for $G_s$ and another MST for $G_t$.
+        However, this approach does not work, as after doing the union of both MST's there are some redundant edges that we could take away and still fulfill the requirements of the problem statement.
+        We could try to prune these edges, but since there could be many different MST's for the same graph and choosing one or another could make the solution different, this approach does not work.
+
+    \section{Matroid definitions}
+        We will provide some basic matroid definitions so that we can tackle this problem using the matroid intersection optimization technique.
+        \begin{definition}
+            A set system $(E, \calF), \calF \subseteq 2^E$ is an \textbf{independence system} if
+            \begin{itemize}
+                \item[] (M1) $\emptyset \in \calF$
+                \item[] (M2) If $X \subseteq Y \in \calF$, then $X \in \calF$
+            \end{itemize}
+            The elements of $\calF$ are called \textbf{independent} and the elements of $2^E \setminus \calF$ \textbf{dependent}.
+            Minimal dependent sets are called \textbf{circuits} and maximal independent sets are called $\textbf{bases}$.
+        \end{definition}
+
+        \begin{definition}
+            An independence system is a \textbf{matroid} if
+            \begin{itemize}
+                \item[] (M3) If $X, Y \in \calF$ and $\abs{X} > \abs{Y}$, then there is an $x \in X \setminus Y$ with $Y \cup \{x\} \in \calF$.
+            \end{itemize}
+        \end{definition}
+
+        \begin{definition}
+            A \textbf{graphic matroid} is a matroid $(E, \calF)$ where $E$ is the set of edges of some undirected graph $G = (V, E)$ and
+            \[\calF \coloneqq \{F \subseteq E : (V, F) \text{ is a forest}\}\]
+            It can be proved that this independence system is indeed a matroid.
+            Note that the bases of the graphic matroids are any spanning forest of $G$.
+            In the case of connected graphs, they are just the spanning trees of $G$.
+        \end{definition}
+
+        \begin{definition}
+            Let $(E, \calF)$ be an independence system. We define the \textbf{dual} of $(E, \calF)$ by $(E, \calF^*)$, where
+            \[\calF^* \coloneqq \{F \subseteq E : \text{there is a basis } B \text { of } (E, \calF) \text{ such that } F \cap B = \emptyset\}\]
+        \end{definition}
+
+        \begin{proposition}
+            If $(E, \calF)$ is a matroid, then $(E, \calF^*)$ is a matroid as well.
+        \end{proposition}
+        
+        The duals of graphic matroids are called \textbf{bond matroids}.
+        If $(E, \calF)$ is a bond matroid and $G$ is connected, we can think of an independent set $X \in \calF$ as a subset of edges such that, after removing $X$ from $E$, there is still a spanning tree in the graph.
+        In other words, $X$ is independent if and only if $G' \coloneqq (V, E \setminus X)$ is still connected.
+
+    \section{Solving the problem}
+        
+        It is well known in matroid theory that, given two matroids $(E, \calF_1), (E, \calF_2)$ over the same ground set, we can calculate the \textbf{(weighted) matroid intersection} in polynomial time with Edmonds' algorithm, that is, the subset $X \in \calF_1 \cap \calF_2$ of greatest (weight) cardinality.
+        The algorithm for finding the weighted matroid intersection is given in \verb*|weighted_matroid_isect.pdf|.
+
+        We can describe this problem as the weighted matroid intersection of the bond matroid of $G_s$ and the bond matroid of $G_t$, since finding the subset of edges of least weight that keeps $G_s$ and $G_t$ connected is equivalent to finding the subset of edges of maximum weight that we can remove and keep both $G_s$ and $G_t$ connected.
+
+        To implement such a solution, we usually need an \textbf{independence oracle} that can answer the question $X \in \calF_i$ for any $X$, as well as inserting and removing elements from $X$ in an efficient manner.
+        If the time complexity of this oracle is $\theta$, then Edmonds' algorithm runs in $O(R|E|^3 + R|E|^2\theta)$, where $R$ is the maximum size of an independent set for both matroids.
+        For this problem in particular, $R = O(M - N), |E| = M$.
+
+        For this problem regarding bond matroids, the best approach is to use a dynamic connectivity data structure (we can use \href{https://codeforces.com/blog/entry/128556}{Top Trees} or \href{https://courses.csail.mit.edu/6.851/spring12/scribe/L20.pdf}{Euler Tour Trees}) that, given a graph $G$, can do the following operations in $\theta = O(\log^2 N)$:
+        \begin{enumerate}
+            \item Remove an edge $(u, v)$ from the graph (cut).
+            \item Add an edge $(u, v)$ to a graph (link).
+            \item Give the size of the connected component in which a vertex $u$ belongs.
+        \end{enumerate}
+
+\end{document}
