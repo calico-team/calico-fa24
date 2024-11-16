@@ -51,8 +51,14 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(5, 5, [10, 5, 15, 0, 3], [['UPDATE', 3, 4, 3], ['FIND'], ['UPDATE', 4, 5, 15], ['UPDATE', 2, 2, 5], ['FIND']])
-    ]
+            TestCase(5, 6, [10, 5, 15, 0, 3],
+                     [['FIND'],
+                      ['UPDATE', 3, 4, 3],
+                      ['FIND'],
+                      ['UPDATE', 4, 5, 15],
+                      ['UPDATE', 2, 2, 5],
+                      ['FIND']])
+                     ]
     make_sample_test(main_sample_cases, 'main')
 
 
@@ -211,7 +217,7 @@ def main():
     """
     Let the library do the rest of the work!
     """
-    # subprocess.run(['g++', '-O2', '-o', 'bin.out', 'submissions/accepted/solution.cpp'])
+    subprocess.run(['g++', '-O2', '-o', 'submissions/accepted/a.out', 'submissions/accepted/solution.cpp'])
     make_data(make_sample_tests, make_secret_tests, \
               make_test_in, make_test_out, SEED)
 
