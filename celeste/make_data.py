@@ -12,6 +12,7 @@ Everything else will be handled by the make_data function in calico_lib.py.
 You can also run this file with the -v argument to see debug prints.
 """
 
+from math import sqrt
 import random
 from sys import stdout
 from calico_lib import make_sample_test, make_secret_test, make_data
@@ -23,8 +24,8 @@ generate the same thing every time. Seeds can be integers or strings.
 SEED = 'flying strawberry'
 
 max_T = 100
-max_N_M = int(2e5 - 5)
-max_N = int(2e5 - 5)
+max_N_M = int(5e6 - 5)
+max_N = int(5e6 - 5)
 
 class TestCase:
     """
@@ -176,33 +177,34 @@ def gen(max_k: int, subproblem):
     for _ in range(2):
         x1 = randi(c1, c2)
         x2 = randi(c1, c2)
-        x3 = randi(min(max_k-2, int(1e3)), max_k)
-        basic_rand = [pure_random(100, 1800, x1, x2, x3) for _ in range(1)]
+        x3 = lambda: randi(min(max_k-2, int(1e3)), max_k)
+        n = int(sqrt(max_N)) - 10
+        basic_rand = [pure_random(n, n, x1, x2, x3()) for _ in range(1)]
         make_secret_test(basic_rand, subproblem + '_edge')
-        basic_rand = [line_random(100, 1800, x1, x3) for _ in range(1)]
+        basic_rand = [line_random(n, n, x1, x3()) for _ in range(1)]
         make_secret_test(basic_rand, subproblem + '_edge')
-        basic_rand = [line_random(1800, 100, x1, x3) for _ in range(1)]
-        make_secret_test(basic_rand, subproblem + '_edge')
-        basic_rand = [pure_random(3, int(4e4-100), x1, x2, x3) for _ in range(1)]
+        basic_rand = [pure_random(3, max_N // 5 - 10, x1, x2, x3()) for _ in range(1)]
         make_secret_test(basic_rand, subproblem + '_thin')
-        basic_rand = [line_random(3, int(4e4-100), x1, x3) for _ in range(1)]
+        basic_rand = [line_random(3, max_N // 5 - 10, x1, x3()) for _ in range(1)]
         make_secret_test(basic_rand, subproblem + '_thin_line')
 
-    c1 = int(50)
-    c2 = int(1000)
-    for _ in range(4):
-        x1 = randi(c1, c2)
-        x2 = randi(c1, c2)
-        x3 = randi(min(max_k-2, int(1e3)), max_k)
-        basic_rand = [pure_random(100, 1800, x1, x2, x3) for _ in range(1)]
-        make_secret_test(basic_rand, subproblem + '_sparse')
-        basic_rand = [line_random(100, 1800, x1, x3) for _ in range(1)]
-        make_secret_test(basic_rand, subproblem + '_sparse')
-        # 6 * 3e4 = 18e5
-        basic_rand = [pure_random(3, int(4e4-100), x1, x2, min(max_k, int(1e4))) for _ in range(1)]
-        make_secret_test(basic_rand, subproblem + '_thin_sparse')
-        basic_rand = [line_random(3, int(4e4-100), x1, min(max_k, int(1e4))) for _ in range(1)]
-        make_secret_test(basic_rand, subproblem + '_thin_line_sparse')
+    x1 = 10
+    x2 = 10
+    x3 = min(max_k-2, int(1e3))
+    basic_rand = [pure_random(100, max_N // 102 - 10, x1, x2, x3) for _ in range(1)]
+    make_secret_test(basic_rand, subproblem + '_sparse')
+    basic_rand = [line_random(100, max_N // 102 - 10, x1, x3) for _ in range(1)]
+    make_secret_test(basic_rand, subproblem + '_sparse')
+    # 6 * 3e4 = 18e5
+    basic_rand = [pure_random(3, max_N // 5 - 10, x1, x2, min(max_k, int(1e5))) for _ in range(1)]
+    make_secret_test(basic_rand, subproblem + '_thin_sparse')
+    # basic_rand = [line_random(3, int(1e6-100), x1, min(max_k, int(1e5))) for _ in range(1)]
+    # make_secret_test(basic_rand, subproblem + '_thin_line_sparse')
+    basic_rand = [pure_random(3, max_N // 5 - 10, 2, 2, min(max_k, int(1e5))) for _ in range(1)]
+    make_secret_test(basic_rand, subproblem + '_thin_sparse')
+    # basic_rand = [line_random(3, int(1e6-100), 0, min(max_k, int(1e5))) for _ in range(1)]
+    # make_secret_test(basic_rand, subproblem + '_thin_line_sparse')
+
 
 def make_secret_tests():
     """

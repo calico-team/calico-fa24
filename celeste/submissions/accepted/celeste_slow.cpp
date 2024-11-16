@@ -8,6 +8,9 @@ using vvi = vector<vector<int>>;
 using vvl = vector<vector<ll>>;
 using pii = pair<int, int>;
 
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
+
 struct state {
 	int i;
 	int j;
@@ -19,7 +22,7 @@ struct state {
 	}
 };
 
-const ll INF = 1e18+100;
+const int INF = 1e8+100;
 
 int solve(int N, int M, int K, vector<string> C) {
 	vector<int> dxs = {1, -1, 0, 0};
@@ -34,7 +37,7 @@ int solve(int N, int M, int K, vector<string> C) {
 	}
 
 	queue<state> q;
-	vector<vvl> dist(N, vvl(M, vll(2, INF)));
+	vector<vvi> dist(N, vvi(M, vi(2, INF)));
 
 	q.push(s);
 	while (!q.empty()) {
@@ -47,6 +50,10 @@ int solve(int N, int M, int K, vector<string> C) {
 			continue;
 		}
 		dist[i][j][dash] = d;
+		if (C[i][j] == 'E') {
+			int ans = min(dist[e.i][e.j][0], dist[e.i][e.j][1]);
+			return ans == INF ? -1: ans;
+		}
 		for (int id = 0; id < 4; id++) {
 			int dx = dxs[id];
 			int dy = dys[id];
@@ -70,7 +77,7 @@ int solve(int N, int M, int K, vector<string> C) {
 			q.push({curx, cury, newDash, d+1});
 		}
 	}
-    ll ans = min(dist[e.i][e.j][0], dist[e.i][e.j][1]);
+    int ans = min(dist[e.i][e.j][0], dist[e.i][e.j][1]);
 	return ans == INF ? -1: ans;
 }
 
