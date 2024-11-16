@@ -34,9 +34,9 @@ int main() {
     int q;
     cin >> q;
     while (q--) {
-        int op;
+        string op;
         cin >> op;
-        if (op == 1) {
+        if (op[0] == 'U') {
             int l, r, x;
             cin >> l >> r >> x;
             diff[l] += x;
@@ -56,7 +56,7 @@ int main() {
             for (int i = 1; i < n; i++) {
                 ans = min(ans, ps[i] / pre[i] + ss[i + 1] / suf[i + 1]);
             }
-            cout << ans << endl;
+            cout << ans << '\n';
         }
     }
 }

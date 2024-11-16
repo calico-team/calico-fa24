@@ -33,9 +33,9 @@ int main() {
     int q;
     cin >> q;
     while (q--) {
-        int op;
+        string op;
         cin >> op;
-        if (op == 1) {
+        if (op[0] == 'U') {
             int l, r, x;
             cin >> l >> r >> x;
             for (int i = l; i <= r; i++) arr[i] += x;

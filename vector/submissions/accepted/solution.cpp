@@ -84,7 +84,7 @@ ll gcd_query(int l, int r) {
     return gcd(sum_query(l, l), diff_query(l + 1, r));
 }
 
-signed main() {
+int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cin >> n;
@@ -97,9 +97,9 @@ signed main() {
     }
     cin >> q;
     while (q--) {
-        int op;
+        string op;
         cin >> op;
-        if (op == 1) {
+        if (op[0] == 'U') {
             int l, r, x;
             cin >> l >> r >> x;
             sum_update(l, r, x);
@@ -133,7 +133,7 @@ signed main() {
                 ans = min(ans, sum_query(r, n) / gcd_query(r, n) + sum_query(1, r - 1) / gcd_query(1, r - 1));
                 suf = r - 1;
             }
-            cout << ans << endl;
+            cout << ans << '\n';
         }
     }
 }

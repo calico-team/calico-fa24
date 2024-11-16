@@ -19,7 +19,7 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 4
+SEED = 5
 
 
 class TestCase:
@@ -51,7 +51,7 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(5, 1, [2, 2, 2, 2, 2], [[2]])
+        TestCase(5, 5, [10, 5, 15, 0, 3], [['UPDATE', 3, 4, 3], ['FIND'], ['UPDATE', 4, 5, 15], ['UPDATE', 2, 2, 5], ['FIND']])
     ]
     make_sample_test(main_sample_cases, 'main')
 
@@ -75,16 +75,22 @@ def make_secret_tests():
             num = random.randint(4, 15)
             case.arr.append(p ** num * fact)
 
-        case.queries.append([2])
-        for i in range(q - 1):
-            op = random.randint(0, 1)
-            if case.queries[i][0] == 2 or op == 0:
+        cnt = 1
+        case.queries.append(['FIND'])
+        for i in range(q - 2):
+            op = random.randint(0, 2)
+            if case.queries[i][0] == 'FIND' or cnt == 2499 or op == 0 or op == 1:
                 l = random.randint(1, n)
                 r = random.randint(l, n)
                 num = random.randint(2, 15)
-                case.queries.append([1, l, r, p ** num * fact])
+                case.queries.append(['UPDATE', l, r, p ** num * fact])
             else:
-                case.queries.append([2])
+                case.queries.append(['FIND'])
+                cnt += 1
+        
+        case.queries.append(['FIND'])
+        cnt += 1
+        print(cnt)
         
         return case
     
@@ -95,16 +101,21 @@ def make_secret_tests():
         for i in range(n):
             num = random.randint(1, 10**9)
             case.arr.append(num)
-        case.queries.append([2])
-        for i in range(q - 1):
-            op = random.randint(0, 1)
-            if case.queries[i][0] == 2 or op == 0:
+        case.queries.append(['FIND'])
+        cnt = 1
+        for i in range(q - 2):
+            op = random.randint(0, 2)
+            if case.queries[i][0] == 'FIND' or cnt == 2499 or op == 0 or op == 1:
                 l = random.randint(1, n)
                 r = random.randint(l, n)
                 num = random.randint(1, 10**9)
-                case.queries.append([1, l, r, num])
+                case.queries.append(['UPDATE', l, r, num])
             else:
-                case.queries.append([2])
+                case.queries.append(['FIND'])
+                cnt += 1
+        case.queries.append(['FIND'])
+        cnt += 1
+        print(cnt)
         
         return case
         
@@ -122,20 +133,20 @@ def make_secret_tests():
         for i in range(1, 4096, 1):
             for j in range(13):
                 if 2**j > i:
-                    case.queries.append([1, 1, 12 - j + 1, 2**29])
+                    case.queries.append(['UPDATE', 1, 12 - j + 1, 2**29])
                     break
         for i in range(10000 - 4095 - 5000):
-            case.queries.append([1, 1, 100000, 0])
+            case.queries.append(['UPDATE', 1, 100000, 0])
         for i in range(2500):
-            case.queries.append([1, 1, 100000, 0])
-            case.queries.append([2])
+            case.queries.append(['UPDATE', 1, 100000, 0])
+            case.queries.append(['FIND'])
         return case
 
 
-    for i in range(10):
+    for i in range(15):
         main_power_cases = [make_power_case(100000, 10000, (i % 2) + 2, 17 if i == 2 else 1)]
         make_secret_test(main_power_cases, 'main_power')
-    for i in range(4):
+    for i in range(9):
         main_random_cases = [make_random_case(100000, 10000)]
         make_secret_test(main_random_cases, 'main_random')
     for i in range(1):
@@ -162,16 +173,19 @@ def make_test_in(cases, file):
         if len(case.queries) != case.Q:
             print(len(case.queries), case.Q)
         assert len(case.queries) == case.Q
+        cnt = 0
         for q in case.queries:
-            if q[0] == 2:
+            if q[0] == 'FIND':
                 assert len(q) == 1
+                cnt += 1
             else:
-                assert q[0] == 1 
+                assert q[0] == 'UPDATE'
                 assert 1 <= q[1] <= case.N 
                 assert q[1] <= q[2] <= case.N
                 assert 0 <= q[3] <= 10**9 
                 assert len(q) == 4
             print(*q, file = file)
+        assert cnt <= 2500
 
 import subprocess
 def make_test_out(cases, file, in_filename):
