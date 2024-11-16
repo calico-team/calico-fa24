@@ -4,17 +4,17 @@
 using namespace std;
 
 /**
- * Return the shape displayed by the picture represented by G of dimensions M x N
+ * Return the shape displayed by the picture represented by G of dimensions N x M
  *
  * G: a list of strings representing a picture
- * M: integer for number of rows
- * N: integer for number of columns
+ * N: integer for number of rows
+ * M: integer for number of columns
  */
-string solve(int M, int N, char G[][100]) {
+string solve(int N, int M, char G[][100]) {
     set<int> row_count;
-    for (int i = 0; i < M; i++) {
+    for (int i = 0; i < N; i++) {
         int count = 0;
-        for (int j = 0; j < N; j++) {
+        for (int j = 0; j < M; j++) {
             if (G[i][j] == '#') {
                 count++;
             }
@@ -33,14 +33,14 @@ int main() {
     int T;
     cin >> T;
     for (int c = 0; c < T; c++) {
-        int M, N;
-        cin >> M >> N;
+        int N, M;
+        cin >> N >> M;
         char G[100][100];
-        for (int i = 0; i < M; i++) {
-            for (int j = 0; j < N; j++) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
                 cin >> G[i][j];
             }
         }
-        cout << solve(M, N, G) << '\n';
+        cout << solve(N, M, G) << '\n';
     }
 }

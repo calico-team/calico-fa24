@@ -1,4 +1,4 @@
-def solve(M: int, N: int, G: list) -> str:
+def solve(N: int, M: int, G: list) -> str:
     """
     Do not check the character, will constantly return "rectangle"
     """
@@ -14,12 +14,12 @@ def solve(M: int, N: int, G: list) -> str:
 def main():
     T = int(input())
     for _ in range(T):
-        M, N = map(int, input().split())
+        N, M = map(int, input().split())
         G = []
-        for _ in range(M):
+        for _ in range(N):
             row = list(input().strip())
             G.append(row)
-        print(solve(M, N, G))
+        print(solve(N, M, G))
 
 if __name__ == '__main__':
     main()

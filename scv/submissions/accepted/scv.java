@@ -3,18 +3,18 @@ import java.util.*;
 
 class Solution {
     /**
-     * Return the shape displayed by the picture represented by G of dimensions M x N
+     * Return the shape displayed by the picture represented by G of dimensions N x M
      *
      * G: a list of strings representing a picture
-     * M: integer for number of rows
-     * N: integer for number of columns
+     * N: integer for number of rows
+     * M: integer for number of columns
      */
-    static String solve(int M, int N, String[] G) {
+    static String solve(int N, int M, String[] G) {
 
         Set<Integer> rowCount = new HashSet<>();
         for (String row : G) {
             int count = 0;
-            for (int i = 0; i < N; i++) {
+            for (int i = 0; i < M; i++) {
                 if (row.charAt(i) == '#') {
                     count++;
                 }
@@ -37,13 +37,13 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] dimensions = in.readLine().split(" ");
-            int M = Integer.parseInt(dimensions[0]), N = Integer.parseInt(dimensions[1]);
-            String[] G = new String[M];
-            for (int j = 0; j < M; j++) {
+            int N = Integer.parseInt(dimensions[0]), M = Integer.parseInt(dimensions[1]);
+            String[] G = new String[N];
+            for (int j = 0; j < N; j++) {
                 String row = in.readLine();
                 G[j] = row;
                 }
-            out.println(solve(M, N, G));
+            out.println(solve(N, M, G));
             }
         out.flush();
         }

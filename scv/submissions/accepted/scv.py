@@ -1,10 +1,10 @@
-def solve(M: int, N: int, G: list [str]) -> str:
+def solve(N: int, M: int, G: list [str]) -> str:
     """
-    Return the shape displayed by the picture represented by G of dimensions M x N
+    Return the shape displayed by the picture represented by G of dimensions N x M
     
     G: a list of strings representing a picture
-    M: integer for number of rows
-    N: integer for number of columns
+    N: integer for number of rows
+    M: integer for number of columns
     """
     row_count = set()
     for row in G:
@@ -21,12 +21,12 @@ def solve(M: int, N: int, G: list [str]) -> str:
 def main():
     T = int(input())
     for _ in range(T):
-        M, N = map(int, input().split())
+        N, M = map(int, input().split())
         G = []
-        for _ in range(M):
+        for _ in range(N):
             row = list(input().strip())
             G.append(row)
-        print(solve(M, N, G))
+        print(solve(N, M, G))
 
 if __name__ == '__main__':
     main()
