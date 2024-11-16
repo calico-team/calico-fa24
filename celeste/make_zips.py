@@ -25,7 +25,7 @@ Names must only use lowercase letters and digits and should be contest-unique.
 Names should be short if possible.
 
 """
-PROBLEM_NAME = 'celeste'
+PROBLEM_NAME = 'celeste_final'
 
 """
 The time limit in seconds.
