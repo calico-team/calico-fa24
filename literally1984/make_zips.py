@@ -26,7 +26,7 @@ Names should be short if possible.
 
 TODO Change this for your problem.
 """
-PROBLEM_NAME = 'literally1984'
+PROBLEM_NAME = 'literally1984_final'
 
 """
 The time limit in seconds.
@@ -35,7 +35,7 @@ Typically this is 1 but feel free to adjust as necessary for your problem.
 
 TODO Change for your problem if desired.
 """
-TIME_LIMIT = 1
+TIME_LIMIT = 2
 
 """
 A list with strings containing the names of every test set.
@@ -72,19 +72,19 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'add_arbitrary':    ['main', 'bonus'],
-        'add_int':          ['main'],
-        
+        'binsearch'     : ['main', 'bonus_1', 'bonus_2'],
+        'float_no_preprocess' : ['main', 'bonus_1', 'bonus_2'],
+        'float_with_preprocess' : ['main', 'bonus_1', 'bonus_2'],
+        'literally1984_brute_gcd' : ['main', 'bonus_1', 'bonus_2'],
+
+        'literally1984_brute_float' : ['main', 'bonus_1', 'bonus_2']
+                
         # run_time_error
-        'add_div_re':       ['main', 'bonus'],
-        'add_parse_int_re': ['bonus'],
-        
+                
         # time_limit_exceeded
-        'add_loop_tle':     ['main', 'bonus'],
-        
+                
         # wrong_answer
-        'add_parse_int_wa': ['bonus'],
-        'add_sub_wa':       ['main', 'bonus'],
+
     }
     
     # we only care about actual code files
