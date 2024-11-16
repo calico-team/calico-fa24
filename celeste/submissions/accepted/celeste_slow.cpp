@@ -30,7 +30,7 @@ int solve(int N, int M, int K, vector<string> C) {
 	state e;
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			if (C[i][j] == 'S') s = state{i, j};
+			if (C[i][j] == 'S') s = state{i, j, 1};
 			if (C[i][j] == 'E') e = state{i, j};
 		}
 	}
@@ -39,14 +39,15 @@ int solve(int N, int M, int K, vector<string> C) {
 	vector<vvi> dist(N, vvi(M, vi(2, INF)));
 
 	q.push(s);
+	dist[s.i][s.j][1] = 0;
 	while (!q.empty()) {
 		int i, j, d;
 		bool dash;
 		tie(i, j, dash) = q.front().tuple();
 		d = dist[i][j][dash];
+		// cout << d << '\n';
 		q.pop();
 
-		dist[i][j][dash] = d;
 		if (C[i][j] == 'E') {
 			int ans = min(dist[e.i][e.j][0], dist[e.i][e.j][1]);
 			return ans == INF ? -1: ans;
@@ -59,7 +60,7 @@ int solve(int N, int M, int K, vector<string> C) {
 
 			int ii = i+dx;
 			int jj = j+dy;
-			if (C[ii][jj] != '#' && dist[ii][jj][newDash] != INF) {
+			if (C[ii][jj] != '#' && dist[ii][jj][newDash] == INF) {
 				q.push({ ii, jj, newDash });
 				dist[ii][jj][newDash] = d+1;
 			}
@@ -77,7 +78,7 @@ int solve(int N, int M, int K, vector<string> C) {
 			}
 			if (C[ii][jj] == '*') newDash = true;
 			// cout << i << ' ' << j << ' ' << ii << ' ' << jj << ' ' << newDash << '\n';
-			if (C[ii][jj] != '#' && dist[ii][jj][newDash] != INF) {
+			if (C[ii][jj] != '#' && dist[ii][jj][newDash] == INF) {
 				q.push({ ii, jj, newDash });
 				dist[ii][jj][newDash] = d+1;
 			}
