@@ -70,6 +70,10 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     file_to_sets = {
         # accepted
         'celeste':    ['main', 'bonus'],
+        'step_on_star':    ['main', 'bonus'],
+        'celeste_slow':    ['main', 'bonus'],
+        'nacho':    ['main', 'bonus'],
+        'wa':    ['main', 'bonus'],
 
         # run_time_error
 

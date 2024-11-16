@@ -146,57 +146,63 @@ def pure_random(n: int, m: int, crystal_cnt: int, wall_cnt: int, k: int = 2):
         g[randi(0, n-1)][randi(0, m-1)] = '*'
     for _ in range(wall_cnt):
         g[randi(0, n-1)][randi(0, m-1)] = '#'
-    g[randi(0, 2)][randi(0, m-1)] = 'S'
-    g[randi(3, n-1)][randi(0, m-1)] = 'E'
+    g[randi(0, 1)][randi(0, min(m-1, 50))] = 'S'
+    g[randi(2, n-1)][randi(max(m-30, 0), m-1)] = 'E'
     return TestCase(n, m, k, g).add_edge_wall()
 
 def line_random(n: int, m: int, crystal_cnt: int, k: int = 2):
     g = [['.']*m for _ in range(n)]
-    for i in range(0, n, 2):
+    for i in range(1, n, 2):
         g[i] = ['#'] * m
         g[i][randi(0, m-1)] = '.'
     for _ in range(crystal_cnt):
         g[randi(0, n-1)][randi(0, m-1)] = '*'
-    g[0][randi(0, m-1)] = 'S'
-    g[n-1][randi(0, m-1)] = 'E'
+    g[0][randi(0, min(m-1, 50))] = 'S'
+    g[n-1][randi(max(m-30, 0), m-1)] = 'E'
     return TestCase(n, m, k, g).add_edge_wall()
 
 def gen(max_k: int, subproblem):
     # 12 * 12 * 100
-    basic_rand = [pure_random(8, 8, randi(2, 100), randi(2, 100), randi(2, 5)) for _ in range(max_T)]
-    make_secret_test(basic_rand, subproblem + '_basic')
-    basic_rand = [line_random(8, 8, randi(2, 100), randi(2, 5)) for _ in range(max_T)]
-    make_secret_test(basic_rand, subproblem + '_basic')
+    basic_rand = [line_random(8, 8, randi(2, 100), randi(2, max_k)) for _ in range(max_T)]
+    make_secret_test(basic_rand, subproblem + '_basic_line')
+    for _ in range(6):
+        basic_rand = [pure_random(8, 8, randi(2, 200), randi(2, 200), randi(2, max_k)) for _ in range(max_T)]
+        make_secret_test(basic_rand, subproblem + '_basic')
+        # basic_rand = [pure_random(4, 4, randi(2, 20), randi(2, 20), randi(2, max_k)) for _ in range(max_T)]
+        # make_secret_test(basic_rand, subproblem + '_tiny_rand')
 
-    c1 = int(2e3)
-    c2 = int(5e4)
+    c1 = int(5e2)
+    c2 = int(1e4)
     for _ in range(2):
         x1 = randi(c1, c2)
         x2 = randi(c1, c2)
-        basic_rand = [pure_random(100, 1800, x1, x2, max_k) for _ in range(1)]
+        x3 = randi(min(max_k-2, int(1e3)), max_k)
+        basic_rand = [pure_random(100, 1800, x1, x2, x3) for _ in range(1)]
         make_secret_test(basic_rand, subproblem + '_edge')
-        basic_rand = [line_random(100, 1800, x1, max_k) for _ in range(1)]
+        basic_rand = [line_random(100, 1800, x1, x3) for _ in range(1)]
         make_secret_test(basic_rand, subproblem + '_edge')
-        basic_rand = [line_random(1800, 100, x1, max_k) for _ in range(1)]
+        basic_rand = [line_random(1800, 100, x1, x3) for _ in range(1)]
         make_secret_test(basic_rand, subproblem + '_edge')
-        basic_rand = [pure_random(5, int(2e4-100), x1, x2, max_k) for _ in range(1)]
-        make_secret_test(basic_rand, subproblem + '_sparse')
-        basic_rand = [line_random(5, int(2e4-100), x1, max_k) for _ in range(1)]
-        make_secret_test(basic_rand, subproblem + '_sparse')
+        basic_rand = [pure_random(3, int(4e4-100), x1, x2, x3) for _ in range(1)]
+        make_secret_test(basic_rand, subproblem + '_thin')
+        basic_rand = [line_random(3, int(4e4-100), x1, x3) for _ in range(1)]
+        make_secret_test(basic_rand, subproblem + '_thin_line')
 
     c1 = int(50)
     c2 = int(1000)
     for _ in range(4):
         x1 = randi(c1, c2)
         x2 = randi(c1, c2)
-        basic_rand = [pure_random(100, 1800, x1, x2, max_k) for _ in range(1)]
+        x3 = randi(min(max_k-2, int(1e3)), max_k)
+        basic_rand = [pure_random(100, 1800, x1, x2, x3) for _ in range(1)]
         make_secret_test(basic_rand, subproblem + '_sparse')
-        basic_rand = [line_random(100, 1800, x1, max_k) for _ in range(1)]
+        basic_rand = [line_random(100, 1800, x1, x3) for _ in range(1)]
         make_secret_test(basic_rand, subproblem + '_sparse')
-        basic_rand = [pure_random(5, int(2e4-100), x1, x2, max_k) for _ in range(1)]
-        make_secret_test(basic_rand, subproblem + '_sparse')
-        basic_rand = [line_random(5, int(2e4-100), x1, max_k) for _ in range(1)]
-        make_secret_test(basic_rand, subproblem + '_sparse')
+        # 6 * 3e4 = 18e5
+        basic_rand = [pure_random(3, int(4e4-100), x1, x2, min(max_k, int(1e4))) for _ in range(1)]
+        make_secret_test(basic_rand, subproblem + '_thin_sparse')
+        basic_rand = [line_random(3, int(4e4-100), x1, min(max_k, int(1e4))) for _ in range(1)]
+        make_secret_test(basic_rand, subproblem + '_thin_line_sparse')
 
 def make_secret_tests():
     """
@@ -257,7 +263,7 @@ def main():
     """
     Let the library do the rest of the work!
     """
-    # subprocess.run(['g++', '-O2', '-Wl,-z,stack-size=268435456', '-o', 'bin.out', 'submissions/accepted/celeste.cpp'])
+    subprocess.run(['g++', '-O2', '-Wl,-z,stack-size=268435456', '-o', 'bin.out', 'submissions/accepted/nacho.cpp'])
     resource.setrlimit(resource.RLIMIT_STACK, (268435456, 268435456))
     make_data(make_sample_tests, make_secret_tests, \
               make_test_in, make_test_out, SEED)
