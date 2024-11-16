@@ -17,11 +17,11 @@ def solve(N: int, M: int, K: int, C: list[str]) -> int:
     UP, DOWN, LEFT, RIGHT = "U", "D", "L", "R"
     dirs = [UP, DOWN, LEFT, RIGHT]
 
-    # dash_distance[r][c][dir] => (d = distance dashed, p = passes over crystal)
+    # dash_distance[r][c][dir] => (d = distance dashed, c = distance to next crystal in that direction)
     dash_distance = [[{} for _ in range(M)] for _ in range(N)]
 
     def init_dash_distance():
-        # Initialize p = True if (r, c) is a space and a crystal exists one step in the specified direction
+        # Define a condition if a crystal exists one step in the specified direction
         crystal_adjacent_condition = {
             UP: lambda r, c : (r > 0) and (C[r - 1][c] == '*'),
             DOWN: lambda r, c : (r < N - 1) and (C[r + 1][c] == '*'),
@@ -29,11 +29,14 @@ def solve(N: int, M: int, K: int, C: list[str]) -> int:
             RIGHT: lambda r, c : (c < M - 1) and (C[r][c + 1] == '*')
         }
 
+        # Initialize c = 1 if (r, c) is a space and a crystal exists one step in the specified direction
+        init_c_condition = lambda r, c, dir : C[r][c] != '#' and crystal_adjacent_condition[dir](r, c)
+
         # Begin initializing dash_distance with placeholder values
         for dir in dirs:
             for r in range(N):
                 for c in range(M):
-                    dash_distance[r][c][dir] = (-1, C[r][c] != '#' and crystal_adjacent_condition[dir](r, c))
+                    dash_distance[r][c][dir] = (-1, C[r][c] != '#' and init_c_condition(r, c, dir))
     
     init_dash_distance()
 
