@@ -23,17 +23,13 @@ The short name of the problem.
 
 Names must only use lowercase letters and digits and should be contest-unique.
 Names should be short if possible.
-
-TODO Change this for your problem.
 """
-PROBLEM_NAME = 'fortnite'
+PROBLEM_NAME = 'fortnite3'
 
 """
 The time limit in seconds.
 
 Typically this is 1 but feel free to adjust as necessary for your problem.
-
-TODO Change for your problem if desired.
 """
 TIME_LIMIT = 1
 
@@ -42,39 +38,26 @@ A list with strings containing the names of every test set.
 
 The script will generate a zip for each test set. The filter functions below
 should only return names from this list.
-
-TODO Change for your problem if desired.
 """
-TEST_SET_NAMES = ['main', 'bonus']
+TEST_SET_NAMES = ['main']
 
 
 def is_data_in_test_set(data_file_name, test_set_name):
     """
     Return True if the data (test .in or .ans) file named data_file_name
     should be added to the test set named test_set_name.
-
-    TODO Change this to reflect your tests and test sets.
     """
     if test_set_name == 'main':
         return 'main' in data_file_name
-    elif test_set_name == 'bonus':
-        return 'main' in data_file_name or 'bonus' in data_file_name
 
 
 def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     Return True if the submission file named submission_file_name should be
     added to the test set named test_set_name.
-
-    TODO Change this to reflect your submissions and test sets.
     """
     file_to_sets = {
-        'fortnite_math': ['main', 'bonus'], # AC for all
-        'fortnite_sim': ['main'], # AC for main
-        'fortnite_math_int': ['bonus'], # AC for main, WA for bonus
-        'fortnite_math_max_func': ['main', 'bonus'], # WA for all
-        'fortnite_math_no_case_1': ['main', 'bonus'], # WA for all
-        'fortnite_math_truncate_div': ['main', 'bonus'] # WA for all
+        'fortnite': ['main'], # AC for all
     }
 
     # we only care about actual code files

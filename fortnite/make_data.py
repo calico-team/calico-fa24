@@ -27,19 +27,14 @@ class TestCase:
     """
     Represents all the information needed to create the input and output for a
     single test case.
-
-    TODO Change this to store the relevant information for your problem.
     """
 
-
     def __init__(self, N, H, D, S, P):
-        # Checks that the inputs are valid (allows the player to survive)
-        if not N > (D // S) * P:
-            self.N = N
-            self.H = H
-            self.D = D
-            self.S = S
-            self.P = P  
+        self.N = N
+        self.H = H
+        self.D = D
+        self.S = S
+        self.P = P
 
 
 def make_sample_tests():
@@ -49,10 +44,6 @@ def make_sample_tests():
     To create a pair of sample test files, call make_sample_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_sample_test for more info.
-
-    TODO Write sample tests. Consider creating cases that help build
-    understanding of the problem, help with debugging, or possibly help
-    identify edge cases.
     """
     main_sample_cases = [
         TestCase(100, 15, 50, 10, 10),
@@ -63,6 +54,7 @@ def make_sample_tests():
     ]
     make_sample_test(main_sample_cases, 'main')
 
+
 def make_secret_tests():
     """
     Make all secret test files.
@@ -70,9 +62,6 @@ def make_secret_tests():
     To create a pair of sample test files, call make_secret_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_secret_test for more info.
-
-    TODO Write sample tests. Consider creating edge cases and large randomized
-    tests.
     """
     def make_random_case(max_val):
         N = random.randint(1, max_val)
@@ -84,23 +73,22 @@ def make_secret_tests():
 
     main_edge_cases = [
         TestCase(100, 100, 99, 100, 100),
-        TestCase(1, 1, 100, 1, 100) 
+        TestCase(1, 1, 100, 1, 100)
     ]
     make_secret_test(main_edge_cases, 'main_edge')
 
     for _ in range(10):
         main_random_cases = [
-            make_random_case(MAIN_MX_VAL, True)
+            make_random_case(MAIN_MX_VAL)
             for _ in range(MAIN_MX_T)
         ]
         make_secret_test(main_random_cases, 'main_random')
+
 
 def make_test_in(cases, file):
     """
     Print the input of each test case into the file in the format specified by
     the input format.
-
-    TODO Implement this for your problem.
     """
     T = len(cases)
     assert 1 <= T <= MAIN_MX_T
@@ -121,10 +109,8 @@ def make_test_out(cases, file):
 
     The easiest way to do this is to import a python reference solution to the
     problem and print the output of that.
-
-    TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.fortnite_math import solve
+    from submissions.accepted.fortnite import solve
     for case in cases:
         print(solve(case.N, case.H, case.D, case.S, case.P), file=file)
 

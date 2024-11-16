@@ -2,8 +2,8 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the shortest time for you to escape the storm.
-     *
+     * Return the minimum time needed for you to exit the storm.
+     * 
      * N: starting health
      * H: healing per second
      * D: distance out of the storm in meters
@@ -22,7 +22,7 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] temp = in.readLine().split(" ");
-            long N = Integer.parseInt(temp[0]),
+            int N = Integer.parseInt(temp[0]),
                 H = Integer.parseInt(temp[1]),
                 D = Integer.parseInt(temp[2]),
                 S = Integer.parseInt(temp[3]),

@@ -1,6 +1,6 @@
 def solve(N: int, H: int, D: int, S: int, P: int) -> int:
     """
-    Return the shortest time for you to escape the storm.
+    Return the minimum time needed for you to exit the storm.
     
     N: starting health
     H: healing per second
@@ -10,6 +10,7 @@ def solve(N: int, H: int, D: int, S: int, P: int) -> int:
     """
     # YOUR CODE HERE
     return -1
+
 
 def main():
     T = int(input())

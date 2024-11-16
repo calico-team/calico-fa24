@@ -3,8 +3,8 @@
 using namespace std;
 
 /**
- * Return the shortest time for you to escape the storm.
- *
+ * Return the minimum time needed for you to exit the storm.
+ * 
  * N: starting health
  * H: healing per second
  * D: distance out of the storm in meters
@@ -20,7 +20,7 @@ int main() {
     int T;
     cin >> T;
     for (int i = 0; i < T; i++) {
-        long long N, H, D, S, P;
+        int N, H, D, S, P;
         cin >> N >> H >> D >> S >> P;
         cout << solve(N, H, D, S, P) << '\n';
     }
