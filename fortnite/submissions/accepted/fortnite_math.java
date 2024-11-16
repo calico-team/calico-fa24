@@ -2,18 +2,26 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the number of healing items the player needs to use.
+     * Return the shortest time for you to escape the storm.
      *
      * N: starting health
-     * H: amount of healing
+     * H: healing per second
      * D: distance out of the storm in meters
      * S: running speed in meters per second
      * P: storm damage per second
-     * L: length of heal in seconds
      */
-    static long solve(long N, long H, long D, long S, long P, long L) {
-        long numerator = D / S * P - N;
-        return numerator < 0 ? 0 : numerator / (H - P * L) + 1;
+    static double solve(double N, double H, double D, double S, double P) {
+        double time_to_escape = D / S;
+        double damage_taken_to_escape = P * time_to_escape;
+        if (damage_taken_to_escape > N) {
+            if (P >= H) {
+                return -1.0;
+            }
+            double extra_health_needed = damage_taken_to_escape - N;
+            double time_to_heal = extra_health_needed / (H - P);
+            time_to_escape += time_to_heal;
+        }
+        return time_to_escape;
     }
 
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -27,9 +35,8 @@ class Solution {
                 H = Integer.parseInt(temp[1]),
                 D = Integer.parseInt(temp[2]),
                 S = Integer.parseInt(temp[3]),
-                P = Integer.parseInt(temp[4]),
-                L = Integer.parseInt(temp[5]);
-            out.println(solve(N, H, D, S, P, L));
+                P = Integer.parseInt(temp[4]);
+            out.println(solve(N, H, D, S, P));
         }
         out.flush();
     }

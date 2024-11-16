@@ -1,13 +1,12 @@
-def solve(N: int, H: int, D: int, S: int, P: int, L: int) -> int:
+def solve(N: int, H: int, D: int, S: int, P: int) -> int:
     """
-    Return the number of healing items the player needs to use.
+    Return the shortest time for you to escape the storm.
     
     N: starting health
-    H: amount of healing
+    H: healing per second
     D: distance out of the storm in meters
     S: running speed in meters per second
     P: storm damage per second
-    L: length of heal in seconds
     """
     # YOUR CODE HERE
     return -1
@@ -15,8 +14,8 @@ def solve(N: int, H: int, D: int, S: int, P: int, L: int) -> int:
 def main():
     T = int(input())
     for _ in range(T):
-        N, H, D, S, P, L = map(int, input().split())
-        print(solve(N, H, D, S, P, L))
+        N, H, D, S, P = map(int, input().split())
+        print(solve(N, H, D, S, P))
 
 if __name__ == '__main__':
     main()
