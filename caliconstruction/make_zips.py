@@ -26,7 +26,7 @@ Names should be short if possible.
 
 TODO Change this for your problem.
 """
-PROBLEM_NAME = 'caliconstruction'
+PROBLEM_NAME = 'caliconstruction_final'
 
 """
 The time limit in seconds.
