@@ -12,6 +12,8 @@ def solve(N: int, M: int, K: int, C: list[str]) -> int:
         . denotes a space
         # denotes a wall.
         * denotes a dash crystal.
+        S denotes Madeline’s start tile.
+        E denotes Madeline’s end tile.
 
     """
     # YOUR CODE HERE

@@ -14,6 +14,8 @@ class Solution {
      *     . denotes a space
      *     # denotes a wall.
      *     * denotes a dash crystal.
+     *     S denotes Madeline’s start tile.
+     *     E denotes Madeline’s end tile.
      */
     static int solve(int N, int M, int K, String[] C) {
         // YOUR CODE HERE
