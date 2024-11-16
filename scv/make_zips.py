@@ -24,7 +24,7 @@ The short name of the problem.
 Names must only use lowercase letters and digits and should be contest-unique.
 Names should be short if possible.
 """
-PROBLEM_NAME = 'scv'
+PROBLEM_NAME = 'scv_final'
 
 """
 The time limit in seconds.
