@@ -1,8 +1,8 @@
-def solve(M: int, N: int, G: list) -> str:
+def solve(M: int, N: int, G: list [str]) -> str:
     """
-    Return the shape of displayed by ASCII string G of dimensions M x N
+    Return the shape displayed by the picture represented by G of dimensions M x N
     
-    G: a string representing an ASCII picture
+    G: a list of strings representing a picture
     M: integer for number of rows
     N: integer for number of columns
     """
@@ -15,8 +15,8 @@ def solve(M: int, N: int, G: list) -> str:
         if count != 0:
             row_count.add(count)
     if len(row_count) <= 1:
-        return 'rectangle'
-    return 'triangle' 
+        return 'ferb'
+    return 'phineas' 
 
 def main():
     T = int(input())

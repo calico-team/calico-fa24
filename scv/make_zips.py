@@ -63,7 +63,6 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     file_to_sets = {
         # accepted
         'scv':    ['main'],
-        'scv_2':  ['main'],
         
         # run_time_error
         'scv_index_re':       ['main'],
@@ -73,6 +72,7 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         
         # wrong_answer
         'scv_rectangle_wa':       ['main'],
+        'scv_2':  ['main'],
     }
     
     # we only care about actual code files

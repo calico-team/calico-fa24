@@ -3,11 +3,11 @@ import java.util.*;
 
 class Solution {
     /**
-     * Return the shape of displayed by ASCII string S of dimensions R x C
+     * Return the shape displayed by the picture represented by G of dimensions M x N
      *
-     * S: a string representing an ASCII picture
-     * R: integer for number of rows
-     * C: integer for number of columns
+     * G: a list of strings representing a picture
+     * M: integer for number of rows
+     * N: integer for number of columns
      */
     static String solve(int M, int N, String[] G) {
 
@@ -25,9 +25,9 @@ class Solution {
         }
 
         if (rowCount.size() <= 1) {
-            return "rectangle";
+            return "ferb";
         }
-        return "triangle";
+        return "phineas";
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

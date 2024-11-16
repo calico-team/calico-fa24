@@ -3,9 +3,9 @@
 using namespace std;
 
 /**
- * Return the shape of displayed by ASCII string S of dimensions M x N
+ * Return the shape displayed by the picture represented by G of dimensions M x N
  *
- * S: a string representing an ASCII picture
+ * G: a list of strings representing a picture
  * M: integer for number of rows
  * N: integer for number of columns
  */
