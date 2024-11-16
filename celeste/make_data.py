@@ -24,8 +24,8 @@ generate the same thing every time. Seeds can be integers or strings.
 SEED = 'flying strawberry'
 
 max_T = 100
-max_N_M = int(5e6 - 5)
-max_N = int(5e6 - 5)
+max_N_M = int(2e6 - 5)
+max_N = int(2e6 - 5)
 
 class TestCase:
     """

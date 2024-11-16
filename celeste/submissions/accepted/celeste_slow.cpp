@@ -15,10 +15,9 @@ struct state {
 	int i;
 	int j;
 	bool dash = true;
-	ll dist = 0;
 
 	auto tuple() {
-		return make_tuple(i, j, dash, dist);
+		return make_tuple(i, j, dash);
 	}
 };
 
@@ -43,12 +42,10 @@ int solve(int N, int M, int K, vector<string> C) {
 	while (!q.empty()) {
 		int i, j, d;
 		bool dash;
-		tie(i, j, dash, d) = q.front().tuple();
+		tie(i, j, dash) = q.front().tuple();
+		d = dist[i][j][dash];
 		q.pop();
-		// We already processed this state
-		if (C[i][j] == '#' || dist[i][j][dash] != INF) {
-			continue;
-		}
+
 		dist[i][j][dash] = d;
 		if (C[i][j] == 'E') {
 			int ans = min(dist[e.i][e.j][0], dist[e.i][e.j][1]);
@@ -59,22 +56,31 @@ int solve(int N, int M, int K, vector<string> C) {
 			int dy = dys[id];
 			bool newDash = dash;
 			if (C[i][j] == '*') newDash = true;
-			q.push({ i+dx, j+dy, newDash, d+1 });
+
+			int ii = i+dx;
+			int jj = j+dy;
+			if (C[ii][jj] != '#' && dist[ii][jj][newDash] != INF) {
+				q.push({ ii, jj, newDash });
+				dist[ii][jj][newDash] = d+1;
+			}
 			if (!newDash) continue;
 
 			// Dash move
-			int curx = i;
-			int cury = j;
+			ii = i;
+			jj = j;
 			newDash = false;
 			for (int rep = 0; rep < K; rep++) {
-				if (rep > 0 && C[curx][cury] == '*') newDash = true;
-				if (C[curx+dx][cury+dy] == '#') break;
-				curx += dx;
-				cury += dy;
+				if (rep > 0 && C[ii][jj] == '*') newDash = true;
+				if (C[ii+dx][jj+dy] == '#') break;
+				ii += dx;
+				jj += dy;
 			}
-			if (C[curx][cury] == '*') newDash = true;
-			// cout << i << ' ' << j << ' ' << curx << ' ' << cury << ' ' << newDash << '\n';
-			q.push({curx, cury, newDash, d+1});
+			if (C[ii][jj] == '*') newDash = true;
+			// cout << i << ' ' << j << ' ' << ii << ' ' << jj << ' ' << newDash << '\n';
+			if (C[ii][jj] != '#' && dist[ii][jj][newDash] != INF) {
+				q.push({ ii, jj, newDash });
+				dist[ii][jj][newDash] = d+1;
+			}
 		}
 	}
     int ans = min(dist[e.i][e.j][0], dist[e.i][e.j][1]);
