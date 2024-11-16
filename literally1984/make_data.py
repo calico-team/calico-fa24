@@ -83,10 +83,12 @@ def make_secret_tests():
         return [TestCase(random.randint(mn_N, mx_N + 1)) for _ in range(T)]
 
     # Main
-    make_secret_test(
-        make_random_cases(1, MAIN_MX_N, random.randint(2, MAIN_MX_T)),
-        "main_random"
-    )
+    for _ in range(5):
+        make_secret_test(
+            make_random_cases(1, MAIN_MX_N, random.randint(2, MAIN_MX_T)),
+            "main_random"
+        )
+    
     assert MAIN_MX_N <= MAIN_MX_T, "Can't make a complete main test file"
     make_secret_test(
         [TestCase(i) for i in range(1, MAIN_MX_N + 1)],
@@ -94,10 +96,12 @@ def make_secret_tests():
     )
 
     # Bonus 1
-    make_secret_test(
-        make_random_cases(1, BONUS_1_MX_N, random.randint(2, BONUS_1_MX_T)),
-        "bonus_1_random"
-    )
+    for _ in range(5):
+        make_secret_test(
+            make_random_cases(1, BONUS_1_MX_N, random.randint(2, BONUS_1_MX_T)),
+            "bonus_1_random"
+        )
+    
     assert BONUS_1_MX_N <= BONUS_1_MX_T, "Can't make a complete bonus 1 test file"
     make_secret_test(
         [TestCase(i) for i in range(1, BONUS_1_MX_N + 1)],
@@ -105,14 +109,16 @@ def make_secret_tests():
     )
 
     # Bonus 2
-    make_secret_test(
-        make_random_cases(1, BONUS_2_MX_N, random.randint(2, BONUS_2_MX_T)),
-        "bonus_2_random"
-    )
-    make_secret_test(
-        make_random_cases(1, BONUS_2_MX_N, BONUS_2_MX_T),
-        "bonus_2_max_random"
-    )
+    for _ in range(5):
+        make_secret_test(
+            make_random_cases(1, BONUS_2_MX_N, random.randint(2, BONUS_2_MX_T)),
+            "bonus_2_random"
+        )
+        make_secret_test(
+            make_random_cases(1, BONUS_2_MX_N, BONUS_2_MX_T),
+            "bonus_2_max_random"
+        )
+    
     make_secret_test(
         [TestCase(BONUS_2_MX_N - i) for i in range(BONUS_2_MX_T)],
         "bonus_2_max_large"
