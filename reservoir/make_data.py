@@ -35,13 +35,9 @@ class TestCase:
     """
 
     def __init__(self, N, M, G):
-        assert len(G) == N
-        assert all([len(row) == M for row in G])
-
         self.N = N
         self.M = M
         self.G = G
-
 
 def make_sample_tests():
     """
@@ -109,7 +105,7 @@ def make_secret_tests():
         while True:
             # Generate each case to roughly evenly distribute the total NM
             approx_nm = mx_dim ** 2 // MX_T
-            n = random.randint(1, int(approx_nm**0.5))
+            n = int(approx_nm ** 0.5)
             m = approx_nm // n
             if random.random() < 0.5:
                 n, m = m, n
@@ -163,8 +159,23 @@ def make_test_in(cases, file):
     """
     T = len(cases)
     print(T, file=file)
+    assert 1 <= T <= MX_T
+    is_bonus = 'bonus' in file.name
+    mx_dim = BONUS_MX_DIM if is_bonus else MAIN_MX_DIM
+    mx_g = BONUS_MX_G if is_bonus else MAIN_MX_G
+    sum_mn = 0
+
     for case in cases:
         print(f'{case.N} {case.M}', file=file)
+        assert 1 <= case.N <= mx_dim
+        assert 1 <= case.M <= mx_dim
+        sum_mn += case.N * case.M
+        assert sum_mn <= mx_dim ** 2
+        # print(case.G, is_bonus)/
+        for r in case.G:
+            for cell in r:
+                assert 0 <= cell <= mx_g
+
         for row in case.G:
             print(' '.join(list(map(str, row))), file=file)
 
