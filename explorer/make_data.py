@@ -103,6 +103,8 @@ def make_test_in(cases, file):
         for i in range(N):
             neighbors = [n + 1 for n in case.graph.neighbors(i)]
             assert len(neighbors) == 3
+            assert i + 1 not in neighbors
+            assert len(set(neighbors)) == 3
             assert all(1 <= n <= N for n in neighbors)
             
             print(*neighbors, file=file)
