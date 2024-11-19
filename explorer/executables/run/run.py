@@ -16,21 +16,26 @@ def run():
         N = int(input_test_in())
         ANSWER = int(input_test_in())
         
+        random.seed(total_scan_queries * ANSWER)
+        
         adj_list = [None, *(list(map(int, input_test_in().split())) for _ in range(N))]
         
         while True:
             query_str = input_prog()
             query_args = query_str.strip().upper().split()
             if len(query_args) != 2:
+                print_prog('WRONG_ANSWER')
                 give_WA(f'Invalid query format: "{query_str}"')
             
             type, arg = query_args
             if type == 'SCAN':
                 if not arg.isdigit():
+                    print_prog('WRONG_ANSWER')
                     give_WA(f'Invalid argument for SCAN: "{arg}"')
                     
                 arg = int(arg)
                 if not (1 <= arg <= N):
+                    print_prog('WRONG_ANSWER')
                     give_WA(f'SCAN argument out of range: "{arg}"')
                 
                 scan(arg, adj_list)
@@ -38,12 +43,14 @@ def run():
                 
             elif type == 'SUBMIT':
                 if not arg.isdigit():
+                    print_prog('WRONG_ANSWER')
                     give_WA(f'Invalid argument for SUBMIT: "{arg}"')
                 
                 arg = int(arg)
                 submit(arg, ANSWER)
                 
             else:
+                print_prog('WRONG_ANSWER')
                 give_WA(f'Invalid query type: "{type}"')
             
             if type == 'SUBMIT':
